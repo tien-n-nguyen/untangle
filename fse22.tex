@@ -1,0 +1,166 @@
+\PassOptionsToPackage{table,xcdraw}{xcolor}
+
+\documentclass[sigconf,review,anonymous]{acmart}
+\acmConference[ESEC/FSE 2022]{The 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{14 - 18 November, 2022}{Singapore}
+
+%\documentclass[sigconf,review,anonymous]{acmart}
+%\acmConference[ESEC/FSE 2021]{The 29th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{23 - 27 August, 2021}{Athens, Greece}
+
+%\acmConference[ICSE 2022]{The 44th International Conference on Software Engineering}{May 21–29, 2022}{Pittsburgh, PA, USA}
+
+%\documentclass[sigconf,review, anonymous]{acmart}
+%\documentclass[sigconf]{acmart}
+
+\usepackage{booktabs}   %% For formal tables:
+                        %% http://ctan.org/pkg/booktabs
+\usepackage{subcaption} %% For complex figures with subfigures/subcaptions
+                        %% http://ctan.org/pkg/subcaption
+\usepackage{array}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+%\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+\usepackage{balance}
+
+\usepackage[skins]{tcolorbox}
+
+\usepackage{xcolor,pifont}
+\newcommand*\colourcheck[1]{%
+	\expandafter\newcommand\csname #1check\endcsname{\textcolor{#1}{\ding{52}}}%
+}
+\colourcheck{blue}
+\colourcheck{green}
+\colourcheck{red}
+
+\newtcolorbox{myframe}[2][]{%
+  enhanced,colback=white,colframe=black,coltitle=black,
+  sharp corners,
+  toprule=1.0pt,
+  rightrule=0.3pt,
+  leftrule=0pt,
+  bottomrule=0pt,
+  fonttitle=\itshape\scshape\large,
+  left=0pt,right=5pt,top=5pt,bottom=3pt,
+  attach boxed title to top right={yshift=-0.3\baselineskip-0.4pt,xshift=-5mm},
+  boxed title style={tile,size=minimal,left=0.2mm,right=0.5mm,
+    colback=white,before upper=\strut},
+  title=#2,#1
+}
+
+%\newcommand{\code}[1]{{\footnotesize\textsf{#1}}}
+
+\newcommand{\tool}{\textsc{Tool}\xspace}
+
+\newtheorem{Definition}{Definition}
+\newtheorem{Claim}{Claim}
+\newtheorem{Lemma}{Lemma}
+\newtheorem{Theorem}{Theorem}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newtheorem{observation}{Observation}
+\newtheorem{property}{Property}
+\newcommand{\code}[1]{{\footnotesize\texttt{#1}}}
+\usepackage{amsthm}
+ \definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+
+
+\begin{document}
+
+%\title[{\tool}: Deep Fault Localization with Code Coverage Representation Learning]{{\tool}: Deep Fault Localization with Code Coverage Representation Learning}
+
+\title[Title Goes Here]{Title Goes Here}
+
+%Context-aware
+%ML
+%Clone-aware
+%Graph-based
+
+
+%%%---- AUTHORS BLOCK ------
+
+\setcopyright{none}
+
+\settopmatter{printacmref=false, printfolios=false}
+
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference information in first column
+
+
+%(1) present information sorted in a way that a CNN can "see" patterns
+%discriminating between faulty and non faulty statements more easily;
+
+%(2) identify the actual crash statement to the network;
+
+%(3) present more information to the deep neural network in the form of
+%a summary of data dependences for each statement as well as source
+%embedding; and
+
+%(4) the suspiciousness of a statement is seen taking into account
+%relationships to other statement, as opposed to a statement by itself”
+
+
+
+%\input{sections/abstract}
+\begin{abstract}
+Abstract goes here ...
+\end{abstract}
+
+
+%\settopmatter{printacmref=true, printccs=true, printfolios=false}
+
+%\begin{CCSXML}
+%<ccs2012>
+%<concept>
+%<concept_id>10011007.10011006.10011073</concept_id>
+%<concept_desc>Software and its engineering~Software maintenance tools</concept_desc>
+%<concept_significance>500</concept_significance>
+%</concept>
+%</ccs2012>
+%\end{CCSXML}
+
+%\ccsdesc[500]{Software and its engineering~Software maintenance tools}
+
+%\keywords{Deep Learning; Automated Program Repair; Context-based Code Transformation Learning}
+
+
+\maketitle
+
+\input{sections/intro}
+
+\newpage
+
+\balance
+
+%\bibliographystyle{plain}
+%\bibliographystyle{ACM-Reference-Format}
+\bibliographystyle{ACM-Reference-Format}
+
+\bibliography{References}
+
+\end{document}

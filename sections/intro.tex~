@@ -1,0 +1,107 @@
+\section{Introduction}
+\label{intro:sec}
+
+Writing TODO comments in source code is a common activity by
+developers to denote their pending programming tasks in a project. For
+example, a developer adds a TODO comment as in {\em ``TODO: print an
+  error message if file not found''}. This comment could serve as a
+reminder for himself/herself or a notification for other team members
+on a pending task. TODO comments are very useful in improving
+program comprehension, helping developers understanding the design
+and implementation in source code~\cite{souza-sigdoc05,ying-msr05}.
+
+In an ideal practice, after the developer or others perform the task
+by adding/modifying the code to print the error message, (s)he will
+remove that TODO comment.  It is reported that developers may have
+(partially) completed the task described in the TODO comment, however,
+did not update or remove it due to several reasons such as time
+constraints or
+carelessness~\cite{tdcleaner-fse21,wen-icpc19,icomment-sosp07}. Such
+an out-of-date TODO comment is called {\em obsolete} when its
+corresponding task was accomplished, however the comment itself is not
+removed. Obsolete TODO comments can confuse developers and due to
+their inconsistent information. They could make developers lose
+confidence and reliability of the
+code~\cite{tdcleaner-fse21,icomment-sosp07}. In many cases, the
+unreliable documentation becomes misleading and causes software
+defects in the future~\cite{icomment-sosp07,lintan-icse11}. In brief,
+obsolete TODO comments could reduce software quality including code
+comprehension and reliability, and increase software maintenance
+costs.
+
+Because manually detecting and removing the obsolete TODO comments is
+time-consuming and tedious, it is highly desirable to develop an
+automated approach to detect/remove them as early as possible before
+they mislead developers and cause any consequences. However, there is
+still limited work on detecting obsolete TODO comments. Recently, Gao
+{\em et al.}~\cite{tdcleaner-fse21} introduced TDCleaner, a deep
+learning approach that converts TODO comments, the associated code
+changes, and the corresponding commit messages into the contextualized
+vectors and uses three encoders to learn correlations between them by
+optimizing the final probability score. For prediction, a given TODO
+comment {\bf T} is paired with the associated code change {\bf C} and
+commit message {\bf M}, and is fit into the trained TDCleaner model
+with three encoders to estimate the matching score to determine if the
+TODO comment is obsolete or not. The three encoders are trained with
+the goal of determining the status {\bf S} of the TODO comment $T$ in
+which $S$ is positive when $T$ is resolved (i.e., $T$ is obsolete
+because the TODO comment still appears). Basically, TDCleaner is
+trained using $\langle T, C, M \rangle$ triples such that the
+probability $P(S | \langle T, C, M \rangle)$ is maximized over the
+given training dataset. That is, TDCleaner finds $y$ such that $y =
+argmax_S P (S | \langle T, C, M \rangle)$. $P(S | \langle T, C, M
+\rangle)$ can be seen as the conditional likelihood of predicting the
+status $S$ given the input triples $\langle T, C, M
+\rangle$~\cite{tdcleaner-fse21}.
+
+While being the first automated tool for cleaning obsolete TODO
+comments, TDCleaner still has inherent limitations that cause low
+accuracy in detecting obsolete TODO comments.
+
+\underline{First}, while TDCleaner aims to learn the correlations
+among $\langle T, C, M \rangle$, those three components: $T$ (TODO
+comments), $C$ (code changes), and $M$ (commit messages) are {\em not}
+at the same level w.r.t. the task. $T$ is the {\em description} of the
+task that needs to be done at the time of the TODO comment being
+written. $C$ is the {\em code changes}, which could either (partially)
+accomplish or not accomplish the task described in $T$. If $C$
+fulfills the task by the time of the commit of the code changes $C$,
+$T$ is deemed as {\em osolete} because $T$ is still in the source code
+that was checked into the repository. Thus, the {\em concordance
+  between $T$ and $C$} is the key to decide if $T$ is obsolete. $T$ is
+said to be concordance with $C$ if the code changes $C$ realize the
+task described in $T$. In contrast, the commit message $M$ is only a
+subodinate for the code changes $C$ in which it is the {\em
+  description of the commit} (including the coding task realized in
+$C$). In TDCleaner, the concordance among three components in $P(S |
+\langle T, C, M \rangle)$ to detect obsolete TODO comments is too
+strict. The reason is that if $T$ is {\em in concordance with} $C$ ($T
+\leftrightarrow C$) and $T$ is {\em not in accordance with} $M$ ($T
+\nleftrightarrow M$) (e.g., in the cases of poor commit messages),
+TDCleaner considers this case as non-concordance, i.e., $T$ is not
+obsolete. In fact, this comment is obsolete because the
+code changes already realized the task described in $T$, but $T$ still
+appears in the committed source code. Thus, this treatment in
+TDCleaner {\em reduces recall}.
+
+\underline{Second}, there are cases, in which the commit mesage $M$
+describing the {\em entire} commit that includes other changes beside
+the code changes $C$ realizing the task described in $T$. Let us use
+$M \geq C$ to denote these cases. For example, while the code changes
+$C$ print the error message when a file was not found, the commit
+message could describe the other changes in the same commit (e.g., in
+a tangled commit~\cite{flexeme-fse20}).  Therefore, in some training
+instances, we have $T \leftrightarrow C$ but $M \geq C$ and in other
+instances, we have $T \leftrightarrow C$ and $M \leftrightarrow
+C$. TDCleaner could incorrectly learn the obsolete cases
+and could mistakenly deem the case of ($T \leftrightarrow C$ and $M
+\geq C$) as non-conformance. Thus, TDCleaner will miss those cases
+(i.e., {\em lower recall}).
+
+\underline{Third}, similarly to the second point, due to the fact that
+$M$ describes the code changes in an entire commit, $M$ could describe
+the tasks other than the one described in the TODO comment $T$. That
+is, we have $T \leftrightarrow C$ but $M \geq T$. With other training
+instances where $T \leftrightarrow C$ but $M \leftrightarrow T$,
+TDCleaner could mistakenly deem the case of ($T \leftrightarrow C$ and
+$M \geq T$) as non-conformance, i.e., no obsolete.
