@@ -66,5 +66,16 @@ fall into a method, it is considered as trivial, otherwise,
 non-trivial. Because igoring the trivial clusters, it can miss tangled
 concerns. To improve over that, Flexeme~\cite{flexeme-fse20} uses
 multi-version PDG augmented with name/lexeme flows in the edges, and
-applies Agglomerative Clustering using Graph Similarity on the graph
+applies Agglomerative Clustering using graph similarity on that graph
 to untangle its commits.
+
+Despite their successes, the state-of-the-art untangling commit
+techniques still have limitations. First, the boundaries across the
+concerns in a change set of a commit do not neccessarily and natually
+map to a clustering criteria on the PDG (with/without name flows).
+The concerns might be linked with multiple edges and a statement might
+belong to multiple concerns. These points make the clustering
+algorithms difficult to specify clustering criteria. Second, the goal
+is to decompose the changes in a commit. However, the existing
+approaches do not make a clear distinction of the context
+of ...
