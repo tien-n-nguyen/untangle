@@ -71,11 +71,22 @@ to untangle its commits.
 
 Despite their successes, the state-of-the-art untangling commit
 techniques still have limitations. First, the boundaries across the
-concerns in a change set of a commit do not neccessarily and natually
-map to a clustering criteria on the PDG (with/without name flows).
-The concerns might be linked with multiple edges and a statement might
+concerns in a commit do not neccessarily and natually map to a
+clustering criteria on the PDG (with/without name flows).  The
+concerns might be linked with multiple edges and a statement might
 belong to multiple concerns. These points make the clustering
-algorithms difficult to specify clustering criteria. Second, the goal
-is to decompose the changes in a commit. However, the existing
-approaches do not make a clear distinction of the context
-of ...
+algorithms difficult to specify the clustering criteria to achieve the
+best partitioning. Second, the goal is to decompose the changes in a
+commit. However, the existing approaches do not consider a change
+w.r.t. the context of surrounding code with a clear distinction of the
+changed code elements and the contextual, un-changed ones. Such
+context could help distinguish the concerns for the changes. Finally,
+not all the changes in the same concern need to have program
+dependencies among one another. The logic connection among the
+co-changed code in the same commit could be due to the reasons
+different from the program dependencies. For example, two pieces of
+cloned code realizing the same bubble sorting algorithm have the same
+bug in the comparison. They could be changed in the same commit to fix
+the same logic bug in the comparison.
+
+To address those challenges, we propose {\tool}, ...
