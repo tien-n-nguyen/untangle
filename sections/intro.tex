@@ -72,11 +72,11 @@ to untangle its commits.
 Despite their successes, the state-of-the-art untangling commit
 techniques still have limitations. First, the boundaries across the
 concerns in a commit do not neccessarily and natually map to a
-clustering criteria on the PDG (with/without name flows).  The
-concerns might be linked with multiple edges and a statement might
-belong to multiple concerns. These points make the clustering
-algorithms difficult to specify the clustering criteria to achieve the
-best partitioning. Second, the goal is to decompose the changes in a
+clustering criteria on the PDG (with/without name flows). The concerns
+might be linked with multiple edges, and a statement might belong to
+multiple concerns.  These points make the clustering algorithms
+difficult to specify the clustering criteria to achieve the best
+partitioning. Second, the goal is to decompose the changes in a
 commit. However, the existing approaches do not consider a change
 w.r.t. the context of surrounding code with a clear distinction of the
 changed code elements and the contextual, un-changed ones. Such
@@ -87,8 +87,29 @@ co-changed code in the same commit could be due to the reasons
 different from the program dependencies. For example, two pieces of
 cloned code realizing the same bubble sorting algorithm have the same
 bug in the comparison. They could be changed in the same commit to fix
-the same logic bug in the comparison.
+that same logic bug.
+%in the comparison.
 
 To address those challenges, we propose {\tool}, a machine
 learning-based approach that learns to untangle the changes in a
-commit into the groups for different concerns.
+commit into different groups for different concerns. {\tool} is
+designed with the key ideas to address the above challenges. First,
+while a deterministic clustering criterion does not always produce the
+clusters that naturally map the boundaries across the concerns, a
+\underline{machine learning} model could learn to untangle a commit
+from the co-changes belonging to the same concern in the version
+history.  {\tool} represents the changes and the surrounding code
+contexts via the multi-version program dependency graph $\delta$-PDG
+(adapted from Flexeme~\cite{flexeme-fse20}) and uses the Graph
+Convolutional Network (GCN) to model the statements and their
+interdependencies in $\delta$-PDG. Second, to decompose the changes,
+we leverage and {\em explicitly represent the surrounding
+  \underline{code context} of each change}. The explicit
+representation of the context of a change could help {\tool} learn the
+important features (e.g., code structures, data/control dependencies)
+of a change in distiguishing its concern among others. Finally,
+{\tool} also integrates an important feature for each change and its
+context, that is, the cloned code that is similar to the code under
+consideration. The idea is that the {\em two cloned code with similar
+logics could be changed in the same manner in the same concern in a
+commit}.
