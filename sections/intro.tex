@@ -90,9 +90,10 @@ concerns in a commit do not neccessarily and natually map to
 clustering criteria of a clustering algorithm running on the PDG
 (with/without name flows), the program slices, the change operations,
 or the changes themselves. The concerns might be linked with multiple
-edges. Applying a clustering algorithm on the PDG, slices, or changes
-makes it difficult to specify clustering criteria to achieve the
-partitions matching with the concerns.
+edges, and a statement might belong to multiple concerns. Applying a
+clustering algorithm on the PDG, slices, or changes makes it difficult
+to specify clustering criteria to achieve the partitions matching with
+the concerns.
 %
 Second, the goal is to decompose the changes in a commit. However, the
 existing approaches do not consider a change w.r.t. the context of
@@ -101,11 +102,11 @@ and the contextual, un-changed ones. Such context could help
 distinguish the concerns for the changes. Finally, not all the changes
 in the same concern need to have program dependencies among one
 another. The logic connection among the co-changed code in the same
-commit could be due to the reasons different from the program
+commit could be due to the reasons different from program
 dependencies. For example, two pieces of cloned code realizing the
 same bubble sorting algorithm have the same bug, e.g., at the
 comparison operator. They might be changed in the same commit to fix
-that same logic bug.
+that same logic~bug.
 
 To address those challenges, we propose {\tool}, a machine
 learning-based approach that learns to untangle the changes in a
