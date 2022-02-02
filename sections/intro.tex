@@ -3,34 +3,34 @@
 
 During software evolution, developers make several changes over time
 and commit them into a source code repository. The changes to the
-source files that are committed to the repository at the same
-transaction are often referred to as a {\em change set} or a {\em
-  commit}. In an ideal world, each commit should be about one purpose
-or concern regarding the programming task at hand.  Unfortunately, Tao
-{\em et al.}~\cite{tao-fse12}, Kim {\em et
+source files that are committed to the repository in the same
+transaction are referred to as a {\em change set} or a {\em
+  commit}. For separation of concerns, each commit should be about one
+purpose~or~concern regarding the programming task at hand.
+Unfortunately, Tao {\em et al.}~\cite{tao-fse12}, Kim {\em et
   al.}~\cite{kim-emse16,kim-msr13}, and Hill {\em et
-  al.}~\cite{hill-tse12} have reported that many change sets or
-commits tangle different concerns including the changes for
-bug-fixing, refactoring, enhancements/improvements, or
-documentation. Such change sets are called {\em tangled code changes}
-or {\em tangled commits}~\cite{kim-emse16,kim-msr13}. The prior work
-reported two reasons for tangled commits: time pressure in committing
-the changes, and unclear boundaries between the concerns for code
+  al.}~\cite{hill-tse12} have reported that many change sets tangle
+different concerns including the changes for bug-fixing, refactoring,
+enhancements/improvements, or documentation. Such change sets are
+called {\em tangled code changes} or {\em tangled
+  commits}~\cite{kim-emse16,kim-msr13}. The prior work reported two
+reasons for tangled commits: time pressure in committing the changes,
+and unclear relations between the concerns for code
 changes~\cite{flexeme-fse20}.
 
 Tangled commits pose several issues in software development. First,
-they affect software quality in both hampering program
-comprehension~\cite{tao-fse12} and reducing separation of concerns in
-code changes~\cite{flexeme-fse20}. Second, the tangled commits
+they affect software quality as they both hamper program
+comprehension~\cite{tao-fse12} and reduce the separation of concerns
+in code changes~\cite{flexeme-fse20}. Second, the tangled commits
 might contain the bug-fixing changes for one bug that are mixed with
 the fixes for other bugs as well as different types of changes for
 refactoring, enhancements, or
 documentation~\cite{kim-emse16,kim-msr13,nguyen-issre13}. Those
 tangled commits have negative impacts on the accuracy of bug
 prediction or bug localization models that rely on the data mined from
-the version histories~\cite{kim-emse16,kim-msr13}. Those models 
-consider an entire commit as for fixing or non-fixing, thus,
-are significantly affected by the tangled commits.
+the version histories~\cite{kim-emse16,kim-msr13}. Those models
+consider an entire commit as for fixing or non-fixing, thus, are
+significantly affected by the tangled commits.
 
 Recognizing the need of the tools that untangle, i.e., decompose a
 commit into untangle changes, several researchers have proposed
@@ -38,8 +38,8 @@ different approaches that can be broadly classified into two
 categories: {\em mining software repositories}, and {\em program
   analysis}.
 
-First, earlier approaches leverage the {\em mining software
-  repositories (MSR)} techniques. Herzig {\em et
+First, earlier approaches leverage {\em mining software repositories
+  (MSR)} techniques to untangle commits. Herzig {\em et
   al.}~\cite{kim-msr13,kim-emse16} utilize a confidence voter
 technique together with agglomerative clustering on the change
 operations to untangle the commits.
@@ -50,8 +50,8 @@ However, the voters are independent, thus, do not reflect well the
 interdependency nature of program elements under change. In contrast,
 Kirinuki {\em et al.}~\cite{higo-apsec16, higo-icpc14} rely on the
 histories of the co-changes to split the tangled code changes before
-they are committed. However, they do not consider the dependencies
-among the changes such as data or control dependencies. Dias {\em et
+they are committed. However, they do not consider the relations among
+the changes such as data or control dependencies. Dias {\em et
   al.}~\cite{dias-saner15} also use confidence voters, but on the
 fine-grained change events in an IDE. The scores are converted into
 the similarity ones via a Random Forest Regressor, which are used in
@@ -59,57 +59,94 @@ the agglomerative clustering to partition the tangled changes.  The
 second category of untangling approaches leverage the {\em static
   analysis} techniques. Roover {\em et al.}~\cite{roover-scam18} use
 program slicing to segment a commit across a Program Dependency Graph
-(PDG).  However, they are limited handling interprocedural and
+(PDG).  However, they are limited in handling interprocedural and
 cross-file dependencies. Barnett {\em et al.}~\cite{barnett-icse15}
 utilize def-use chains, and cluster them. If the def-use chain all
 fall into a method, it is considered as trivial, otherwise,
 non-trivial. Because igoring the trivial clusters, it can miss tangled
 concerns. To improve over that, Flexeme~\cite{flexeme-fse20} uses
 multi-version PDG augmented with name/lexeme flows in the edges, and
-applies Agglomerative Clustering using graph similarity on that graph
+applies agglomerative clustering using graph similarity on that graph
 to untangle its commits.
+
+%the targets of their clustering algorithms are either changes, change
+%operations, change events, or slices, PDGs, which do not sufficiently
+%contain the information for untangling commits. The reason is that
+%the boundaries across the concerns in a commit do not neccessarily
+%and natually map to a specific clustering criteria on those targets
+%such as changes or PDGs. First, the boundaries across the concerns
+%in a commit do not neccessarily and natually map to a clustering
+%criteria on the PDG (with/without name flows).
+
+%The concerns might be linked with multiple edges, and a statement
+%might belong to multiple concerns.
+
+%These points make the clustering algorithms difficult to specify the
+%clustering criteria to achieve the best partitioning.
 
 Despite their successes, the state-of-the-art untangling commit
 techniques still have limitations. First, the boundaries across the
-concerns in a commit do not neccessarily and natually map to a
-clustering criteria on the PDG (with/without name flows). The concerns
-might be linked with multiple edges, and a statement might belong to
-multiple concerns.  These points make the clustering algorithms
-difficult to specify the clustering criteria to achieve the best
-partitioning. Second, the goal is to decompose the changes in a
-commit. However, the existing approaches do not consider a change
-w.r.t. the context of surrounding code with a clear distinction of the
-changed code elements and the contextual, un-changed ones. Such
-context could help distinguish the concerns for the changes. Finally,
-not all the changes in the same concern need to have program
-dependencies among one another. The logic connection among the
-co-changed code in the same commit could be due to the reasons
-different from the program dependencies. For example, two pieces of
-cloned code realizing the same bubble sorting algorithm have the same
-bug in the comparison. They could be changed in the same commit to fix
+concerns in a commit do not neccessarily and natually map to
+clustering criteria of a clustering algorithm running on the PDG
+(with/without name flows), the program slices, the change operations,
+or the changes themselves. The concerns might be linked with multiple
+edges. Applying a clustering algorithm on the PDG, slices, or changes
+makes it difficult to specify clustering criteria to achieve the
+partitions matching with the concerns.
+%
+Second, the goal is to decompose the changes in a commit. However, the
+existing approaches do not consider a change w.r.t. the context of
+surrounding code with a clear distinction of the changed code elements
+and the contextual, un-changed ones. Such context could help
+distinguish the concerns for the changes. Finally, not all the changes
+in the same concern need to have program dependencies among one
+another. The logic connection among the co-changed code in the same
+commit could be due to the reasons different from the program
+dependencies. For example, two pieces of cloned code realizing the
+same bubble sorting algorithm have the same bug, e.g., at the
+comparison operator. They might be changed in the same commit to fix
 that same logic bug.
-%in the comparison.
 
 To address those challenges, we propose {\tool}, a machine
 learning-based approach that learns to untangle the changes in a
-commit into different groups for different concerns. {\tool} is
-designed with the key ideas to address the above challenges. First,
-while a deterministic clustering criterion does not always produce the
-clusters that naturally map the boundaries across the concerns, a
-\underline{machine learning} model could learn to untangle a commit
-from the co-changes belonging to the same concern in the version
-history.  {\tool} represents the changes and the surrounding code
-contexts via the multi-version program dependency graph $\delta$-PDG
-(adapted from Flexeme~\cite{flexeme-fse20}) and uses the Graph
-Convolutional Network (GCN) to model the statements and their
-interdependencies in $\delta$-PDG. Second, to decompose the changes,
-we leverage and {\em explicitly represent the surrounding
-  \underline{code context} of each change}. The explicit
-representation of the context of a change could help {\tool} learn the
-important features (e.g., code structures, data/control dependencies)
-of a change in distiguishing its concern among others. Finally,
-{\tool} also integrates an important feature for each change and its
-context, that is, the cloned code that is similar to the code under
-consideration. The idea is that the {\em two cloned code with similar
-logics could be changed in the same manner in the same concern in a
-commit}.
+commit into different clusters for different concerns. {\tool} is
+designed with the key ideas to address the above challenges.
+
+First, while deterministic clustering criteria on the PDG, slices, or
+change operations do not always produce the clusters that naturally
+map to the boundaries across the concerns, a \underline{machine
+  learning} model is expected to learn untangling a commit from the
+{\em co-changes} belonging to the same concern in the version history.
+%
+{\tool} represents the changes and the surrounding code via the
+multi-version program dependency graph, $\delta$-PDG (adapted from
+Flexeme~\cite{flexeme-fse20}) and uses the Graph Convolutional Network
+(GCN) to model the statements and their interdependencies in
+$\delta$-PDG.
+
+Second, to decompose the changes, we leverage and {\em
+  explicitly represent the surrounding \underline{code context} of
+  each change}. The explicit representation of the context could help
+{\tool} learn the important features of a change (e.g., code
+structures, data/control dependencies) in distiguishing its concern
+among others.
+
+Third, {\tool} also integrates an important feature for
+each change, that is, the cloned code that is similar to the code
+under consideration. The idea is that the {\em two \underline{cloned code} with
+  similar logics might be changed in the same manner in the same
+  concern in a commit}.
+
+Finally, we design a novel \underline{code representation learning}
+that integrates the graph structures in GCN for program dependencies,
+the representation of a change and its context, and the cloned code
+into the vector representations (i.e., embeddings) for the code
+changes in a commit. We then apply agglomerative clustering on the
+vectors to produce the final clusters to untangle the commit. We
+expect that agglomerative clustering will be more effective as running
+on the embeddings with richer, encoded information than on the PDG or
+slices in distinguishing the concerns of the changes.
+
+
+%clustering on embeddings rich info than PDG, slices, or changes
+
