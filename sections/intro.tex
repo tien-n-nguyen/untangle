@@ -67,7 +67,10 @@ non-trivial. Because igoring the trivial clusters, it can miss tangled
 concerns. To improve over that, Flexeme~\cite{flexeme-fse20} uses
 multi-version PDG augmented with name/lexeme flows in the edges, and
 applies agglomerative clustering using graph similarity on that graph
-to untangle its commits.
+to untangle its commits. SmartCommit~\cite{smartcommit-fse21} uses a
+graph-partitioning algorithm on a graph representation to capture
+different categories of relations among code changes (hard links, soft
+links, refactoring links, and cosmetic links).
 
 %the targets of their clustering algorithms are either changes, change
 %operations, change events, or slices, PDGs, which do not sufficiently
@@ -89,9 +92,9 @@ techniques still have limitations. First, the boundaries across the
 concerns in a commit do not neccessarily and natually map to
 clustering criteria of a clustering algorithm running on the PDG
 (with/without name flows), the program slices, the change operations,
-or the changes themselves. The concerns might be linked with multiple
+or the changes themselves. The concerns might be linked via multiple
 edges, and a statement might belong to multiple concerns. Applying a
-clustering algorithm on the PDG, slices, or changes makes it difficult
+clustering algorithm on the PDG, slices, or change graphs makes it difficult
 to specify clustering criteria to achieve the partitions matching with
 the concerns.
 %
@@ -148,6 +151,5 @@ expect that agglomerative clustering will be more effective as running
 on the embeddings with richer, encoded information than on the PDG or
 slices in distinguishing the concerns of the changes.
 
-
-%clustering on embeddings rich info than PDG, slices, or changes
+We conduct several experiments to evaluate {\tool}...
 

@@ -1,2 +1,159 @@
-\section{Motivating Examples}
+\section{Motivation}
 \label{motiv:sec}
+
+\subsection{Motivating Examples}
+\label{exe:sec}
+
+
+
+\begin{figure}[t]
+	\centering
+	\lstset{
+		numbers=left,
+		numberstyle= \tiny,
+		keywordstyle= \color{blue!70},
+		commentstyle= \color{red!50!green!50!blue!50},
+		frame=shadowbox,
+		rulesepcolor= \color{red!20!green!20!blue!20} ,
+		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
+		framexleftmargin=1.5em,
+                numbersep= 5pt,
+		language=Java,
+    basicstyle=\scriptsize\ttfamily,
+    numberstyle=\scriptsize\ttfamily,
+    emphstyle=\bfseries,
+                moredelim=**[is][\color{red}]{@}{@},
+		escapeinside= {(*@}{@*)}
+	}
+	\begin{lstlisting}[]
+private static IEnumerable<Tuple<SpecificationProperty, Maybe<Error>>> MapValuesImpl(...) {
+  ...
+  var pt = specProps.First();
+(*@{\color{red}{   - var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().}@*) (*@{\color{red}{MapValueOrDefault(n => n, values.Count()));}@*)
+(*@{\color{cyan}{   + var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().}@*) (*@{\color{cyan}{GetValueOrDefault(values.Count()));}@*)
+   if (taken.Empty()) {...} ...
+}
+//--------------------------------------------------------------------------
+public static TypeDescriptor WithNextValue(this TypeDescriptor descriptor, Maybe<TypeDescriptor> nextValue) {
+(*@{\color{red}{  - return TypeDescriptor.Create(descriptor.TargetType,descriptor.MaxItems,}@*) (*@{\color{red}{nextValue.MapValueOrDefault(n => n, default(TypeDescriptor)));}@*)
+(*@{\color{cyan}{  + return TypeDescriptor.Create(descriptor.TargetType,descriptor.MaxItems,}@*) (*@{\color{cyan}{nextValue.GetValueOrDefault(default(TypeDescriptor)));}@*)
+}
+//--------------------------------------------------------------------------
+public static ParserResult<T> Build<T>(...) {
+  ...
+  select
+(*@{\color{red}{  - sp.Value.MapValueOrDefault(}@*)
+(*@{\color{red}{  -   v => v,}@*)
+(*@{\color{red}{  -   sp.Specification.DefaultValue.MapValueOrDefault(}@*)
+(*@{\color{red}{  -     d => d,}@*)
+(*@{\color{cyan}{  + sp.Value.GetValueOrDefault(}@*)
+(*@{\color{cyan}{  + \quad sp.Specification.DefaultValue.GetValueOrDefault(}@*)
+(*@{\color{cyan}{   \quad  sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();}@*)
+  var immutable = (T)ctor.Invoke(values);
+  return immutable;
+}
+	\end{lstlisting}
+        \vspace{-15pt}
+        \caption{Co-Change}
+        \vspace{-6pt}
+        \label{fig:motiv-cc}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\lstset{
+		numbers=left,
+		numberstyle= \tiny,
+		keywordstyle= \color{blue!70},
+		commentstyle= \color{red!50!green!50!blue!50},
+		frame=shadowbox,
+		rulesepcolor= \color{red!20!green!20!blue!20} ,
+		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
+		framexleftmargin=1.5em,
+                numbersep= 5pt,
+		language=Java,
+    basicstyle=\scriptsize\ttfamily,
+    numberstyle=\scriptsize\ttfamily,
+    emphstyle=\bfseries,
+                moredelim=**[is][\color{red}]{@}{@},
+		escapeinside= {(*@}{@*)}
+	}
+	\begin{lstlisting}[]
+public override void Initialize() {
+  ...
+  // set algorithm framework models
+(*@{\color{red}{- PortfolioSelection=new}@*) (*@{\color{red}{ManualPortfolioSelectionModel(QuantConnect.Symbol.Create("BTCUSD",}@*) (*@{\color{red}{SecurityType.Crypto, Market.GDAX));}@*)   
+(*@{\color{cyan}{+ UniverseSelection=new}@*) (*@{\color{cyan}{ManualUniverseSelectionModel(QuantConnect.Symbol.Create("BTCUSD",}@*) (*@{\color{cyan}{SecurityType.Crypto, Market.GDAX));}@*)
+  Alpha = new ConstantAlphaModel(InsightType.Price, InsightDirection.Up,...);
+  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
+}
+//--------------------------------------------------------------------------
+public override void Initialize() {
+  ...
+  // set algorithm framework models
+(*@{\color{red}{- PortfolioSelection=new}@*) (*@{\color{red}{ManualPortfolioSelectionModel(QuantConnect.Symbol.Create("SPY",}@*) (*@{\color{red}{SecurityType.Equity, Market.USA));}@*)   
+(*@{\color{cyan}{+ UniverseSelection=new}@*) (*@{\color{cyan}{ManualUniverseSelectionModel(QuantConnect.Symbol.Create("SPY",}@*) (*@{\color{cyan}{SecurityType.Equity, Market.USA);}@*)
+  Alpha = new ConstantAlphaModel(InsightType.Price, InsightDirection.Up,...);
+  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
+//--------------------------------------------------------------------------
+public override void Initialize() {
+  ...
+(*@{\color{red}{- PortfolioSelection = new CustomFundamentalPortfolioSelectionModel();}@*)
+(*@{\color{cyan}{+ UniverseSelection = new CustomFundamentalUniverseSelectionModel();}@*)
+  Alpha = new MacdAlphaModel(TimeSpan.FromMinutes(10),...);
+  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
+}
+	\end{lstlisting}
+        \vspace{-15pt}
+        \caption{Clone}
+        \vspace{-6pt}
+        \label{fig:motiv-clone}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\lstset{
+		numbers=left,
+		numberstyle= \tiny,
+		keywordstyle= \color{blue!70},
+		commentstyle= \color{red!50!green!50!blue!50},
+		frame=shadowbox,
+		rulesepcolor= \color{red!20!green!20!blue!20} ,
+		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
+		framexleftmargin=1.5em,
+                numbersep= 5pt,
+		language=Java,
+    basicstyle=\scriptsize\ttfamily,
+    numberstyle=\scriptsize\ttfamily,
+    emphstyle=\bfseries,
+                moredelim=**[is][\color{red}]{@}{@},
+		escapeinside= {(*@}{@*)}
+	}
+	\begin{lstlisting}[]
+public void mousePressed(MouseEvent evt) { 
+  ...//SelectionTool.java
+(*@{\color{red}{- if (figure != null) {}@*)
+(*@{\color{cyan}{+ if (figure != null}@*) && (*@{\color{cyan}{figure.isSelectable()) {}@*)
+       newTracker = createDragTracker(figure);
+    } else {
+       if (! evt.isShiftDown()) {...}
+}
+//--------------------------------------------------------------------------
+protected void updateHoverHandles(DrawingView view, Figure f) {
+  ...// SelectAreaTracker.java
+  figure = f;
+(*@{\color{red}{- if (figure != null) {}@*)
+(*@{\color{cyan}{+ if (figure != null}@*) && (*@{\color{cyan}{figure.isSelectable()) {}@*)
+      hoverHandles.addAll(figure.createHandles(-1));
+    ...
+}
+	\end{lstlisting}
+        \vspace{-15pt}
+        \caption{Context}
+        \vspace{-6pt}
+        \label{fig:motiv-context}
+\end{figure}
+
+Let us present the real-world examples and our observations for
+motivation.
+
