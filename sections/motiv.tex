@@ -42,10 +42,7 @@ public static TypeDescriptor WithNextValue(this TypeDescriptor descriptor, Maybe
 public static ParserResult<T> Build<T>(...) {
   ...
   select
-(*@{\color{red}{  - sp.Value.MapValueOrDefault(}@*)
-(*@{\color{red}{  -   v => v,}@*)
-(*@{\color{red}{  -   sp.Specification.DefaultValue.MapValueOrDefault(}@*)
-(*@{\color{red}{  -     d => d,}@*)
+(*@{\color{red}{- sp.Value.MapValueOrDefault(v=>v,}@*) (*@{\color{red}{sp.Specification.DefaultValue.MapValueOrDefault(d => d,}@*)
 (*@{\color{cyan}{  + sp.Value.GetValueOrDefault(}@*)
 (*@{\color{cyan}{  + \quad sp.Specification.DefaultValue.GetValueOrDefault(}@*)
 (*@{\color{cyan}{   \quad  sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();}@*)
@@ -54,12 +51,45 @@ public static ParserResult<T> Build<T>(...) {
 }
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Co-Change}
+        \caption{Co-Changed Statements for the Same Concern}
         \vspace{-6pt}
         \label{fig:motiv-cc}
 \end{figure}
 
+%public static ParserResult<T> Build<T>(...) {
+%  ...
+%  select
+%(*@{\color{red}{  - sp.Value.MapValueOrDefault(}@*)
+%(*@{\color{red}{  - \quad   v => v,}@*)
+%(*@{\color{red}{  - \quad  sp.Specification.DefaultValue.MapValueOrDefault(}@*)
+%(*@{\color{red}{  - \quad \quad   d => d,}@*)
+%(*@{\color{cyan}{  + sp.Value.GetValueOrDefault(}@*)
+%(*@{\color{cyan}{  + \quad sp.Specification.DefaultValue.GetValueOrDefault(}@*)
+%(*@{\color{cyan}{   \quad  sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();}@*)
+%  var immutable = (T)ctor.Invoke(values);
+%  return immutable;
+%}
 
+Let us present the real-world examples and our observations for
+motivation. Figure~\ref{fig:motiv-cc} shows an example from the
+experimental dataset in a prior work~\cite{flexeme-fse20}. This commit
+has three changed statements at lines 4, 10, and 17 of the methods
+\code{MapValuesImpl}, \code{WithNextValue}, and \code{Build}. The
+method \code{MapValueOrDefault} was renamed to
+\code{GetValueOr\-Default}, causing the changes to the call sites.
+These changes are deemed by the developers as serving to the same
+concern/purpose of enhancing type resolution in the parser. These
+statements have been changed for the same concern in a past
+commit. This motivates us to build a machine learning (ML) model to
+learn from the co-changes for the same concern in the version history
+to untangle the current commit. For this example, the approaches
+relying on the PDGs or program slices within individual methods
+(e.g.,~\cite{flexeme-fse20},~\cite{roover-scam18}) cannot cluster the
+changed statements into a group.
+
+\noindent {\bf Observation 1.} {\em History of the co-changed statements
+for the same concern could be a good source for an ML model to learn
+untangle the current commits}.
 
 \begin{figure}[t]
 	\centering
@@ -107,10 +137,13 @@ public override void Initialize() {
 }
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Clone}
+        \caption{Cloned Code in the Same Concern}
         \vspace{-6pt}
         \label{fig:motiv-clone}
 \end{figure}
+
+Figure~\ref{fiv:motiv-clone} shows an example of the cloned codes
+that were modified in the same manner to ...
 
 \begin{figure}[t]
 	\centering
@@ -156,6 +189,5 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
         \label{fig:motiv-context}
 \end{figure}
 
-Let us present the real-world examples and our observations for
-motivation.
+
 
