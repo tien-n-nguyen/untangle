@@ -193,24 +193,43 @@ public override void Initialize() {
 (*@{\color{cyan}{+ UniverseSelection=new}@*) (*@{\color{cyan}{ManualUniverseSelectionModel(QuantConnect.Symbol.Create("SPY",}@*) (*@{\color{cyan}{SecurityType.Equity, Market.USA);}@*)
   Alpha = new ConstantAlphaModel(InsightType.Price, InsightDirection.Up,...);
   PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
-//--------------------------------------------------------------------------
-public override void Initialize() {
-  ...
-(*@{\color{red}{- PortfolioSelection = new CustomFundamentalPortfolioSelectionModel();}@*)
-(*@{\color{cyan}{+ UniverseSelection = new CustomFundamentalUniverseSelectionModel();}@*)
-  Alpha = new MacdAlphaModel(TimeSpan.FromMinutes(10),...);
-  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
-}
 	\end{lstlisting}
         \vspace{-15pt}
         \caption{Cloned Code in the Same Concern}
-        \vspace{-6pt}
+        \vspace{-3pt}
         \label{fig:motiv-clone}
 \end{figure}
 
+%//--------------------------------------------------------------------------
+%public override void Initialize() {
+%  ...
+%(*@{\color{red}{- PortfolioSelection = new CustomFundamentalPortfolioSelectionModel();}@*)
+%(*@{\color{cyan}{+ UniverseSelection = new CustomFundamentalUniverseSelectionModel();}@*)
+%  Alpha = new MacdAlphaModel(TimeSpan.FromMinutes(10),...);
+%  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
+%}
 
+Figure~\ref{fig:motiv-clone} shows another example on the two
+fragments of cloned code for two different security types (Crypto and
+Equity) and markets (GDAX and USA). They were fixed in the same manner
+at line 4 and line 13. The two changes were in the same fix to convert
+the usage of \code{PortfolioSelection} into that of
+\code{UniverseSelection}, and the usage of
+\code{ManualPortfolioSelectionModel} into that of
+\code{ManualUniverseSelectionModel} in the process of {\em ``setting
+  algorithm framework models''}. The two changes belong to the same
+concern/purpose since they serve as a fix for the same logic despite
+that they have no program dependencies among one another. The existing
+untangling
+approaches~\cite{flexeme-fse20,smartcommit-fse21,roover-scam18,barnett-icse15}
+that require the explicit program dependencies among the changes with
+the same purpose do not handle this type of committed code.
 
+\noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
+  fragments of cloned code have the same/similar logic, thus, have
+  implicit dependencies, and could be modified in the same manner to
+  serve for the same purpose/concern.}
 
-
+\input{sections/key-ideas}
 
 
