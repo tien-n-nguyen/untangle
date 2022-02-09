@@ -34,4 +34,12 @@ dependencies in the $\delta$-PDG and to learn the vector
 representation of the context for a change. The context vector is then
 used as a weight in learning the vector for the code change.
 
-{\bf Key Idea 3. []} 
+{\bf Key Idea 3. [Implicit Dependencies among Cloned Code]} As in
+Observation 3, the cloned code exhibits implicit dependencies with
+regard to whether they can be changed in the same commits for the same
+concerns/purposes. Thus, during the process of computing the embedding
+for each change, we also integrate the code clones of the current
+statement under consideration. The cloned code is integrated as a
+feature for the GCN model to learn. Thus, the GCN model can learn the
+embeddings of the code changes with the consideration of the cloned
+code.
