@@ -57,7 +57,7 @@
 
 %\newcommand{\code}[1]{{\footnotesize\textsf{#1}}}
 
-\newcommand{\tool}{\textsc{Tool}\xspace}
+\newcommand{\tool}{\textsc{UTango}\xspace}
 
 \newtheorem{Definition}{Definition}
 \newtheorem{Claim}{Claim}
@@ -95,7 +95,7 @@
 
 %\title[{\tool}: Deep Fault Localization with Code Coverage Representation Learning]{{\tool}: Deep Fault Localization with Code Coverage Representation Learning}
 
-\title[Title Goes Here]{Title Goes Here}
+\title[Untangling Commits with Context-aware, Graph-based, Code Change Representation Learning]{Untangling Commits with Context-aware, Graph-based,\\ Code Change Representation Learning}
 
 %Context-aware
 %ML
@@ -128,7 +128,20 @@
 
 %\input{sections/abstract}
 \begin{abstract}
-Abstract goes here ...
+During software evolution, developers make several changes and commit
+them into the repositories. Unfortunately, many of them tangle
+different concerns/purposes, both hampering program comprehension and
+reduce separation of concerns. Unlike the state-of-the-art,
+deterministic untangling approaches, we present {\tool}, a machine
+learning (ML)-based approach that learns to untangle the changes in a
+commit. We develop a novel code change representation learning model
+leveraging Graph-based Convolution Network to build the vector
+representations for the changes, which integrate program dependencies,
+the surrounding contexts of the changes, as well as the code clone
+relationships. The contexts of the changes and cloned code are
+explicitly represented, helping the model distinguish their
+concerns/purposes. Our empirical evaluation on real-world datasets
+show that ...
 \end{abstract}
 
 
