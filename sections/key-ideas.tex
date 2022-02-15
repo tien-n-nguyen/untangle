@@ -19,15 +19,15 @@ concerns, and applies to cluster the changes in the current commit.
     for Code Changes].} We design a context-aware, graph-based,
 representation learning model to {\em learn the contextualized
   embeddings (vectors) for the code changes} that integrates {\em
-  program dependencies}, {\em contexts}, and {\em code clone
-  relationships} among the program elements. We train an GCN model to
-learn the embeddings and the clusters from the history of changed code
-for the same concerns in the commits. For prediction, {\tool} then
-applies agglomerative clustering on the embeddings to produce the
-clusters to untangle the commit. We expect that agglomerative
-clustering is more effective on the vector space than on the above
-concrete artifacts because the embedddings capture richer information
-integrated from the dependencies, contexts, and code clones.
+  program dependencies} among the program elements, and the {\em
+  contexts} of code changes. We train an GCN model to learn the
+embeddings and the clusters from the history of changed code for the
+same concerns in the commits. For prediction, {\tool} then applies
+agglomerative clustering on the embeddings to produce the clusters to
+untangle the commit. We expect that agglomerative clustering is more
+effective on the vector space than on the above concrete artifacts
+because the embedddings capture richer information integrated from the
+dependencies and contexts.
 
 
 {\bf Key Idea 3 [Explicit Context Representation as a Weight to
@@ -47,9 +47,9 @@ code changes.
 {\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}. As in
 Observation 3, the cloned code exhibits implicit dependencies with
 regard to whether they can be changed in the same commits for the same
-concerns/purposes. Thus, during the process of producing the final
-clustering result, we also integrate the code clone relationships to
-adjust the clusters.
+concerns. Thus, during the clustering process of producing the final
+result, we also integrate the code clone relationships to
+adjust the groups produced by the clustering learning model.
 
 %Thus, the GCN model can learn the embeddings of the code changes with
 %the consideration of the cloned code.

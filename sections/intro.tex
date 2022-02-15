@@ -169,7 +169,7 @@ $\delta$-PDG~\cite{flexeme-fse20} that encodes the {\em
   each change}. The explicit representation of the context could help
 {\tool} learn the important features of a change (e.g., code
 structures, data/control dependencies) in distiguishing its concern
-among others. Third, {\tool} also integrates an important feature for
+among others. Third, {\tool} also considers an important feature for
 each change, that is, the cloned code that is similar to the code
 under consideration. The idea is that the {\em two \underline{cloned
     code} with similar logic might be changed in the same manner in
@@ -197,9 +197,9 @@ version history.
 
 {\bf 2. A Novel Context-aware, Graph-based Representation Learning for
   Code Changes.} We design GCN-based model to produce the {\em
-  contextualized embeddings (vectors) for the code changes}, that
-integrates the program dependencies, the representation of a change
-and its context, and the cloned code.
+  contextualized embeddings for the code changes}, that
+integrates the program dependencies, and the representations of changes
+and contexts. Cloned code is also considered in clustering.
 
 {\bf 3. Extensive empirical evaluation.} We evaluated {\tool} against
 the recent approaches for untangling commits to show its performance
