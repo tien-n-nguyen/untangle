@@ -111,10 +111,30 @@ same bubble sorting algorithm have the same bug, e.g., at the
 comparison operator. They might be changed in the same commit to fix
 that same logic~bug.
 
-To address those challenges, we propose {\tool}, a machine
-learning-based approach that learns to untangle the changes in a
-commit into different clusters for different concerns. {\tool} is
-designed with the key ideas to address the above challenges.
+%We develop {\tool}, a {\em novel code change clustering learning
+%model} that learns to cluster the code changes, represented by the
+%embeddings, into different groups with different concerns. The core of
+%{\tool} is {\em context-aware, graph-based, code change representation
+%learning (RL) model} leveraging Graph-based Convolution Network to
+%produce the {\em contextualized embeddings (vectors)} for the code
+%changes, that integrates program dependencies, the surrounding
+%contexts of the changes, as well as the code clone relations. The
+%contexts of the changes and cloned code are explicitly represented,
+%helping the model distinguish their concerns/purposes.
+
+%a machine learning-based approach that learns to untangle the changes
+%in a commit into different clusters for different concerns.
+
+%{\tool} is designed with the key ideas to address the above
+%challenges.
+
+%Tien
+To address those challenges, we propose {\tool}, a {\em novel code
+  change clustering learning model} that learns to untangle by
+clustering the code changes (represented by the embeddings) in a
+commit into different groups for different concerns.
+
+
 
 First, while deterministic clustering criteria on the PDG, slices, or
 change operations do not always produce the clusters that naturally

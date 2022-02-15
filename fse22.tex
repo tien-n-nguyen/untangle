@@ -132,18 +132,28 @@ During software evolution, developers make several changes and commit
 them into the repositories. Unfortunately, many of them tangle
 different concerns/purposes, both hampering program comprehension and
 reduce separation of concerns. Unlike the state-of-the-art,
-deterministic untangling approaches, we present {\tool}, a machine
-learning (ML)-based approach that learns to untangle the changes in a
-commit. We develop a novel code change representation learning model
-leveraging Graph-based Convolution Network to build the vector
-representations for the changes, which integrate program dependencies,
-the surrounding contexts of the changes, as well as the code clone
-relationships. The contexts of the changes and cloned code are
-explicitly represented, helping the model distinguish their
-concerns/purposes. Our empirical evaluation on real-world datasets
-show that ...
+deterministic untangling approaches, we present a machine learning
+(ML)-based approach that learns to untangle the changes in a commit.
+%
+We develop {\tool}, a {\em novel code change clustering learning
+model} that learns to cluster the code changes, represented by the
+embeddings, into different groups with different concerns. The core of
+{\tool} is {\em context-aware, graph-based, code change representation
+learning (RL) model} leveraging Graph-based Convolution Network to
+produce the {\em contextualized embeddings (vectors)} for the code
+changes, that integrates program dependencies, the surrounding
+contexts of the changes, as well as the code clone relations. The
+contexts of the changes and cloned code are explicitly represented,
+helping the model distinguish their concerns/purposes.
+%
+Our empirical evaluation on real-world datasets shows ...
 \end{abstract}
 
+%We develop a novel code change representation learning model
+%leveraging Graph-based Convolution Network to build the vector
+%representations for the changes, which integrate program dependencies,
+%the surrounding contexts of the changes, as well as the code clone
+%relationships.
 
 %\settopmatter{printacmref=true, printccs=true, printfolios=false}
 
