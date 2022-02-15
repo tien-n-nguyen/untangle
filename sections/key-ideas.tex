@@ -16,37 +16,40 @@ history of the changed statements in the same commits for the same
 concerns, and applies to cluster the changes in the current commit.
 
 {\bf Key Idea 2 [Context-aware, Graph-based Representation Learning
-    for Code Changes].} We will {\em learn the vector representations
-  (i.e., embeddings) for the code changes} while taking into account
-the {\em dependencies}, the {\em contexts}, and the {\em code clone
-  relationships} among the changed statements. We train an GCN model
-to learn the embeddings from the history of changed code in the same
-commits for the same concerns. {\tool} then applies agglomerative
-clustering on the embeddings to produce the clusters to untangle the
-commit. We expect that agglomerative clustering is more effective on
-the vector space than on the above concrete artifacts because the
-embedddings capture richer information integrated from the
-dependencies, contexts, and code clones.
+    for Code Changes].} We design a context-aware, graph-based,
+representation learning model to {\em learn the contextualized
+  embeddings (vectors) for the code changes} that integrates {\em
+  program dependencies}, {\em contexts}, and {\em code clone
+  relationships} among the program elements. We train an GCN model to
+learn the embeddings and the clusters from the history of changed code
+for the same concerns in the commits. For prediction, {\tool} then
+applies agglomerative clustering on the embeddings to produce the
+clusters to untangle the commit. We expect that agglomerative
+clustering is more effective on the vector space than on the above
+concrete artifacts because the embedddings capture richer information
+integrated from the dependencies, contexts, and code clones.
 
 
 {\bf Key Idea 3 [Explicit Context Representation as a Weight to
     Compute Vectors for Code Changes]}. As in Observation 2, the
 contexts of the code changes can help distinguish their
-purposes/concerns in the commits. We represent code changes and the
+concerns in the commits. We represent code changes and the
 surrounding context of each change via the multi-version program
-dependency graph, $\delta$-PDG~\cite{flexeme-fse20}. The context is
-defined as the surrounding nodes of the node for a changed statement
-in that graph. The GCN is used to model the statements and their
-dependencies in the $\delta$-PDG and to learn the vector
-representation of the context for a change. The context vector is then
-used as a weight in learning the vector for the code change.
+dependence graph, $\delta$-PDG~\cite{flexeme-fse20}, consisting of the
+elements of the versions before and after the changes, and their
+program dependencies. The context is defined as the surrounding nodes
+of the node for a changed statement in that graph. The GCN is used to
+model the statements and their dependencies in the $\delta$-PDG and to
+learn the vector representation of the context for a change. The
+context vectors are then used as weights in learning the vectors for the
+code changes.
 
 {\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}. As in
 Observation 3, the cloned code exhibits implicit dependencies with
 regard to whether they can be changed in the same commits for the same
-concerns/purposes. Thus, during the process of computing the embedding
-for each change, we also integrate the code clones of the current
-statement under consideration. The cloned code is integrated as a
-feature for the GCN model to learn. Thus, the GCN model can learn the
-embeddings of the code changes with the consideration of the cloned
-code.
+concerns/purposes. Thus, during the process of producing the final
+clustering result, we also integrate the code clone relationships to
+adjust the clusters.
+
+%Thus, the GCN model can learn the embeddings of the code changes with
+%the consideration of the cloned code.
