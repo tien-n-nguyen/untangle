@@ -148,7 +148,7 @@ different groups for different concerns.
 
 While deterministic clustering criteria on the PDG, slices, or change
 operations do not always produce the clusters that naturally map to
-the boundaries across the concerns, a machine learning model is
+the boundaries across the concerns, a machine learning (ML) model is
 expected to learn to cluster the changes, thus, untangling a
 commit. The model can learn from the changes belonging to the same
 concern in the version history. To facilitate the code change
@@ -187,3 +187,20 @@ thus, helping better distinguish the concerns of the changes.
 
 We conduct several experiments to evaluate {\tool}...
 
+The key contributions of this work include:
+
+{\bf 1. {\tool}: an ML-based commit-untangling approach with a novel
+  code change clustering learning model.} It is the first ML model
+that learns to untangle the commit by learning to cluster the changes.
+{\tool} learns from the changes belonging to the same concern in the
+version history.
+
+{\bf 2. A Novel Context-aware, Graph-based Representation Learning for
+  Code Changes.} We design GCN-based model to produce the {\em
+  contextualized embeddings (vectors) for the code changes}, that
+integrates the program dependencies, the representation of a change
+and its context, and the cloned code.
+
+{\bf 3. Extensive empirical evaluation.} We evaluated {\tool} against
+the recent approaches for untangling commits to show its performance
+and usefulness. Our data/tool are available at~\cite{utango-website}.
