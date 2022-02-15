@@ -1,28 +1,35 @@
 \subsection{Key Ideas}
 \label{ideas:sec}
 
-From the observations, we propose {\tool} with the following ideas.
+We propose {\tool} with the following ideas.
 
-{\bf Key Idea 1 [Code Change Representation Learning with Graph
-    Convolution Network (GCN)]}. From Observation 1, we could build an
-ML model to untangle the commits by learning from the history of the
-changed statements in the same commits for the same concerns. Instead
-of deciding a deterministic clustering criterion on the concrete
+%{\bf Key Idea 1 [Code Change Representation Learning with Graph
+%    Convolution Network (GCN)]}.
+
+{\bf Key Idea 1 [Code Change Clustering Learning Model]}. Instead of
+deciding a deterministic clustering criterion on the concrete
 artifacts such as PDGs, program slices, code changes, change
-operations, or change graphs, we will {\em learn the vector
-  representations (i.e., embeddings) for the code changes} while
-taking into account the {\em dependencies}, the {\em contexts}, and
-the {\em code clone relationships} among the changed statements. We
-train an GCN model to learn the embeddings from the history of changed
-code in the same commits for the same concerns. {\tool} then applies
-agglomerative clustering on the embeddings to produce the clusters to
-untangle the commit. We expect that agglomerative clustering is more
-effective on the vector space than on the above concrete artifacts
-because the embedddings capture richer information integrated from the
+operations, or change graphs, from Observation 1, we aim to build an
+ML model to untangle the commits by learning to cluster the code
+changes w.r.t. different concerns. The model learns from the
+history of the changed statements in the same commits for the same
+concerns, and applies to cluster the changes in the current commit.
+
+{\bf Key Idea 2 [Context-aware, Graph-based Representation Learning
+    for Code Changes].} We will {\em learn the vector representations
+  (i.e., embeddings) for the code changes} while taking into account
+the {\em dependencies}, the {\em contexts}, and the {\em code clone
+  relationships} among the changed statements. We train an GCN model
+to learn the embeddings from the history of changed code in the same
+commits for the same concerns. {\tool} then applies agglomerative
+clustering on the embeddings to produce the clusters to untangle the
+commit. We expect that agglomerative clustering is more effective on
+the vector space than on the above concrete artifacts because the
+embedddings capture richer information integrated from the
 dependencies, contexts, and code clones.
 
 
-{\bf Key Idea 2 [Explicit Context Representation as a Weight to
+{\bf Key Idea 3 [Explicit Context Representation as a Weight to
     Compute Vectors for Code Changes]}. As in Observation 2, the
 contexts of the code changes can help distinguish their
 purposes/concerns in the commits. We represent code changes and the
@@ -34,7 +41,7 @@ dependencies in the $\delta$-PDG and to learn the vector
 representation of the context for a change. The context vector is then
 used as a weight in learning the vector for the code change.
 
-{\bf Key Idea 3 [Implicit Dependencies among Cloned Code]}. As in
+{\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}. As in
 Observation 3, the cloned code exhibits implicit dependencies with
 regard to whether they can be changed in the same commits for the same
 concerns/purposes. Thus, during the process of computing the embedding
