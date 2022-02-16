@@ -1,0 +1,56 @@
+\section{Related Work}
+\label{related:sec}
+
+Tangled commits have been reported by several
+researchers~\cite{tao-fse12,kim-emse16,kim-msr13,hill-tse12,nguyen-issre13,flexeme-fse20,smartcommit-fse21}. They
+have caused negative impacts including hampering code
+comprehension~\cite{tao-fse12}, reducing the separation of
+concerns~\cite{flexeme-fse20}, and even reducing the accuracy of bug
+prediction models that rely on bug-fixing code commits for training.
+The automated approaches for untangling the commits can be divided
+into two categories: {\em mining software repositories}, and {\em
+  program analysis}.
+
+\noindent {\bf Mining Software Repositories.} Herzig {\em et
+  al.}~\cite{kim-msr13,kim-emse16} combine confidence voting with
+agglomerative clustering on the change operations. Each confidence
+voter is responsible for an important aspect including call-graphs,
+change couplings, data dependencies, and distance measures. In
+Kirinuki {\em et al.}'s approach~\cite{higo-apsec16, higo-icpc14}, if
+there is a commit $m$ including the same changes as a past commit and
+other changes, the commit $m$ is called inclusive change and
+considered as tangled.  Dias {\em et al.}~\cite{dias-saner15} focus on
+interactive IDE by using confidence voting on fine-grained change
+events. A clustering algorithm is then used to partition the tangled
+changes.
+
+%However, the voters are independent, thus, do not reflect well the
+%interdependency nature of program elements under change. In contrast,
+%Kirinuki {\em et al.}~\cite{higo-apsec16, higo-icpc14} rely on the
+%histories of the co-changes to split the tangled code changes before
+%they are committed. However, they do not consider the relations among
+%the changes such as data or control dependencies. Dias {\em et
+%  al.}~\cite{dias-saner15} also use confidence voters, but on the
+%fine-grained change events in an IDE. The scores are converted into
+%the similarity ones via a Random Forest Regressor, which are used in
+%the agglomerative clustering to partition the tangled changes.
+
+\noindent {\bf Static Analysis.} Roover {\em et al.}'s
+approach~\cite{roover-scam18} builds PDG and computes the changes to
+the ASTs of the files in a commit. It then groups these fine-grained
+changes according to the slices through the PDG they belong to.
+ClusterChanges~\cite{barnett-icse15} relates separate regions of
+change within a changeset of a commit by using static analysis to
+uncover relationships such as definitions and their uses present in
+these regions. {\tool} adapts multi-version PDG from
+Flexeme~\cite{flexeme-fse20}, however, we build the contextualized
+embeddings for the code changes and a model to learn to cluster,
+rather than clustering using graph similarity on multi-version PFG.
+SmartCommit~\cite{smartcommit-fse21} uses a graph partition algorithm
+on code changes related via several types of links, representing
+different purposes.
+
+%check issre2013 for more related work
+
+
+Related work on embeddings for code changes ...
