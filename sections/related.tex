@@ -1,3 +1,51 @@
 \section{Related Work}
 \label{related:sec}
 
+Tangled commits have been reported by several
+researchers~\cite{tao-fse12,kim-emse16,kim-msr13,hill-tse12,nguyen-issre13,flexeme-fse20,smartcommit-fse21}. They
+have caused negative impacts including hampering code
+comprehension~\cite{tao-fse12}, reducing the separation of
+concerns~\cite{flexeme-fse20}, and even reducing the accuracy of bug
+prediction models that rely on bug-fixing code commits for training.
+
+Recognizing the need of the tools that untangle, i.e., decompose a
+commit into untangle changes, several researchers have proposed
+different approaches that can be broadly classified into two
+categories: {\em mining software repositories}, and {\em program
+  analysis}.
+
+First, earlier approaches leverage {\em mining software repositories
+  (MSR)} techniques to untangle commits. Herzig {\em et
+  al.}~\cite{kim-msr13,kim-emse16} utilize a confidence voter
+technique together with agglomerative clustering on the change
+operations to untangle the commits.
+%Each confidence voter is responsible for an important aspect
+%including call-graphs, change couplings, data dependencies, and
+%distance measures.
+However, the voters are independent, thus, do not reflect well the
+interdependency nature of program elements under change. In contrast,
+Kirinuki {\em et al.}~\cite{higo-apsec16, higo-icpc14} rely on the
+histories of the co-changes to split the tangled code changes before
+they are committed. However, they do not consider the relations among
+the changes such as data or control dependencies. Dias {\em et
+  al.}~\cite{dias-saner15} also use confidence voters, but on the
+fine-grained change events in an IDE. The scores are converted into
+the similarity ones via a Random Forest Regressor, which are used in
+the agglomerative clustering to partition the tangled changes.  The
+second category of untangling approaches leverage the {\em static
+  analysis} techniques. Roover {\em et al.}~\cite{roover-scam18} use
+program slicing to segment a commit across a Program Dependency Graph
+(PDG).  However, they are limited in handling interprocedural and
+cross-file dependencies. Barnett {\em et al.}~\cite{barnett-icse15}
+utilize def-use chains, and cluster them. If the def-use chain all
+fall into a method, it is considered as trivial, otherwise,
+non-trivial. Because igoring the trivial clusters, it can miss tangled
+concerns. To improve over that, Flexeme~\cite{flexeme-fse20} uses
+multi-version PDG augmented with name/lexeme flows in the edges, and
+applies agglomerative clustering using graph similarity on that graph
+to untangle its commits. SmartCommit~\cite{smartcommit-fse21} uses a
+graph-partitioning algorithm on a graph representation to capture
+different categories of relations among code changes (hard links, soft
+links, refactoring links, and cosmetic links).
+
+%check issre2013 for more related work
