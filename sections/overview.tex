@@ -4,49 +4,84 @@
 \subsection{Important Concepts}
 \label{concepts:sec}
 
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=5.3in]{figures/multi-version-graph-2.png}
+	\vspace{-6pt}
+	\caption{Multi-Version Program Dependence Graph ($\delta$-PDG)}
+	\label{fig:multi-version-pdg}
+\end{figure*}
+
 Let us first define some important concepts used in {\tool}.
 
 %First, we formally define the PDG, multi-version PDG, changed/unchanged statements, and context to conduct our approach's overview. Within these definitions, We re-use the definition of program dependency graph and multi-version program dependency graph from Partachi et al.'s research \cite{flexeme-fse20}.
 
 \begin{Definition}[Program Dependence Graph]
 The \textbf{program dependency graph (PDG)} is a directed graph with
-a set $N$ of nodes and a set $E$ of edges that represents the
-relationship among the nodes. The relationship types include data
-dependency and control dependency.
+a set $N$ of nodes and a set $E$ of edges such that each node $n \in N$
+represents a program statement or a conditional expression; each edge
+$e \in E$ represents the data or control flow among the statements.
+\end{Definition}
+%s.t. each node 𝑛 ∈ 𝑁 is annotated with either a program statement or a
+%conditional expression; each edge 𝑒 ∈ 𝐸 has an optional annotation
+%representing the name or the data that flows along it, and a kind that
+%describes the relationship type: data or control.
+
+Figure~\ref{fig:multi-version-pdg} shows the code change in a commit
+in which the statement \code{int next = i + 1;} is replaced by
+\code{var next = i + 1;}. Figure~\ref{fig:multi-version-pdg} (a) and
+(b) display the PDG of the method \code{FormatYear} before and after
+the change. All the nodes of the PDG before the change are marked with
+$i$, and those of the PDG after the change are marked with $j$.
+
+%As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph.
+
+\begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}).
+A $\delta$-PDG$^{i,j}$ is a directed graph generated from the disjoint
+union of all nodes and edges in the version $i$ and the version $j$.
+%
+%  The \textbf{multi-version program dependency graph (Multi-version PDG$^{i,j}$)} is a directed graph that generated from the disjoint union of all nodes and edges between the version $i$ and version $j$. $\delta-PDG^{i,i}$ is the PDG at the version $i$.
 \end{Definition}
 
-s.t. each node 𝑛 ∈ 𝑁 is annotated with either a program statement or a
-conditional expression; each edge 𝑒 ∈ 𝐸 has an optional annotation
-representing the name or the data that flows along it, and a kind that
-describes the relationship type: data or control.
+Figure~\ref{fig:multi-version-pdg}(c) displays the multi-version
+PDG$^{i,j}$ ($\delta$-PDG$^{i,j}$) that are built from the two
+versions $i$ and $j$ of the method \code{FormatYear} before and after
+the change. In $\delta$-PDG$^{i,j}$, the nodes labeled with either $i$
+or $j$ appear only in the PDG for the version $i$ or the version $j$.
+The nodes labeled with $i$,$j$ appear in the PDGs at both the
+versions.
 
-As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph.
+%figure \ref{fig:multi-version-pdg}, the third graph that contains the nodes labeled with $i$, $j$, and $i, j$ is the multi-version PDG$^{i,j}$ combined from the two PDGs for version $i$ and $j$ for the method $FormatYear$. In this graph, the nodes labeled with $i$ or $j$ are the nodes that appeared only in the PDG for version $i$ or $j$. And the nodes labeled with $i, j$ are the nodes that appeared in the PDG for both version $i$ and $j$. With the multi-version PDG$^{i,j}$, we make the definition for the changed/unchanged statements.
 
-\begin{Definition}[Multi-version Program Dependence Graph]
-	The \textbf{multi-version program dependency graph (Multi-version PDG$^{i,j}$)} is a directed graph that generated from the disjoint union of all nodes and edges between the version $i$ and version $j$.
+\begin{Definition}[Changed/Un-changed Nodes]
+In the $\delta$-PDG$^{i,j}$ for the versions before and after the
+change, the changed nodes are labeled with either $i$ or $j$, while
+the un-changed nodes are labeled with $i,j$.
+%The \textbf{changed statements} between version $i$ and $j$ are the statements that are added or deleted to changed the code from version $i$ to version $j$. The modification on an existing statement in version $i$ is regarded as a new statement addition with an old statement deletion. The \textbf{un-changed statements} between version $i$ and $j$ are the statements that keep the same in both version $i$ and version $j$.
 \end{Definition}
 
-For example, in figure \ref{fig:multi-version-pdg}, the third graph that contains the nodes labeled with $i$, $j$, and $i, j$ is the multi-version PDG$^{i,j}$ combined from the two PDGs for version $i$ and $j$ for the method $FormatYear$. In this graph, the nodes labeled with $i$ or $j$ are the nodes that appeared only in the PDG for version $i$ or $j$. And the nodes labeled with $i, j$ are the nodes that appeared in the PDG for both version $i$ and $j$. With the multi-version PDG$^{i,j}$, we make the definition for the changed/unchanged statements.
+In Figure~\ref{fig:multi-version-pdg}(c), the node labeled with $i$
+represents the deleted statement, the node labeled with $j$ represents
+the added one, while the nodes labeled with $i,j$ for the un-changed
+statements.
 
-\begin{Definition}[Changed/Un-changed Statements]
-	The \textbf{changed statements} between version $i$ and $j$ are the statements that are added or deleted to changed the code from version $i$ to version $j$. The modification on an existing statement in version $i$ is regarded as a new statement addition with an old statement deletion. The \textbf{un-changed statements} between version $i$ and $j$ are the statements that keep the same in both version $i$ and version $j$.
-\end{Definition}
-
-The figure \ref{fig:multi-version-pdg} can be used an example to show both the changed and un-changed statements between version $i$ and $j$ for the method $FormatYear$. As seen in the multi-version PDG$^[i,j]$ for the method $FormatYear$, the statements $int\, next = i + 1;$ and $var\, next = i + 1;$ that are labeled with $i$ or $j$ are the changed statements between version $i$ and $j$ while the rest statements that are labeled with $i, j$ in the graph are the un-changed statements between version $i$ and $j$.
+%The figure \ref{fig:multi-version-pdg} can be used an example to show both the changed and un-changed statements between version $i$ and $j$ for the method $FormatYear$. As seen in the multi-version PDG$^[i,j]$ for the method $FormatYear$, the statements $int\, next = i + 1;$ and $var\, next = i + 1;$ that are labeled with $i$ or $j$ are the changed statements between version $i$ and $j$ while the rest statements that are labeled with $i, j$ in the graph are the un-changed statements between version $i$ and $j$.
 
 \begin{Definition}[Context]
-	The context of a changed node (changed statement) $n$ is a sub-graph of the multi-version PDG that includes all un-changed nodes (un-changed statements) that are the $k$-hops neighbor of the changed node $n$ with the edges among them.
+The context $C$ of a changed node $n$ is a sub-graph of the
+multi-version PDG that includes all un-changed nodes that are the
+$k$-hops neighbor of the changed node $n$ together with all the
+inducing edges among them.
 \end{Definition}
 
-To better understand the context of a changed statement, we still use the figure \ref{fig:multi-version-pdg} as an example to explain. For the statement $int\, next = 1 + 1;$ in the multi-version PDG$^{i,j}$, we select the sub-graph that contains all $k$-hops neighbors as the context. When $k=1$, the sub-graph is built with three statements that labeled with $i, j$ in the multi-version PDG$^{i,j}$.
+In Figure~\ref{fig:multi-version-pdg}(c), when $k$=1, the context for
+the change consists of all three nodes labeled with $i,j$ because they have
+1-hop distance from the changed nodes \code{int next = i + 1;} and
+\code{var next = i + 1;}.
 
-\begin{figure*}[t]
-	\centering
-	\includegraphics[width=5.3in]{figures/multi-version-graph.png}
-	\vspace{-6pt}
-	\caption{Multi-Version PDG Example}
-	\label{fig:multi-version-pdg}
-\end{figure*}
+%To better understand the context of a changed statement, we still use the figure \ref{fig:multi-version-pdg} as an example to explain. For the statement $int\, next = 1 + 1;$ in the multi-version PDG$^{i,j}$, we select the sub-graph that contains all $k$-hops neighbors as the context. When $k=1$, the sub-graph is built with three statements that labeled with $i, j$ in the multi-version PDG$^{i,j}$.
+
+
 
 \subsection{Architecture Overview}
 
