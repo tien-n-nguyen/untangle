@@ -98,13 +98,75 @@ the change consists of all three nodes labeled with $i,j$ because they have
 
 Figure~\ref{fig:overview} illustrates the overview of our approach.
 
-\subsubsection{Step 1. Building Multi-version Graph and Context}
+\subsubsection{{\bf Step 1. Building Multi-version PDG ($\delta$-PDG$^{i,j}$) and Contexts}}
+The first step is to build the $\delta$-PDG$^{i,j}$ graph and extract
+the context sub-graphs for each changed statement from the two
+versions $i$ and $j$ before and after the changes. We adopt the
+multi-version graph building algorithm from
+Flexeme~\cite{flexeme-fse20}. Specifically, we first generate the PDGs
+for both versions $i$ and $j$. We use the Git diff tool on the source
+code to determine the changed and unchanged nodes for the
+statements. The added nodes are kept in $\delta$-PDG$^{i,j}$ with the
+labels $j$ as they appear in the newer version $j$. We also retain the
+deleted nodes and use the label $i$ for them. The unchanged nodes
+between versions are matched by using string similarity among the
+respective statements to filter the candidates and line-span proximity
+to rank them. When considering the edge changes, we back-propagate the
+delete nodes to edges flowing into them. We also add all unmatched
+edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the
+edges relevant to the added nodes. More details on building
+$\delta$-PDG$^{i,j}$ can be found in~\cite{flexeme-fse20}.
 
-First, \tool accepts two versions $i$ and $j$ of source code. Following the existing study from Partachi et al. \cite{flexeme-fse20}, \tool firstly generates the PDGs for both the version $i$ and version $j$ for the source code. Next, to construct the multi-version PDG$^{i,j}$, \tool starts from the initial version $i$. \tool uses the PDGs and the Git diff tool on the source files to determine changed and unchanged nodes. Added nodes are introduced to the multi-version PDG$^{i,j}$ as they appear in the newer version $j$. \tool retains nodes deleted across the versions and uses a different label (label $i$) on the nodes to represent the deletion. The unchanged nodes between versions are matched by using string similarity to filter candidates and line-span proximity to rank them. When considering the edge changes, \tool back-propagates the delete nodes to edges flowing into them. Also, \tool considers and adds all unmatched edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the edges relevant to the added nodes. After having the constructed multi-version PDG$^{i,j}$, for each changed node in the graph, \tool collects all unchanged nodes within the $k$-hops and the edges between them to build a sub-graph as the context for the changed node. The multi-version PDG$^{i,j}$ and the context for each changed node in it will be used as the input for the next step.
+After constructing $\delta$-PDG$^{i,j}$, for each changed node in the
+graph, \tool collects all unchanged nodes within the $k$-hops and the
+edges between them to build a sub-graph as the context for the changed
+node. $\delta$-PDG$^{i,j}$ and the context for each changed node will
+be used as the input for the next step. This step of building
+$\delta$-PDG$^{i,j}$ and contexts is used in both training and
+predicting processes.
 
-\subsubsection{Step 2. Context-aware Graph-based Code Change Clustering Learning Model}
+%First, \tool accepts two versions $i$ and $j$ of source code. Following the existing study from Partachi et al. \cite{flexeme-fse20}, \tool firstly generates the PDGs for both the version $i$ and version $j$ for the source code. Next, to construct the multi-version PDG$^{i,j}$, \tool starts from the initial version $i$. \tool uses the PDGs and the Git diff tool on the source files to determine changed and unchanged nodes. Added nodes are introduced to the multi-version PDG$^{i,j}$ as they appear in the newer version $j$. \tool retains nodes deleted across the versions and uses a different label (label $i$) on the nodes to represent the deletion. The unchanged nodes between versions are matched by using string similarity to filter candidates and line-span proximity to rank them. When considering the edge changes, \tool back-propagates the delete nodes to edges flowing into them. Also, \tool considers and adds all unmatched edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the edges relevant to the added nodes. After having the constructed multi-version PDG$^{i,j}$, for each changed node in the graph, \tool collects all unchanged nodes within the $k$-hops and the edges between them to build a sub-graph as the context for the changed node. The multi-version PDG$^{i,j}$ and the context for each changed node in it will be used as the input for the next step.
 
-By having the multi-version PDG$^{i,j}$ as the input, \tool firstly uses an advanced GCN model \cite{} that can deal with the nodes with different labels to learn the representation vectors $v_p$ for each node $n_p$ in the graph. For each changed node $n_c$ in $n_p$, \tool collects all unchanged node representation vectors in the context as a matrix. It then uses a fully connected layer to convert it to a vector $v_pc$ to represent all context information for the changed node $n_p$. Next, \tool generates the final representation vector $v'_p$ for changed node $n_p$ by using the cross product between $v_p$ and $v_pc$. With the representation vector $v'_p$ for all changed nodes $n_p$, \tool uses the agglomerative clustering algorithm to cluster the changed nodes into different concerns. Because the number of concerns in the real world commits is not known for \tool, \tool uses a trainable threshold for the linkage when merging the clusters. The output of this step is the clustering results $C$ from the clusters for all changed nodes in the multi-version PDG$^{i,j}$.  
+\subsubsection{{\bf Step 2. Context-aware Graph-based Code Change Clustering Learning Model}} The task of this model is to {\em learn to cluster the code changes}, represented by
+the changed nodes and corresponding contexts in {\mvpdg}. To achieve
+that, {\tool} first learns to construct the {\bf contextualized
+  embeddings} (vectors) to represent the code changes via our novel
+{\bf context-aware, graph-based code change representation learning
+  model}. To construct the contextualized embeddings, we leverage an
+advanced Graph-based Convolution Network (GCN)~\cite{yi} that can deal
+with the nodes with different labels to learn the representation
+vector $v$ for each node $n$ in the graph. For each changed node
+$n_c$, {\tool} collects the vectors for the un-changed nodes in the
+context for $n_c$ into a matrix. It then uses a fully connected layer
+to convert the matrix into a vector $v_{ctx}$ to encode the contextual
+information for the changed node $n_c$. The context vector $v_{ctx}$
+is then used as {\em a weight to represent the impact of context on
+  the learning to produce the final vector representation (embedding)
+  $v'_c$ for the changed node $n_c$}. To compute the final embeding
+for the changed node $n_c$, we perform cross-product between the
+vector $v_c$ of $n_c$ and the context vector $v_{ctx}$.
+
+
+%By having the multi-version PDG$^{i,j}$ as the input, \tool firstly uses an advanced GCN model \cite{} that can deal with the nodes with different labels to learn the representation vectors $v_p$ for each node $n_p$ in the graph. For each changed node $n_c$ in $n_p$, \tool collects all unchanged node representation vectors in the context as a matrix. It then uses a fully connected layer to convert it to a vector $v_pc$ to represent all context information for the changed node $n_p$. Next, \tool generates the final representation vector $v'_p$ for changed node $n_p$ by using the cross product between $v_p$ and $v_pc$.
+
+%With the representation vector $v'_p$ for all changed nodes $n_p$, \tool uses the agglomerative clustering algorithm to cluster the changed nodes into different concerns. Because the number of concerns in the real world commits is not known for \tool, \tool uses a trainable threshold for the linkage when merging the clusters. The output of this step is the clustering results $C$ from the clusters for all changed nodes in the multi-version PDG$^{i,j}$.
+
+With the contextualized embeddings built for all the changed
+nodes in {\mvpdg}, our code change clustering learning model uses the
+agglomerative clustering algorithm to cluster the changed nodes
+represented by their embeddings into the clusters for different
+concerns. During predicting, the number of clusters is unknown. Thus,
+we use a trainable threshold for the linkage when merging the smaller
+clusters into a larger one. The output of this step is the clusters
+for all the changed nodes in {\mvpdg}. During training, we know the
+clusters of the changed nodes from the training data. The trainable
+parameters of the model and the trainable threshold are computed over
+many iterations in training as the computed cluster labels for the
+changed nodes are compared against the true labels.
+
+%1. explain how to build the training data
+%2. explain the sharing between training and predicting
+%3. one belonging to multiple clusters
 
 \subsubsection{Step 3. Clustering Updating with the Code Clone}
 
