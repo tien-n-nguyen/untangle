@@ -12,6 +12,14 @@
 	\label{fig:multi-version-pdg}
 \end{figure*}
 
+\begin{figure*}[t]
+	\centering
+ 	\includegraphics[width=6.5in]{figures/overview.png}
+	\vspace{-6pt}
+	\caption{Architecture Overview}
+	\label{fig:overview}
+\end{figure*}
+
 Let us first define some important concepts used in {\tool}.
 
 %First, we formally define the PDG, multi-version PDG, changed/unchanged statements, and context to conduct our approach's overview. Within these definitions, We re-use the definition of program dependency graph and multi-version program dependency graph from Partachi et al.'s research \cite{flexeme-fse20}.
@@ -54,7 +62,7 @@ versions.
 %figure \ref{fig:multi-version-pdg}, the third graph that contains the nodes labeled with $i$, $j$, and $i, j$ is the multi-version PDG$^{i,j}$ combined from the two PDGs for version $i$ and $j$ for the method $FormatYear$. In this graph, the nodes labeled with $i$ or $j$ are the nodes that appeared only in the PDG for version $i$ or $j$. And the nodes labeled with $i, j$ are the nodes that appeared in the PDG for both version $i$ and $j$. With the multi-version PDG$^{i,j}$, we make the definition for the changed/unchanged statements.
 
 \begin{Definition}[Changed/Un-changed Nodes]
-In the $\delta$-PDG$^{i,j}$ for the versions before and after the
+In the multi-version PDG $\delta$-PDG$^{i,j}$ for the versions before and after the
 change, the changed nodes are labeled with either $i$ or $j$, while
 the un-changed nodes are labeled with $i,j$.
 %The \textbf{changed statements} between version $i$ and $j$ are the statements that are added or deleted to changed the code from version $i$ to version $j$. The modification on an existing statement in version $i$ is regarded as a new statement addition with an old statement deletion. The \textbf{un-changed statements} between version $i$ and $j$ are the statements that keep the same in both version $i$ and version $j$.
@@ -83,9 +91,12 @@ the change consists of all three nodes labeled with $i,j$ because they have
 
 
 
+
 \subsection{Architecture Overview}
 
-After having the definition for the important concepts, we use them to describe the overview of our approach. Within our approach, there are three main steps. We will introduce them one by one.
+%After having the definition for the important concepts, we use them to describe the overview of our approach. Within our approach, there are three main steps. We will introduce them one by one.
+
+Figure~\ref{fig:overview} illustrates the overview of our approach.
 
 \subsubsection{Step 1. Building Multi-version Graph and Context}
 
@@ -99,10 +110,4 @@ By having the multi-version PDG$^{i,j}$ as the input, \tool firstly uses an adva
 
 After having the clustering results $C$ from step 2, in this step, we use the existing state-of-the-art code clone tool \cite{} to detect if there is a code clone between the changed statements $Stmt_m$ and $Stmt_n$ in the multi-version PDG$^{i,j}$. If so, we check the clustering results for $Stmt_m$ and $Stmt_n$ in $C$. If they are clustered to different concerns, \tool updates the clustering results for $Stmt_m$ and $Stmt_n$ to keep them in the same concern based on the code clone results. After going through all changed statements pairs $Stmt_m$ and $Stmt_n$ with this process, \tool has the final clustering results $C'$ for each changed statement between the version $i$ and $j$.
 
-\begin{figure*}[t]
-	\centering
- 	\includegraphics[width=6.5in]{figures/overview.png}
-	\vspace{-6pt}
-	\caption{Architecture Overview}
-	\label{fig:overview}
-\end{figure*}
+
