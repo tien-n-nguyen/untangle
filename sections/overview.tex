@@ -4,11 +4,21 @@
 \subsection{Important Concepts}
 \label{concepts:sec}
 
-First, we formally define the PDG, multi-version PDG, changed/unchanged statements, and context to conduct our approach's overview. Within these definitions, We re-use the definition of program dependency graph and multi-version program dependency graph from Partachi et al.'s research \cite{flexeme-fse20}.
+Let us first define some important concepts used in {\tool}.
+
+%First, we formally define the PDG, multi-version PDG, changed/unchanged statements, and context to conduct our approach's overview. Within these definitions, We re-use the definition of program dependency graph and multi-version program dependency graph from Partachi et al.'s research \cite{flexeme-fse20}.
 
 \begin{Definition}[Program Dependence Graph]
-	The \textbf{program dependency graph (PDG)} is a directed graph that contains a node-set $N$ with a set of edges $E$ that represents the relationship among the nodes. The relationship types include data dependency and control dependency.
+The \textbf{program dependency graph (PDG)} is a directed graph with
+a set $N$ of nodes and a set $E$ of edges that represents the
+relationship among the nodes. The relationship types include data
+dependency and control dependency.
 \end{Definition}
+
+s.t. each node 𝑛 ∈ 𝑁 is annotated with either a program statement or a
+conditional expression; each edge 𝑒 ∈ 𝐸 has an optional annotation
+representing the name or the data that flows along it, and a kind that
+describes the relationship type: data or control.
 
 As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph.
 
