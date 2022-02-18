@@ -109,10 +109,10 @@ code to determine the changed and unchanged nodes for the
 statements. The added nodes are kept in $\delta$-PDG$^{i,j}$ with the
 labels $j$ as they appear in the newer version $j$. We also retain the
 deleted nodes and use the label $i$ for them. The unchanged nodes
-between versions are matched by using string similarity among the
+between the versions are matched by using string similarity among the
 respective statements to filter the candidates and line-span proximity
 to rank them. When considering the edge changes, we back-propagate the
-delete nodes to edges flowing into them. We also add all unmatched
+delete nodes to the edges flowing into them. We also add all unmatched
 edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the
 edges relevant to the added nodes. More details on building
 $\delta$-PDG$^{i,j}$ can be found in~\cite{flexeme-fse20}.
@@ -132,27 +132,28 @@ the changed nodes and corresponding contexts in {\mvpdg}. To achieve
 that, {\tool} first learns to construct the {\bf contextualized
   embeddings} (vectors) to represent the code changes via our novel
 {\bf context-aware, graph-based code change representation learning
-  model}. To construct the contextualized embeddings, we leverage an
-advanced Graph-based Convolution Network (GCN)~\cite{yi} that can deal
-with the nodes with different labels to learn the representation
-vector $v$ for each node $n$ in the graph. For each changed node
-$n_c$, {\tool} collects the vectors for the un-changed nodes in the
-context for $n_c$ into a matrix. It then uses a fully connected layer
-to convert the matrix into a vector $v_{ctx}$ to encode the contextual
-information for the changed node $n_c$. The context vector $v_{ctx}$
-is then used as {\em a weight to represent the impact of context on
-  the learning to produce the final vector representation (embedding)
-  $v'_c$ for the changed node $n_c$}. To compute the final embeding
-for the changed node $n_c$, we perform cross-product between the
-vector $v_c$ of $n_c$ and the context vector $v_{ctx}$.
+  model}. In that model, to build the contextualized embeddings, we
+leverage an advanced Graph-based Convolution Network (GCN)~\cite{yi}
+that can deal with the nodes with different labels to learn the
+representation vector $v$ for each node $n$ in the graph. For each
+changed node $n_c$, {\tool} collects the vectors for the un-changed
+nodes in the context for $n_c$ into a matrix. It uses a fully
+connected layer to convert the matrix into a vector $v_{ctx}$ to
+encode the contextual information for the changed node $n_c$. The
+context vector $v_{ctx}$ is then used as {\em a weight to represent
+  the impact of context on the learning to produce the final vector
+  representation (embedding) $v'_c$ for the changed node $n_c$}. To
+compute the final embeding for the changed node $n_c$, we perform
+cross-product between the vector $v_c$ of $n_c$ and the context vector
+$v_{ctx}$.
 
 
 %By having the multi-version PDG$^{i,j}$ as the input, \tool firstly uses an advanced GCN model \cite{} that can deal with the nodes with different labels to learn the representation vectors $v_p$ for each node $n_p$ in the graph. For each changed node $n_c$ in $n_p$, \tool collects all unchanged node representation vectors in the context as a matrix. It then uses a fully connected layer to convert it to a vector $v_pc$ to represent all context information for the changed node $n_p$. Next, \tool generates the final representation vector $v'_p$ for changed node $n_p$ by using the cross product between $v_p$ and $v_pc$.
 
 %With the representation vector $v'_p$ for all changed nodes $n_p$, \tool uses the agglomerative clustering algorithm to cluster the changed nodes into different concerns. Because the number of concerns in the real world commits is not known for \tool, \tool uses a trainable threshold for the linkage when merging the clusters. The output of this step is the clustering results $C$ from the clusters for all changed nodes in the multi-version PDG$^{i,j}$.
 
-With the contextualized embeddings built for all the changed
-nodes in {\mvpdg}, our code change clustering learning model uses the
+With the contextualized embeddings built for all the changed nodes in
+{\mvpdg}, our {\bf code change clustering learning model} uses the
 agglomerative clustering algorithm to cluster the changed nodes
 represented by their embeddings into the clusters for different
 concerns. During predicting, the number of clusters is unknown. Thus,
@@ -161,8 +162,22 @@ clusters into a larger one. The output of this step is the clusters
 for all the changed nodes in {\mvpdg}. During training, we know the
 clusters of the changed nodes from the training data. The trainable
 parameters of the model and the trainable threshold are computed over
-many iterations in training as the computed cluster labels for the
-changed nodes are compared against the true labels.
+many iterations in training as the computed clusters for the
+changed nodes are compared against the correct clusters.
+
+\noindent {\bf Training corpus.} To train our clustering
+learning model, we need to have a corpus of the past commits that were
+clustered/un-tangled into multiple clusters for different concerns. We
+reuse the data collection methodology by Herzig {\em et
+  al.}~\cite{kim-emse16}, which was lated used by Partachi {\em et
+  al.}~\cite{flexeme-fse20} in Flexeme, to build the artificial corpus
+of tangled commits that mimic the way of a developer committing
+multiple consecutive work units as a single patch. Because the
+methodology is to compose the tangled commits from the atomic ones
+that were mined from the repositories, we automatically have the
+correct clusters of atomic changes in the commits for training.
+
+
 
 %1. explain how to build the training data
 %2. explain the sharing between training and predicting
@@ -170,6 +185,26 @@ changed nodes are compared against the true labels.
 
 \subsubsection{Step 3. Clustering Updating with the Code Clone}
 
-After having the clustering results $C$ from step 2, in this step, we use the existing state-of-the-art code clone tool \cite{} to detect if there is a code clone between the changed statements $Stmt_m$ and $Stmt_n$ in the multi-version PDG$^{i,j}$. If so, we check the clustering results for $Stmt_m$ and $Stmt_n$ in $C$. If they are clustered to different concerns, \tool updates the clustering results for $Stmt_m$ and $Stmt_n$ to keep them in the same concern based on the code clone results. After going through all changed statements pairs $Stmt_m$ and $Stmt_n$ with this process, \tool has the final clustering results $C'$ for each changed statement between the version $i$ and $j$.
+After having the resulting clusters from step 2, we use a code clone
+detection tool to detect if there is a cloned statement $s'_m$ of a
+changed statement $s_m$ in the multi-version {\mvpdg}. If so, we check
+the clusters containing $s_m$ and $s'_m$. If they are different,
+we merge those clusters for one concern. After iterating over
+all changed statement $s_m$, we have the final resulting clusters.
 
+%$Stmt_m$ and $Stmt_n$ in the multi-version PDG$^{i,j}$. If so, we
+%check the clustering results for $Stmt_m$ and $Stmt_n$ in $C$. If they
+%are clustered to different concerns, \tool updates the clustering
+%results for $Stmt_m$ and $Stmt_n$ to keep them in the same concern
+%based on the code clone results. After going through all changed
+%statements pairs $Stmt_m$ and $Stmt_n$ with this process, \tool has
+%the final clustering results $C'$ for each changed statement between
+%the version $i$ and $j$.
+
+All the steps in Figure~\ref{fig:overview} are shared between the
+training and predicting processes. The key difference is that in
+training, the labels w.r.t. the clusters/concerns (e.g., concern 1,
+concern 2, etc.) for the changed statements are known, while in
+predicting, {\tool} will predict the labels and finally update the
+clusters via code clone checking process.
 
