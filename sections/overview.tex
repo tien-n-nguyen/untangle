@@ -6,7 +6,7 @@
 
 \begin{figure*}[t]
 	\centering
-	\includegraphics[width=5.3in]{figures/multi-version-graph-2.png}
+	\includegraphics[width=5.3in]{figures/multi-version-graph-3.png}
 	\vspace{-6pt}
 	\caption{Multi-Version Program Dependence Graph ($\delta$-PDG)}
 	\label{fig:multi-version-pdg}
@@ -154,7 +154,7 @@ $v_{ctx}$.
 
 With the contextualized embeddings built for all the changed nodes in
 {\mvpdg}, our {\bf code change clustering learning model} uses the
-agglomerative clustering algorithm to cluster the changed nodes
+hierarchical agglomerative clustering algorithm to cluster the changed nodes
 represented by their embeddings into the clusters for different
 concerns. During predicting, the number of clusters is unknown. Thus,
 we use a trainable threshold for the linkage when merging the smaller

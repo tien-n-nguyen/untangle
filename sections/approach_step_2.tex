@@ -1,0 +1,47 @@
+\section{Context-aware Graph-based Code Change Clustering Learning Model}
+
+In the approach overview section, we already detailed introduced how we generate the {\mvpdg}. The goal of this step is to take the generated {\mvpdg} to learn the code change representation vectors and use these vectors to do the clustering for each changed statement.
+
+\subsection{Context-aware Code Change Representation Learning}
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=6.5in]{figures/STEP_2.png}
+	\vspace{-6pt}
+	\caption{Context-aware Code Change Representation Learning}
+	\label{fig:step-2}
+\end{figure*}
+
+Before doing the clustering, in this step, \tool needs to get the representation vector $v'_c$ for each changed node $n_c$ first. To achieve it, \tool firstly put the {\mvpdg} into a graph-based deep learning model to learn the representation vector for each node in the graph. Because the {\mvpdg} contains the labels for each node, to better learn the useful information from the node features with the labels, \tool uses the Lable-GCN \cite{} model to do so. 
+
+In the Label-GCN, similarly to the normal GCN \cite{}, it takes the graph with the node features as the input and generates the representation vector for each node as the output. Compared with normal GCN, it also accepts the node labels in the first layer. In this case, when dealing with a central node, the model is allowed to see the labels of the neighbors, and the labels can then become part of the feature vector. With this, Label-GCN calculates the representation vectors in the first layer as follow:
+
+\begin{equation}\label{eq1}
+	H^1 = \sigma [(\hat{A}X-diag(\hat{A})\sum_{j=1}^{K}e_je^T_j)W^0]
+\end{equation}
+
+\begin{equation}\label{eq2}
+	\hat{A} = \tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}
+\end{equation}
+
+\begin{equation}\label{eq3}
+	\tilde{A} = A + I
+\end{equation}
+
+Where $H$ is the output for the first hidden layer; $A$ is the adjacency matrix; $\tilde{D}$ is the diagonal node degree matrix; $W$ is the weight matrix; $X$ is the input and $X \in R^{nx(d+K)}$, $n$ is the number of nodes, $d$ is the dimension of node feature, and $K$ is the total types of node labels in the input; $e_je^T_j$ a single-entry matrix; and the $-diag(\hat{A})\sum_{j=1}^{K}e_je^T_j$ is used to eliminates the self-loops for the components of the feature vector corresponding to the labels.
+
+After the first layer, the result layers in Label-GCN follow the same process as normal GCN to calculate the hidden status. The formula of the following layers is as follow:
+
+\begin{equation}\label{eq4}
+	H^{l+1} = \sigma (\hat{A}H^lW^l), l \geq 1 
+\end{equation}
+
+In \tool, we firstly use GloVe \cite{} to learn the word embedding $e_t$ for each token $t$ in each statement $n$ in the source code. Because in {\mvpdg}, each node is a statement $n$, we calculate the average embedding $Avg_n$ for each node based on the word embedding $e_t$ for each token inside of the statement. By combining $Avg_n$ with the known label $i$, $j$, and $i, j$ as one-hot labels, node embedding length become $len(Avg_n) + 3$ and \tool regards the combined vector $Avg'_n$ as the node feature vector for node $n$. Then, we put the {\mvpdg} with the node feature vectors $Avg'_n$ into the Label-GCN model to get the representation vector $v$ for each node $n$ in the graph.
+
+After we have $v$ for each node $n$, for each changed node $n_c$ in $n$, we pick the context for node $n$ which are the un-changed nodes $n_{uc}$ in $k$-hops neighbors. By merging all representation vectors $v_{uc}$ in the context based on the original node orders as a matrix, \tool uses a fully-connected layer to learn the context representation vector $v_{ctx}$ for node $n_c$. In the end, to get the final representation vector $v'_c$ for the changed node $n_c$, we uses the cross-product to merge $v_c$ and $v_{ctx}$.
+
+Figure \ref{fig:step-2} can be an example to show how this step works in the \tool. First of all, \tool has the {\mvpdg} which is also shown in figure \ref{fig:multi-version-pdg} as the input. The $S3-S7$ represents the statement in $line-3$ to $line-7$. Bypassing through the Label-GCN, \tool gets the same structured graph with representation vectors $V3-V7$ for each node $S3-S7$. Then, we pick the added node $S6$ as an example. The context includes the un-changed nodes $S3, S4, S7$, and the representation vectors for them are $V3, V4, V7$. By putting them as a matrix and passing through a fully connected layer, we have the context representation vector $v_{ctx}$ for $S6$. Then, we use the cross-product to calculate $v_{ctv} x V6$. The calculation result is the final code change representation vector $v'_{S6}$ for node $S6$.  
+
+\subsection{Code Change Clustering Learning}
+
+After having the code change representation vector $v'_c$ for the changed node $n_c$ from the last step, \tool uses hierarchical agglomerative clustering algorithm on top of the $v'_c$ to do the clustering in this step. The hierarchical agglomerative clustering algorithm first regards each changed statement $n_c$ as a separated cluster $CL_c$. Secondly, it calculates the cluster similarity between every two clusters. Thirdly, \tool merges the two clusters that the cluster similarity between them is the largest one, and the cluster similarity is higher than the merging threshold $thres$. Finally, \tool repeats the small steps two and three until there are no clusters that can be merged, and then the left clusters are the final clustering results in this step. During this whole process, we set the merging threshold $thres$ as a trainable parameter, and during the training process, it can automatically get the most suitable value based on the dataset. And for the cluster similarity calculation between any two clusters $CL_{c1}$ and $CL_{c2}$, \tool firstly uses the cosine similarity to compute the similarity score $S_{c1,c2}$ between each two elements that are from $CL_{c1}$ and $CL_{c2}$. And then, the \tool calculates the cluster similarity by using the average linkage that is the average of all similarity scores $S_{c1,c2}$.
