@@ -201,10 +201,12 @@ all changed statement $s_m$, we have the final resulting clusters.
 %the final clustering results $C'$ for each changed statement between
 %the version $i$ and $j$.
 
+\subsubsection*{Training and Predicting}
 All the steps in Figure~\ref{fig:overview} are shared between the
 training and predicting processes. The key difference is that in
-training, the labels with respect to the clusters/concerns (e.g.,
-concern 1, concern 2, etc.) for the changed statements are known,
-while in predicting, {\tool} will predict the labels and finally
-update the clusters via code clone checking process.
+training, the ground truth with respect to the clusters (concern
+1, concern 2, etc.) for the changed statements are known, while in
+predicting, {\tool} will predict the clusters (concern 1, concern 2,
+etc.), and finally update them via code clone checking
+process.
 
