@@ -147,7 +147,59 @@ $S_6$.
 %Then, we use the cross-product to calculate $v_{ctv} x V6$. The calculation result is the final code change representation vector $v'_{S6}$ for node $S6$.  
 
 \subsection{Code Change Clustering Learning}
+\label{clustering:sec}
 
-After having the code change representation vector $v'_c$ for the changed node $n_c$ from the last step, \tool uses hierarchical agglomerative clustering algorithm on top of the $v'_c$ to do the clustering in this step. The hierarchical agglomerative clustering algorithm first regards each changed statement $n_c$ as a separated cluster $CL_c$. Secondly, it calculates the cluster similarity between every two clusters. Thirdly, \tool merges the two clusters that the cluster similarity between them is the largest one, and the cluster similarity is higher than the merging threshold $thres$. Finally, \tool repeats the small steps two and three until there are no clusters that can be merged, and then the left clusters $CL_{pre}$ are the final clustering results in this step. During this whole process, we set the merging threshold $thres$ as a trainable parameter, and during the training process, it can automatically get the most suitable value based on the dataset. And for the cluster similarity calculation between any two clusters $CL_{c1}$ and $CL_{c2}$, \tool firstly uses the cosine similarity to compute the similarity score $S_{c1,c2}$ between each two elements that are from $CL_{c1}$ and $CL_{c2}$. And then, the \tool calculates the cluster similarity by using the average linkage that is the average of all similarity scores $S_{c1,c2}$.
+After building the contextualized embeddings $V^{*}_{n_c}$ for all the
+changed nodes in {\mvpdg}, {\tool} performs clustering on those
+vectors to untangle the commit. We have modified the hierarchical
+agglomerative clustering algorithm~\cite{yi} to make it a deep
+learning model to cluster those vectors based on the clusters of the
+changes in the training data. The training process for our CC
+clustering learning model works  as follows.
 
-Within this whole big step, when doing the training, we accept {\mvpdg} as input and ground true clustering results $CL_{label}$ as the training target to train the model. The loss function in training is used to minimize the differences between the predicted clustering results $CL_{pre}$ and $CL_{label}$ to get the most suitable parameters set for the deep learning model. When making the prediction, \tool directly accepts {\mvpdg} as input and generates the clustering results $CL_{pre}$ as the output.
+{\em \underline{Step 1.}} We first consider each changed node $n_c$ as a
+separate cluster $CL_c$.
+
+{\em \underline{Step 2.}} We merge any two clusters whose cluster
+similarity is the largest and higher than a threshold $T$.
+
+{\em \underline{Step 3.}} We continue the merging to form larger
+clusters until there is no cluster that can be merged. After this
+step, we obtain the predicted clusters $CL$ at the current iteration.
+
+{\em \underline{Step 4.}} The predicted clusters $CL$ at this iteration
+are compared against the correct clusters $CL_{oracle}$ in the ground
+truth. We develop a loss function for our training to minimize the
+differences between the predicted clusters $CL$ and the correct
+clusters $CL_{oracle}$. The parameters and the trainable threshold $T$
+will be updated accordingly to the loss function for the next
+iteration. The training will stop when the process converges and we
+obtain the most suitable parameters for our learning model.
+
+\subsubsection*{Cluster Similarity} To compute the similarity between
+two clusters $CL_1$ and $CL_2$, we take all the pairs of the changed
+nodes $(n_1,n_2)$ where $n_1 \in CL_1$ and $n_2 \in CL_2$. We
+then compute the cosine similarity between the corresponding vectors
+$V^{*}_{n_1}$ and $V^{*}_{n_2}$ for each pair. The similarity between
+two clusters is calculated as the average of all the similarity scores
+of all the pairs $(n_1,n_2)$.
+
+\subsubsection*{Trainable Threshold T} In our CC clustering learning model,
+we treat the merging threshold $T$ between smaller clusters as a {\em
+  trainable parameter} of the model. $T$ is updated after each
+iteration in accordance with the criteria defined in the loss function
+as any other parameters in the model.
+
+%After having the code change representation vector $v'_c$ for the changed node $n_c$ from the last step, \tool uses hierarchical agglomerative clustering algorithm on top of the $v'_c$ to do the clustering in this step. The hierarchical agglomerative clustering algorithm first regards each changed statement $n_c$ as a separated cluster $CL_c$. Secondly, it calculates the cluster similarity between every two clusters. Thirdly, \tool merges the two clusters that the cluster similarity between them is the largest one, and the cluster similarity is higher than the merging threshold $thres$. Finally, \tool repeats the small steps two and three until there are noclusters that can be merged, and then the left clusters $CL_{pre}$ are the final clustering results in this step.
+
+%During this whole process, we set the merging threshold $thres$ as a trainable parameter, and during the training process, it can automatically get the most suitable value based on the dataset.
+
+%And for the cluster similarity calculation between any two clusters $CL_{c1}$ and $CL_{c2}$, \tool firstly uses the cosine similarity to compute the similarity score $S_{c1,c2}$ between each two elements that are from $CL_{c1}$ and $CL_{c2}$. And then, the \tool calculates the cluster similarity by using the average linkage that is the average of all similarity scores $S_{c1,c2}$.
+
+\subsubsection*{Loss Function}
+
+Within this whole big step, when doing the training, we accept {\mvpdg} as input and ground true clustering results $CL_{label}$ as the training target to train the model. The loss function in training is used to minimize the differences between the predicted clustering results $CL_{pre}$ and $CL_{label}$ to get the most suitable parameters set for the deep learning model. 
+
+\subsubsection*{Predicting/Cluster Process}
+When making the prediction, \tool directly accepts {\mvpdg} as input
+and generates the clustering results $CL_{pre}$ as the output.
