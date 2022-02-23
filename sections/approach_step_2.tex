@@ -1,18 +1,52 @@
-\section{Context-aware Graph-based Code Change Clustering Learning Model}
+\section{Context-aware, Graph-based, Code Change, Clustering Learning Model}
+\label{clustering-model:sec}
 
-In the approach overview section, we already detailed introduced how we generate the {\mvpdg}. The goal of this step is to take the generated {\mvpdg} to learn the code change representation vectors and use these vectors to do the clustering for each changed statement.
+Let us explain in details our approach. While the first step (building
+the multi-version {\mvpdg}) is presented in
+Section~\ref{overview:sec}, we present in this section our
+context-aware, graph-based, code change (CC) clustering learning
+model.  This step has two tasks: 1) Taking the computed {\mvpdg} to
+learn the code change representation vectors (embeddings), and 2)
+performing clustering on those embeddings to cluster the changed
+statements.  During training, we have the ground truth on the clusters
+of the changed statements, thus, we have the labels (concern 1,
+concern 2, etc.) for the changed nodes in {\mvpdg}. During predicting
+(i.e., clustering), the input {\mvpdg} will be fed into the trained
+clustering learning model to produce the labels for the changed
+nodes/statements. For the given {\mvpdg}, the number of clusters is
+unknown to the model, and it decides that number via its agglomerative
+clustering algorithm. Let us present the details of the two tasks in
+our CC clustering learning model.
 
-\subsection{Context-aware Code Change Representation Learning}
+%traing and predicting
+
+
+\subsection{Context-aware, Code Change Representation Learning}
+\label{vector:sec}
 
 \begin{figure*}[t]
-	\centering
-	\includegraphics[width=6.5in]{figures/STEP_2.png}
+	\centering \includegraphics[width=6.5in]{figures/STEP_2.png}
 	\vspace{-6pt}
 	\caption{Context-aware Code Change Representation Learning}
 	\label{fig:step-2}
 \end{figure*}
 
-Before doing the clustering, in this step, \tool needs to get the representation vector $v'_c$ for each changed node $n_c$ first. To achieve it, \tool firstly put the {\mvpdg} into a graph-based deep learning model to learn the representation vector for each node in the graph. Because the {\mvpdg} contains the labels for each node, to better learn the useful information from the node features with the labels, \tool uses the Lable-GCN \cite{} model to do so. 
+The goal of this task is to build the vector representations (i.e.,
+embeddings) for the code changes (i.e., the changed statements)
+represented by the changed nodes in {\mvpdg}. A characteristic of the
+embeddings for the code changes is {\em context-aware} or {\em
+  contextualized}. That is, the same code change in different contexts
+will have different embeddings.
+
+To achieve that, {\tool} first feeds the multi-version {\mvpdg} to a
+graph-based, deep learning model to learn the contextualized
+embeddings for each node in the graph. Because {\mvpdg} contains the
+labels (i.e., concerns) for the nodes including changed nodes, to
+better learn the useful information from the node features with the
+labels, {\tool} uses the Label-GCN~\cite{} model for this.
+
+
+%Before doing the clustering, in this step, \tool needs to get the representation vector $v'_c$ for each changed node $n_c$ first. To achieve it, \tool firstly put the {\mvpdg} into a graph-based deep learning model to learn the representation vector for each node in the graph. Because the {\mvpdg} contains the labels for each node, to better learn the useful information from the node features with the labels, \tool uses the Lable-GCN \cite{} model to do so. 
 
 In the Label-GCN, similarly to the normal GCN \cite{}, it takes the graph with the node features as the input and generates the representation vector for each node as the output. Compared with normal GCN, it also accepts the node labels in the first layer. In this case, when dealing with a central node, the model is allowed to see the labels of the neighbors, and the labels can then become part of the feature vector. With this, Label-GCN calculates the representation vectors in the first layer as follow:
 
