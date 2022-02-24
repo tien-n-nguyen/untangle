@@ -3,3 +3,23 @@
 To enhance the accuracy of our clustering results, in this step, \tool uses the existing code clone technique \cite{svajlenko2017fast} to improve the clustering results. The clone detection results $CLONE$ include clone candidates with different sizes. Therefore, to help support the clustering results, we only pick candidates covering the changed statements. Also, to avoid duplication, we only choose the largest clone candidate that includes the same changed statements pair. For example, if code change statements $(CS_1, CS_2)$ and $(CS_3, CS_4)$ are clones, the $CLONE$ may include the clone candidate $C_1 = [(S_1, CS_1, CS_2), (S_2, CS_3, CS_4)]$ and $C_2= [(S_1, CS_1, CS_2, S_3), (S_2, CS_3, CS_4, S_4)]$ where $S_i$ are the unchanged statements. In this case, because the candidate $C_2$ is larger than $C_1$, and $C_2$ and $C_1$ contains the same code change statements, we only pick $C_2$ to avoid duplication. 
 
 Next, for each code change candidate, we check the clustering results $CL_{pre}$ from the last step for all changed statements in the clone candidate and update the clustering results for all changed statements to the cluster that appeared for the most times. If there is a tie, we update the clustering results to the cluster with the smaller index. For example, in the clone candidate $C_2= [(S_1, CS_1, CS_2, S_3), (S_2, CS_3, CS_4, S_4)]$, if the clustering results show that the $CS_1, CS_2,$ and $CS_3$ are in $Concern_1$, and $CS_4$ is in $Concern_2$, we update the clustering result for changed statement $CS_4$ from $Concern_2$ to $Concern_1$. And if the clustering results show that the $CS_1, CS_3$ are in $Concern_1$, and $CS_2, CS_4$ are in $Concern_2$, we update the clustering results for changed statement $CS_2, CS_4$ from $Concern_2$ to $Concern_1$.
+
+
+{\color{red}{loss function}}
+
+When doing training, the ground true clustering results $CL_{label}$ and the predicted clustering results $CL_{pre}$ may have different number of clusters $Cluster_{label}$ and $Cluster_{pre}$. To make the model trainable, we transfer the clustering problem into a classification problem by picking the biggest number of clusters $C_{max} = max($ $Cluster_{label}, Cluster_{pre})$ as the number of classes. \tool uses the zero padding to fill the missed results for the clusters in $CL_{label}$ or $CL_{pre}$. Then \tool uses the cross entropy loss to train the model:
+
+\begin{equation}\label{eq5}
+	Loss(x, y)= -\sum^{C_{max}}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{C_{max}}_{j=1}x_j)}y_i
+\end{equation}
+
+Where $x$ is the predicted clustering result and $y$ is the ground true cluster result. 
+
+The above cross-entropy loss has been widely used in multi-class classification problems. However, the clustering problem is slightly different from the classification problem because the order of the clusters is not fixed as in the classification problem. So to address this problem, for each pair of predicted clustering results and ground true cluster results $\{x_1, ..., x_{C_{max}}\}$ and $\{y_1,...,y_{C_{max}}\}$, \tool could have $C_{max}!$ different possible orders for both predicted cluster results $X = \{X_1, ..., X_{C_{max}!}\}$ and ground true clustering results $Y = \{Y_1, ..., Y_{C_{max}!}\}$. Then the cross-entropy loss would be the minimum situation among all orders for $X$ and $Y$. So the formula \ref{eq5} will become:
+
+\begin{equation}\label{eq6}
+	Loss'(x, y)= \min\limits_{\substack{X_n \in X\\ Y_m \in Y}}(-\sum_{\substack{x_i\in X_n\\ y_j 
+			\in Y_m}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X_n}x_j)}y_i)
+\end{equation}
+ 
+
