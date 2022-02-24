@@ -14,6 +14,9 @@ ML model to untangle the commits by learning to cluster the code
 changes w.r.t. different concerns. The model learns from the
 history of the co-changed statements in the same commits for the same
 concerns, and applies to cluster the changes in the current~commit.
+We adapt the agglomerative clustering algorithm into a
+learning-based clustering model via trainable parameters and a loss
+function in comparing the predicted clusters and the correct ones.
 
 {\bf Key Idea 2 [Context-aware, Graph-based Representation Learning
     for Code Changes].} We design a context-aware, graph-based,

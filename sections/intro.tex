@@ -184,12 +184,16 @@ others. Third, {\tool} also considers an important feature for each
 change, that is, the cloned code that is similar to the code under
 consideration. The idea is that the {\em two \underline{cloned code}
   with similar logic might be changed in the same manner in the same
-  concern in a commit}. Finally, to untangle a commit, in our code
+  concern in a commit}. Fourth, to untangle a commit, in our code
 change clustering learning model, agglomerative clustering is applied
 on the {\em \underline{contextualized embeddings for the code
     changes}} that integrates richer, encoded information than the PDG
 or program slices, thus, helping better distinguish the concerns of
-the changes.
+the changes. Finally, we {\em \underline{adapt the agglomerative
+    clustering algorithm}} into a ML-based {\em \underline{clustering
+    learning model}} via trainable parameters and a loss function to
+  adjust the parameters by comparing the predicted clusters and the
+  correct ones during training.
 
 %We then apply agglomerative clustering on the vectors to produce the
 %final clusters to untangle the commit. We expect that agglomerative
@@ -197,15 +201,16 @@ the changes.
 %richer, encoded information than on the PDG or slices in
 %distinguishing the concerns of the changes.
 
-We conduct several experiments to evaluate {\tool}...
+\textcolor{red}{We conduct several experiments to evaluate {\tool}...}
 
 The key contributions of this work include:
 
 {\bf 1. {\tool}: an ML-based commit-untangling approach with a novel
   code change clustering learning model.} It is the first ML model
-that learns to untangle the commit by learning to cluster the code changes.
-{\tool} learns from the changes belonging to the same concern in the
-version history.
+that learns to untangle the commit by learning to cluster the code
+changes.  {\tool} learns from the changes belonging to the same
+concern in the version history. We make the agglomerative clustering
+into a ML-based clustering model.
 
 {\bf 2. A Novel context-aware, graph-based representation learning for
   code changes.} We design GCN-based model to produce the {\em
