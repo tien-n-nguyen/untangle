@@ -1,10 +1,33 @@
 \section{Updating Clusters via Code Clone Detection}
+\label{sec:clone}
 
-To enhance the accuracy of our clustering results, in this step, \tool uses the existing code clone technique \cite{svajlenko2017fast} to improve the clustering results. The clone detection results $CLONE$ include clone candidates with different sizes. Therefore, to help support the clustering results, we only pick candidates covering the changed statements. Also, to avoid duplication, we only choose the largest clone candidate that includes the same changed statements pair. For example, if code change statements $(CS_1, CS_2)$ and $(CS_3, CS_4)$ are clones, the $CLONE$ may include the clone candidate $C_1 = [(S_1, CS_1, CS_2), (S_2, CS_3, CS_4)]$ and $C_2= [(S_1, CS_1, CS_2, S_3), (S_2, CS_3, CS_4, S_4)]$ where $S_i$ are the unchanged statements. In this case, because the candidate $C_2$ is larger than $C_1$, and $C_2$ and $C_1$ contains the same code change statements, we only pick $C_2$ to avoid duplication. 
+Because {\mvpdg} might not cover the changed statements that are
+clones of one another, we use a code clone detection
+tool~\cite{svajlenko2017fast} to find the changes that might belong to
+the same concerns but having no data/control dependencies. The clone
+detection tool returns a list of clone candidates in the clone groups
+with different sizes. First, we consider only the clone groups with
+the cloned fragments containing the changed statements. If multiple
+clone fragments contain the same changed statement, we choose the
+clone fragment with the largest size to avoid the duplication (the
+larger clone contains the smaller one).
 
-Next, for each code change candidate, we check the clustering results $CL_{pre}$ from the last step for all changed statements in the clone candidate and update the clustering results for all changed statements to the cluster that appeared for the most times. If there is a tie, we update the clustering results to the cluster with the smaller index. For example, in the clone candidate $C_2= [(S_1, CS_1, CS_2, S_3), (S_2, CS_3, CS_4, S_4)]$, if the clustering results show that the $CS_1, CS_2,$ and $CS_3$ are in $Concern_1$, and $CS_4$ is in $Concern_2$, we update the clustering result for changed statement $CS_4$ from $Concern_2$ to $Concern_1$. And if the clustering results show that the $CS_1, CS_3$ are in $Concern_1$, and $CS_2, CS_4$ are in $Concern_2$, we update the clustering results for changed statement $CS_2, CS_4$ from $Concern_2$ to $Concern_1$.
+After predicting/clustering the changed nodes/statements as explained
+in Section~\ref{clustering-model:sec}, we have marked each changed
+statement with a concern. For each changed statement in a clone group,
+we check the clusters of its cloned statements and update its cluster
+via majority voting. For example, a changed statement $s$ marked with
+concern 1, and it belongs to a cloned fragment in which the other
+statements in that fragment and their clones are marked with concern 2
+in their majority, then we change $s$ to be about concern 2. If there
+is no majority, we adjust the cluster of $s$ to the concern/cluster
+with a lower index.
 
+%Next, for each code change candidate, we check the clustering results $CL_{pre}$ from the last step for all changed statements in the clone candidate and update the clustering results for all changed statements to the cluster that appeared for the most times. If there is a tie, we update the clustering results to the cluster with the smaller index.
 
+%For example, in the clone candidate $C_2= [(S_1, CS_1, CS_2, S_3), (S_2, CS_3, CS_4, S_4)]$, if the clustering results show that the $CS_1, CS_2,$ and $CS_3$ are in $Concern_1$, and $CS_4$ is in $Concern_2$, we update the clustering result for changed statement $CS_4$ from $Concern_2$ to $Concern_1$. And if the clustering results show that the $CS_1, CS_3$ are in $Concern_1$, and $CS_2, CS_4$ are in $Concern_2$, we update the clustering results for changed statement $CS_2, CS_4$ from $Concern_2$ to $Concern_1$.
+
+%To enhance the accuracy of our clustering results, in this step, \tool uses the existing code clone technique \cite{svajlenko2017fast} to improve the clustering results. The clone detection results $CLONE$ include clone candidates with different sizes. Therefore, to help support the clustering results, we only pick candidates covering the changed statements. Also, to avoid duplication, we only choose the largest clone candidate that includes the same changed statements pair. For example, if code change statements $(CS_1, CS_2)$ and $(CS_3, CS_4)$ are clones, the $CLONE$ may include the clone candidate $C_1 = [(S_1, CS_1, CS_2), (S_2, CS_3, CS_4)]$ and $C_2= [(S_1, CS_1, CS_2, S_3), (S_2, CS_3, CS_4, S_4)]$ where $S_i$ are the unchanged statements. In this case, because the candidate $C_2$ is larger than $C_1$, and $C_2$ and $C_1$ contains the same code change statements, we only pick $C_2$ to avoid duplication. 
 
  
 
