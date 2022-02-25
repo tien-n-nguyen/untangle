@@ -214,37 +214,59 @@ the predicted set of clusters $CL$=$\{CL_1,CL_2, ...,$ $CL_M\}$ and
 the correct set $CL_{oracle}$ = $\{Co_{1}, Co_{2},...,
 Co_{N}\}$. Because the predicted and correct sets might have different
 numbers of clusters ($M \neq N$), we first make them have the same
-size by adding the empty clusters to the smaller set between $CL$ and
-$CL_{oracle}$. Then, we run the maximum bipartite graph matching
-algorithm to match the clusters between $CL$ and $CL_{oracle}$ with
-the goal of maximizing the total cluster similarity scores among all
-the pairs of clusters. At this point, each cluster $X$ from $CL$ has
-the corresponding cluster $Y$ from $CL_{oracle}$. For each pair of
-clusters $X$ and $Y$, we perform zero-vector padding if the two
-clusters have different sizes. However, we need to consider all
-possible orders in the set $X$=$\{x_1,x_2,..., x_{max}\}$ and in the
-set $Y$=$\{y_1,y_2,...,y_{max}\}$. The number of different possible
-orders in $X$ or $Y$ (after zero padding) is $max!$.
+size $\mathcal{M}$ = $max(M,N)$ by adding the empty clusters to the smaller
+set between $CL$ and $CL_{oracle}$.
+%
+Because we do not know what predicted cluster $CL_i$ in $CL$ is mapped
+to a cluster $Co_j$ in the correct set $C_{oracle}$, we consider all
+possible orders of the clusters in both $CL$ and $CL_{oracle}$, and
+all possible maps between each cluster $CL_i$ and $Co_j$. Note that
+the number of clusters is usually small ($\leq$ 6 as reported
+in~\cite{nguyen-issre13}), thus, it is manageable to consider all
+$\mathcal{M}!$ possible orders in $CL$ and all $\mathcal{M}!$ possible
+orders in $C_{oracle}$.
 
-For a pair of the specific orders in $X$ and $Y$, one could use
-the cross-entropy loss function as follows:
+Let us consider an order in $CL$ = $\{CL'_1,..., CL'_{\mathcal{M}}\}$,
+and an order in $C_{oracle}$ = $\{Co'_{1},..., Co'_{\mathcal{M}}\}$.
+For a changed statement $s_c$ with the corresponding changed node
+$n_c$ in {\mvpdg}, we build the 1-hot vector $X$ that represents the
+cluster for $n_c$ predicted by the model as follows. If $n_c$ is
+predicted to belong to a cluster $CL'_{i}$, the value at the $i$
+position of the vector $X$ will be set to 1, otherwise it is set to
+0. For example, if $\mathcal{M}$=4, the changed node $n_c$ is
+predicted to belong to the cluster $CL'_3$, the vector
+$X$=$\{0,0,1,0\}$. A changed statement can belong to multiple
+clusters. Similarly, we build the 1-hot vector $Y$ to represent the
+correct cluster for $n_c$ in the oracle: if $n_c$ belongs to a cluster
+$Co'_{i}$, the value at the $i$ position of the vector $Y$ will be set
+to 1, otherwise it is 0.
+
+For a specific order in $CL$ = $\{CL'_1,..., CL'_{\mathcal{M}}\}$, and
+a specific order in $C_{oracle}$ = $\{Co'_{1},...,
+Co'_{\mathcal{M}}\}$, for a changed node $n_c$, we use the
+cross-entropy loss function in the multi-class classification problem as
+follows: ($X$=$\{x_1,...,x_{\mathcal{M}}\}$, $Y$=$\{y_1,...,y_{\mathcal{M}}\}$)
 \begin{equation}\label{loss-func}
-	Loss(X,Y) = -\sum^{max}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{max}_{j=1}x_j)}y_i
+	Loss(X,Y) = -\sum^{\mathcal{M}}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{\mathcal{M}}_{j=1}x_j)}y_i
 \end{equation}
-This formula is widely used in the multi-class classification problem.
-To use for our clustering problem, we need to consider all possible
-orders of the vectors within the cluster $X$ and $Y$. The
-cross-entropy loss function would be the minimum value among all
-possible orders for $X$ and $Y$. Thus, formula (\ref{loss-func})
-becomes
-\begin{equation}\label{new-func}
-	Loss^{*}(X,Y)= \min (-\sum_{\substack{x_i\in X\\ y_j 
-			\in Y}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X}x_j)}y_i)
+To adjust Formula~\ref{loss-func} for our clustering problem, we need
+to consider all possible orders in the cluster set $CL$ and those in
+$C_{oracle}$. Thus, the cross-entropy loss function
+for a changed node $n_c$ of a changed statement $s_c$ is the minimum
+value among all the values on the right-hand side of
+Formula~\ref{loss-func}. Thus, our loss function is as follows.
+\begin{equation}\label{eq6}
+	Loss'(X, Y)= \min\limits_{\substack{all (\mathcal{M}!)^{2}\\orders}}(-\sum^{\mathcal{M}}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{\mathcal{M}}_{j=1}x_j)}y_i)
 \end{equation}
-The loss function is the total loss function for all the pairs of the
-cluster $X$ in $CL$ and its corresponding $Y$ in $CL_{oracle}$, and it
-will be used for the model to adjust the parameters in the next
-iteration.
+%The final loss function is the total loss function for all the pairs of the
+%cluster $X$ in $CL$ and its corresponding $Y$ in $CL_{oracle}$, and
+The loss function for each changed node $n_c$ will be used for
+the model to adjust the parameters in the next iteration.
+
+%\begin{equation}\label{eq6}
+%	Loss'(X, Y)= \min\limits_{\substack{X_n \in X\\ Y_m \in Y}}(-\sum_{\substack{x_i\in X_n\\ y_j 
+%			\in Y_m}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X_n}x_j)}y_i)
+%\end{equation}
 
 \subsubsection*{Predicting/Clustering Process}
 After training, we obtain all model's parameters and the trainable
