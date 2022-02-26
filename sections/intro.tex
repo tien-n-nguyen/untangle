@@ -111,9 +111,9 @@ difficult to specify clustering criteria to achieve the partitions
 matching with the concerns.
 %
 Second, the goal is to decompose the changes in a commit. However, the
-existing approaches do~not~consider a change w.r.t. the context of
+existing approaches {\em do~not~consider a change w.r.t. the context of
 surrounding code~with a clear distinction of the changed elements
-and the contextual, un-changed ones. Such context could help
+and the un-changed, contextual ones}. Such context could help
 distinguish the concerns for the changes. Finally, not all the changes
 in the same concern need to have program dependencies among one
 another. The logic connection among the co-changed code in the same
@@ -160,7 +160,7 @@ different groups for different concerns.
 
 While deterministic clustering criteria on the PDG, slices, or change
 operations do not always produce the clusters that naturally map to
-the boundaries across the concerns, a machine learning (ML) model is
+the boundaries between the concerns, a machine learning (ML) model is
 expected to learn to cluster the changes, thus, untangling a
 commit. The model can learn from the changes belonging to the same
 concerns in the version history. To facilitate the code change
@@ -191,10 +191,10 @@ on the {\em \underline{contextualized embeddings for the code
     changes}} that integrates richer, encoded information than the PDG
 or program slices, thus, helping better distinguish the concerns of
 the changes. Finally, we {\em \underline{adapt the agglomerative
-    clustering algorithm}} into a ML-based {\em \underline{clustering
-    learning model}} via trainable parameters and a loss function to
-  adjust the parameters by comparing the predicted clusters and the
-  correct ones during training.
+    clustering algorithm}} into a {\em
+  \underline{super}-\underline{vised-learning clustering model}} with
+trainable parameters and a loss function to adjust the parameters by
+comparing the predicted clusters and the correct ones during training.
 
 %We then apply agglomerative clustering on the vectors to produce the
 %final clusters to untangle the commit. We expect that agglomerative
@@ -207,24 +207,22 @@ the changes. Finally, we {\em \underline{adapt the agglomerative
   \textcolor{red}{We have conducted several experiments to evaluate
     {\tool}. Our experimental results on a real-world C\# dataset with
     21k commits and 1,612 concerns show that {\tool} achieves the
-    accuracy of XX.X\%--XX\% and YY.Y\%--YY.Y\% relatively higher than
-    the state-of-the-art approaches Flexeme~\cite{flexeme-fse20},
-    Barnett {\em et al.}~\cite{barnett-icse15}, and Herzig {\em et
-      al.}~\cite{kim-emse16}, in cross-project and within-project
-    settings, respectively. {\tool} can correctly untangle the commits
-    by correctly clustering 39\% the changed statements into the
-    correct clusters/concerns.
+    accuracy of XX.X\%, XX.X\%, and XX.X\% relatively higher than the
+    baseline approaches Flexeme~\cite{flexeme-fse20}, Barnett
+    {\em et al.}~\cite{barnett-icse15}, and Herzig {\em et
+      al.}~\cite{kim-emse16}, respectively. {\tool} can correctly
+    cluster 39\% the changed statements into the correct
+    concerns.
 %
   We also evaluated {\tool} in a Java dataset with XX commits and
-  X,XXX concerns. The results show that {\tool} achieves higher
-  accuracy XX.X\% relatively than the state-of-the-art approach
-  SmartCommit~\cite{smartcommit-fse21}. Our sensitivity also shows
+  X,XXX concerns. The results show that {\tool} achieves XX.X\%
+  accuracy relatively higher than the state-of-the-art approach
+  SmartCommit~\cite{smartcommit-fse21}. Our sensitivity analysis shows
   that all designed components in {\tool} contributes positively to
   its high accuracy. We also show that the changed statements in the
-  same concern are projected nearer to each other than the ones in
-  different concerns. Moreover, the same changed statements occurring
-  in different concerns are projected farther away in the vector
-  space.}
+  same concerns are projected nearer to each other~than the ones in
+  different concerns. The same changed statements in
+  different concerns are projected farther away in the vector space.}
 
 The key contributions of this work include:
 
@@ -232,15 +230,26 @@ The key contributions of this work include:
   code change clustering learning model.} It is the first ML model
 that learns to untangle the commit by learning to cluster the code
 changes.  {\tool} learns from the changes belonging to the same
-concern in the version history. We adapt the agglomerative clustering
-into a ML-based clustering model.
+concern in the version history. We adapt agglomerative clustering
+into a supervised-learning clustering model.
 
 {\bf 2. A Novel context-aware, graph-based representation learning for
   code changes.} We design GCN-based model to produce the {\em
   contextualized embeddings for the code changes}, that
-integrates the program dependencies, and the representations of changes
-and contexts. Cloned code is also considered in clustering.
+integrates the program dependencies, the representations of changes
+and contexts. Cloned code is also considered in untangling commits.
 
 {\bf 3. Extensive empirical evaluation.} We evaluated {\tool} against
-the recent approaches for untangling commits to show its performance
-and usefulness. Our data/tool are available at~\cite{utango-website}.
+the recent approaches for untangling commits to show its
+performance. Our tool and data are available at~\cite{utango-website}.
+
+%\textcolor{red}{We have conducted several experiments to evaluate
+%    {\tool}. Our experimental results on a real-world C\# dataset with
+%    21k commits and 1,612 concerns show that {\tool} achieves the
+%    accuracy of XX.X\%--XX\% and YY.Y\%--YY.Y\% relatively higher than
+%    the state-of-the-art approaches Flexeme~\cite{flexeme-fse20},
+%    Barnett {\em et al.}~\cite{barnett-icse15}, and Herzig {\em et
+%      al.}~\cite{kim-emse16}, in cross-project and within-project
+%    settings, respectively. {\tool} can correctly untangle the commits
+%    by correctly clustering 39\% the changed statements into the
+%    correct clusters/concerns.}
