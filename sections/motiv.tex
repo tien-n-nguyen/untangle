@@ -70,28 +70,31 @@ public static ParserResult<T> Build<T>(...) {
 %  return immutable;
 %}
 
-Let us present the real-world examples and our observations for
+Let us present the real-world examples and our
+%observations for
 motivation. Figure~\ref{fig:motiv-cc} shows an example from the
 experimental dataset in a prior work~\cite{flexeme-fse20}. This commit
 has three changed statements at lines 4, 10, and 17 of the methods
 \code{MapValuesImpl}, \code{WithNextValue}, and \code{Build}.  The
 method \code{MapValueOrDefault} was renamed to
 \code{GetValueOr\-Default}, causing the changes to the call sites.
-These changes are deemed by the developers as serving to the same
-concern/purpose of enhancing type resolution in the parser.  These
-statements have been changed for the same concern in a past
-commit. This motivates us to build a machine learning (ML) model to
-learn from the co-changes for the same concern in the version history
-to untangle the current commit. For this example, the untangling
-approaches relying on the PDGs or program slices within individual
-methods cannot cluster the changed statements into a group.
+These changes are deemed by the developers as serving the same
+concern/purpose of enhancing type resolution in the parser. {\em These
+  statements have been changed for the same concern} of fixing the
+value parsing in a past commit. This motivates us to build a ML model
+to learn from the co-changes for the same concern in the version
+history to untangle the commits.
+%Tien
+%For this example, the untangling approaches relying on the PDGs or
+%program slices within individual methods cannot cluster the changed
+%statements into a group.
 
 %(e.g.,~\cite{flexeme-fse20},~\cite{roover-scam18})
 
 \noindent {\bf Observation 1 [Learn to Cluster Code Changes].} {\em
-  History of the co-changed statements for the same concern could be a
-  good source for an ML model to learn to cluster the changed statements, thus,
-  untangling the current commits}.
+  History of the co-changed statements with the same concern could be
+  a good source for a machine learning model to learn to cluster the
+  changed statements, thus, untangling the current commits}.
 
 \begin{figure}[t]
 	\centering
@@ -139,9 +142,9 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
 
 Figure~\ref{fig:motiv-context} shows another example in the project
 JHotDraw. At the commit rev. 463, two changes at line 3 and line 13
-are exactly the same with the addition of the checking whether a
-figure is selectable via \code{figure.isSelectable()}. However, those
-{\em two exact changes} occurred at two different methods
+are exactly the same with the addition of \code{figure.isSelectable()}
+to check whether a figure is selectable or not. However, those {\em
+  two exact changes} occurred in two different methods
 \code{mousePressed} and \code{updateHoverHandles} for two different
 concerns/purposes as noted in the commit log. Line 4 was aimed to fix
 the tracking of a dragging object as the mouse is pressed ({\em
@@ -150,7 +153,7 @@ the tracking of a dragging object as the mouse is pressed ({\em
 object needs to be selected ({\em ``Selection classes now check the
   flag on the hovering figures to be selected.''}). The addition of
 \code{figure.isSelectable()} is common for checking if a figure is
-selectable in the two tasks with dragging figure and hovering
+selectable in the two tasks of dragging figure and hovering
 figure. Without the surrounding contexts, one could not tell they are
 for different purposes.
 
