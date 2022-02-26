@@ -203,14 +203,27 @@ the changes. Finally, we {\em \underline{adapt the agglomerative
 
   %\textcolor{red}{We conduct several experiments to evaluate {\tool}...}
 
-\textcolor{red}{Our empirical evaluation on a real-world C\# dataset
-  with 21k commits and 1,612 concerns shows that {\tool} achieves the
-  accuracy of XX.X\%--XX\% and YY.Y\%--YY.Y\% relatively higher than
-  the state-of-the-art approaches in cross-project and within-project
-  settings. We also evaluated {\tool} in a Java dataset with XX
-  commits and X,XXX concerns. The results show that {\tool} achievers
-  higher accuracy XX.X\% relatively than the state-of-the-art
-  approach.}
+  \textcolor{red}{We have conducted several experiments to evaluate
+    {\tool}. Our experimental results on a real-world C\# dataset with
+    21k commits and 1,612 concerns show that {\tool} achieves the
+    accuracy of XX.X\%--XX\% and YY.Y\%--YY.Y\% relatively higher than
+    the state-of-the-art approaches Flexeme~\cite{flexeme-fse20},
+    Barnett {\em et al.}~\cite{barnett-icse15}, and Herzig {\em et
+      al.}~\cite{kim-emse16}, in cross-project and within-project
+    settings, respectively. {\tool} can correctly untangle the commits
+    by correctly clustering 39\% the changed statements into the
+    correct clusters/concerns.
+%
+  We also evaluated {\tool} in a Java dataset with XX commits and
+  X,XXX concerns. The results show that {\tool} achieves higher
+  accuracy XX.X\% relatively than the state-of-the-art approach
+  SmartCommit~\cite{smartcommit-fse21}. Our sensitivity also shows
+  that all designed components in {\tool} contributes positively to
+  its high accuracy. We also show that the changed statements in the
+  same concern are projected nearer to each other than the ones in
+  different concerns. Moreover, the same changed statements occurring
+  in different concerns are projected farther away in the vector
+  space.}
 
 The key contributions of this work include:
 
@@ -218,7 +231,7 @@ The key contributions of this work include:
   code change clustering learning model.} It is the first ML model
 that learns to untangle the commit by learning to cluster the code
 changes.  {\tool} learns from the changes belonging to the same
-concern in the version history. We make the agglomerative clustering
+concern in the version history. We adapt the agglomerative clustering
 into a ML-based clustering model.
 
 {\bf 2. A Novel context-aware, graph-based representation learning for
