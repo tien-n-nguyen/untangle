@@ -42,19 +42,19 @@ in which the statement \code{int next = i + 1;} is replaced by
 the change. All the nodes of the PDG before the change are marked with
 $i$, and those of the PDG after the change are marked with $j$.
 
-%As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph.
+%As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph. $\delta$-PDG$^{i,j}$
 
-\begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}).
-A $\delta$-PDG$^{i,j}$ is a directed graph generated from the disjoint
+\begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}~\cite{flexeme-fse20}).
+A {\mvpdg} is a directed graph generated from the disjoint
 union of all nodes and edges in the version $i$ and the version $j$.
 %
 %  The \textbf{multi-version program dependency graph (Multi-version PDG$^{i,j}$)} is a directed graph that generated from the disjoint union of all nodes and edges between the version $i$ and version $j$. $\delta-PDG^{i,i}$ is the PDG at the version $i$.
 \end{Definition}
 
 Figure~\ref{fig:multi-version-pdg}(c) displays the multi-version
-PDG$^{i,j}$ ($\delta$-PDG$^{i,j}$) that are built from the two
+PDG$^{i,j}$ ({\mvpdg}) that are built from the two
 versions $i$ and $j$ of the method \code{FormatYear} before and after
-the change. In $\delta$-PDG$^{i,j}$, the nodes labeled with either $i$
+the change. In {\mvpdg}, the nodes labeled with either $i$
 or $j$ appear only in the PDG for the version $i$ or the version $j$.
 The nodes labeled with $i$,$j$ appear in the PDGs at both the
 versions.
@@ -62,30 +62,31 @@ versions.
 %figure \ref{fig:multi-version-pdg}, the third graph that contains the nodes labeled with $i$, $j$, and $i, j$ is the multi-version PDG$^{i,j}$ combined from the two PDGs for version $i$ and $j$ for the method $FormatYear$. In this graph, the nodes labeled with $i$ or $j$ are the nodes that appeared only in the PDG for version $i$ or $j$. And the nodes labeled with $i, j$ are the nodes that appeared in the PDG for both version $i$ and $j$. With the multi-version PDG$^{i,j}$, we make the definition for the changed/unchanged statements.
 
 \begin{Definition}[Changed/Un-changed Nodes]
-In the multi-version PDG $\delta$-PDG$^{i,j}$ for the versions before and after the
-change, the changed nodes are labeled with either $i$ or $j$, while
-the un-changed nodes are labeled with $i,j$.
+In the multi-version PDG, $\delta$-PDG$^{i,j}$ for the versions before
+and after the change, the changed nodes for the changed statements are
+the ones labeled with either $i$ or $j$, while the un-changed nodes
+are labeled with $i,j$.
 %The \textbf{changed statements} between version $i$ and $j$ are the statements that are added or deleted to changed the code from version $i$ to version $j$. The modification on an existing statement in version $i$ is regarded as a new statement addition with an old statement deletion. The \textbf{un-changed statements} between version $i$ and $j$ are the statements that keep the same in both version $i$ and version $j$.
 \end{Definition}
 
 In Figure~\ref{fig:multi-version-pdg}(c), the node labeled with $i$
 represents the deleted statement, the node labeled with $j$ represents
-the added one, while the nodes labeled with $i,j$ for the un-changed
+the added one, while the nodes labeled with $i,j$ are for the un-changed
 statements.
 
 %The figure \ref{fig:multi-version-pdg} can be used an example to show both the changed and un-changed statements between version $i$ and $j$ for the method $FormatYear$. As seen in the multi-version PDG$^[i,j]$ for the method $FormatYear$, the statements $int\, next = i + 1;$ and $var\, next = i + 1;$ that are labeled with $i$ or $j$ are the changed statements between version $i$ and $j$ while the rest statements that are labeled with $i, j$ in the graph are the un-changed statements between version $i$ and $j$.
 
 \begin{Definition}[Context]
 The context $C$ of a changed node $n$ is a sub-graph of the
-multi-version PDG that includes all un-changed nodes that are the
-$k$-hops neighbor of the changed node $n$ together with all the
+multi-version {\mvpdg} that includes all the un-changed nodes that are the
+$k$-hops neighbor of the changed node $n$, together with all the
 inducing edges among them.
 \end{Definition}
 
 In Figure~\ref{fig:multi-version-pdg}(c), when $k$=1, the context for
-the change consists of all three nodes labeled with $i,j$ because they have
-1-hop distance from the changed nodes \code{int next = i + 1;} and
-\code{var next = i + 1;}.
+the change at line 5 consists of all three nodes labeled with $i,j$
+since they are one hop from the changed nodes \code{int next
+  = i + 1;} and \code{var next = i + 1;}.
 
 %To better understand the context of a changed statement, we still use the figure \ref{fig:multi-version-pdg} as an example to explain. For the statement $int\, next = 1 + 1;$ in the multi-version PDG$^{i,j}$, we select the sub-graph that contains all $k$-hops neighbors as the context. When $k=1$, the sub-graph is built with three statements that labeled with $i, j$ in the multi-version PDG$^{i,j}$.
 
@@ -96,7 +97,7 @@ the change consists of all three nodes labeled with $i,j$ because they have
 
 %After having the definition for the important concepts, we use them to describe the overview of our approach. Within our approach, there are three main steps. We will introduce them one by one.
 
-Figure~\ref{fig:overview} illustrates the overview of our approach.
+Figure~\ref{fig:overview} illustrates the overview of our approach {\tool}.
 
 \subsubsection{{\bf Step 1. Building Multi-version PDG ($\delta$-PDG$^{i,j}$) and Contexts}}
 The first step is to build the $\delta$-PDG$^{i,j}$ graph and extract
@@ -133,19 +134,22 @@ that, {\tool} first learns to construct the {\bf contextualized
   embeddings} (vectors) to represent the code changes via our novel
 {\bf context-aware, graph-based code change representation learning
   model}. In that model, to build the contextualized embeddings, we
-leverage an advanced Graph-based Convolution Network (GCN)~\cite{yi}
-that can deal with the nodes with different labels to learn the
-representation vector $v$ for each node $n$ in the graph. For each
-changed node $n_c$, {\tool} collects the vectors for the un-changed
-nodes in the context for $n_c$ into a matrix. It uses a fully
-connected layer to convert the matrix into a vector $v_{ctx}$ to
-encode the contextual information for the changed node $n_c$. The
-context vector $v_{ctx}$ is then used as {\em a weight to represent
-  the impact of context on the learning to produce the final vector
-  representation (embedding) $v'_c$ for the changed node $n_c$}. To
-compute the final embeding for the changed node $n_c$, we perform
-cross-product between the vector $v_c$ of $n_c$ and the context vector
-$v_{ctx}$.
+leverage Label, Graph-based Convolution Network (GCN)~\cite{yi} that
+can deal with the nodes with multiple labels (used to denote the
+versions $i$, $j$) to learn the representation vector $v$ for each
+node $n$ in the graph. For a changed node $n_c$, {\tool} collects the
+vectors for the un-changed nodes in the context for $n_c$ into a
+matrix. It uses a fully connected layer to convert the matrix into a
+vector $v_{ctx}$ to encode the contextual information for the changed
+node $n_c$. The context vector $v_{ctx}$ is then used as {\em a weight
+  to represent the impact of context on the learning to produce the
+  final vector for the changed node $n_c$}. The final vector
+$v'_c$ for $n_c$ is computed as the cross-product between the vector
+$v_c$ of $n_c$ from Label-GCN and the context vector $v_{ctx}$.
+
+%To compute the final embeding for the changed node $n_c$, we perform
+%cross-product between the vector $v_c$ of $n_c$ and the context vector
+%$v_{ctx}$.
 
 
 %By having the multi-version PDG$^{i,j}$ as the input, \tool firstly uses an advanced GCN model \cite{} that can deal with the nodes with different labels to learn the representation vectors $v_p$ for each node $n_p$ in the graph. For each changed node $n_c$ in $n_p$, \tool collects all unchanged node representation vectors in the context as a matrix. It then uses a fully connected layer to convert it to a vector $v_pc$ to represent all context information for the changed node $n_p$. Next, \tool generates the final representation vector $v'_p$ for changed node $n_p$ by using the cross product between $v_p$ and $v_pc$.
@@ -155,31 +159,36 @@ $v_{ctx}$.
 With the contextualized embeddings built for all the changed nodes in
 {\mvpdg}, our {\bf code change clustering learning model} uses the
 hierarchical agglomerative clustering algorithm to cluster the changed
-nodes represented by their embeddings into the clusters for different
-concerns. {\em We modify the agglomerative clustering algorithm to
-  make it a deep learning-based clustering model}. Specifically,
-during predicting, the number of clusters is unknown. Thus, we use a
-{\em trainable threshold} for the linkage when merging the smaller
-clusters into a larger one. The output of this step is the clusters
-for all the changed nodes in {\mvpdg}. During training, we know the
-clusters of the changed nodes from the training data. The trainable
-parameters of the model and the trainable threshold are computed over
-many iterations in training as the computed clusters for the changed
-nodes are compared against the correct clusters. We design a loss
-function for such comparison to adjust the model's parameters over the
-iterations.
+nodes represented by their embeddings.
+%into the clusters for different concerns.
+{\em We modify the agglomerative clustering algorithm into a
+  supervised-learning clustering model}. During training, we know the
+ground truth clusters of the changed nodes from the training data. We
+define a {\em trainable threshold} for the linkage when merging the
+smaller clusters into a larger one. The trainable parameters of the
+model and the trainable threshold are computed over many iterations in
+training as the predicted clusters are compared against the correct
+clusters in the oracle. We design a loss function considering such
+comparison to adjust the model's parameters over the iterations.
+For predicting, the
+trained model is used to cluster the changed nodes in {\mvpdg}.
 
-\noindent {\bf Training corpus.} To train our clustering
-learning model, we need to have a corpus of the past commits that were
-clustered/un-tangled into multiple clusters for different concerns. We
-reuse the data collection methodology by Herzig {\em et
+%Specifically, during predicting, the number of clusters is
+%unknown. Thus, we use a {\em trainable threshold} for the linkage when
+%merging the smaller clusters into a larger one. The output of this
+%step is the clusters for all the changed nodes in {\mvpdg}.
+
+\noindent {\bf Training corpus.} To train our clustering learning
+model, we need to have a corpus of the past commits that were
+un-tangled into multiple clusters, each for a different concern. To do
+so, we reuse the data collection methodology by Herzig {\em et
   al.}~\cite{kim-emse16}, which was lated used by Partachi {\em et
-  al.}~\cite{flexeme-fse20} in Flexeme, to build the artificial corpus
-of tangled commits that mimic the way of a developer committing
-multiple consecutive work units as a single patch. Because the
-methodology is to compose the tangled commits from the atomic ones
-that were mined from the repositories, we automatically have the
-correct clusters of atomic changes in the commits for training.
+  al.}~\cite{flexeme-fse20}, to build the artificial corpus of tangled
+commits that mimic the way of a developer committing multiple
+consecutive work units as a single patch. The methodology is aimed to
+compose the tangled commits from the atomic ones that were mined from
+the repositories. Thus, we can obtain the tangled commits consisting
+of the clusters of atomic changes for training.
 
 
 
@@ -194,7 +203,7 @@ detection tool to detect if there is a cloned statement $s'_m$ of a
 changed statement $s_m$ in the multi-version {\mvpdg}. If so, we check
 the clusters containing $s_m$ and $s'_m$. If they are different,
 we merge those clusters for one concern. After iterating over
-all changed statement $s_m$, we have the final resulting clusters.
+all the changed statement $s_m$, we obtain the final resulting clusters.
 
 %$Stmt_m$ and $Stmt_n$ in the multi-version PDG$^{i,j}$. If so, we
 %check the clustering results for $Stmt_m$ and $Stmt_n$ in $C$. If they
@@ -208,9 +217,9 @@ all changed statement $s_m$, we have the final resulting clusters.
 \subsubsection*{Training and Predicting}
 All the steps in Figure~\ref{fig:overview} are shared between the
 training and predicting processes. The key difference is that in
-training, the ground truth with respect to the clusters (concern
-1, concern 2, etc.) for the changed statements are known, while in
+training, the ground truth with respect to the clusters (concern 1,
+concern 2, etc.) for the changed statements are known, while in
 predicting, {\tool} will predict the clusters (concern 1, concern 2,
-etc.), and finally update them via code clone checking
-process.
+etc.), and finally update them via code clone checking process. During
+predicting/clustering, the number of clusters is unknown.
 
