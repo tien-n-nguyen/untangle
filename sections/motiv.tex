@@ -135,32 +135,31 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
 }
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Same Change in Two Contexts for Different Concerns}
+        \caption{Same Change in Two Contexts for Diff. Concerns}
         \vspace{-6pt}
         \label{fig:motiv-context}
 \end{figure}
 
-Figure~\ref{fig:motiv-context} shows another example in the project
-JHotDraw. At the commit rev. 463, two changes at line 3 and line 13
-are exactly the same with the addition of \code{figure.isSelectable()}
-to check whether a figure is selectable or not. However, those {\em
-  two exact changes} occurred in two different methods
-\code{mousePressed} and \code{updateHoverHandles} for two different
-concerns/purposes as noted in the commit log. Line 4 was aimed to fix
-the tracking of a dragging object as the mouse is pressed ({\em
-  ``Fixed bug where setSelectable() on a dragging figure did not
-  work''}).  Line 14 was a fix for a different bug as the hovered
-object needs to be selected ({\em ``Selection classes now check the
-  flag on the hovering figures to be selected.''}). The addition of
-\code{figure.isSelectable()} is common for checking if a figure is
-selectable in the two tasks of dragging figure and hovering
-figure. Without the surrounding contexts, one could not tell they are
-for different purposes.
+Figure~\ref{fig:motiv-context} shows another example in JHotDraw
+project. At the commit rev. 463, two changes at line 3 and line 13 are
+exactly the same with the addition of \code{figure.isSelectable()} to
+check whether a figure is selectable or not. However, those {\em two
+  exact changes} occurred in two different methods \code{mousePressed}
+and \code{updateHoverHandles} for two different concerns/purposes as
+noted in the commit log. Line 4 was aimed to fix the tracking of a
+dragging object as the mouse is pressed ({\em ``Fixed bug where
+  setSelectable() on a dragging figure did not work''}).  Line 14 was
+a fix for a different bug as the hovered object needs to be selected
+({\em ``Selection classes now check the flag on the hovering figures
+  to be selected.''}). The addition of \code{figure.isSelectable()} is
+common for checking if a figure is selectable in the two tasks of
+dragging figure and hovering figure. Without the surrounding contexts,
+one could not tell that they are for different purposes.
 
 \noindent {\bf Observation 2 [Context].} {\em The surrounding context
-  is important to determine the purpose/concern of a change. The same
-  change in two different contexts might be for different
-  purposes/concerns}.
+  consisting of un-changed code is crucial to determine the
+  concern of a change. The same change in two 
+  contexts could be for different concerns}.
 
 \begin{figure}[t]
 	\centering
@@ -224,7 +223,7 @@ the usage of \code{PortfolioSelection} into that of
 \code{ManualUniverseSelection\-Model} in the process of {\em ``setting
   algorithm framework models''}. The two changes belong to the same
 concern/purpose since they serve as a fix for the same logic despite
-that they have no program dependencies among one another. The existing
+that there is no program dependency among them. The existing
 untangling
 approaches~\cite{flexeme-fse20,smartcommit-fse21,roover-scam18,barnett-icse15}
 that require the explicit program dependencies among the changes with
@@ -234,7 +233,7 @@ to the same concern.
 \noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
   fragments of cloned code have the same/similar logic, thus, have
   implicit dependencies, and could be modified in the same manner to
-  serve for the same purpose/concern.}
+  serve the same purpose.}
 
 \input{sections/key-ideas}
 
