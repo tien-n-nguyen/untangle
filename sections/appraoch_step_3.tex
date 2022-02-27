@@ -9,19 +9,19 @@ detection tool returns a list of clone candidates in the clone groups
 with different sizes. First, we consider only the clone groups with
 the cloned fragments containing the changed statements. If multiple
 clone fragments contain the same changed statement, we choose the
-clone fragment with the largest size to avoid the duplication (the
-larger clone contains the smaller one).
+clone fragment with the largest size to avoid the duplication (because
+the larger clone contains the smaller one).
 
 After predicting/clustering the changed nodes/statements as explained
 in Section~\ref{clustering-model:sec}, we have marked each changed
-statement with a concern. For each changed statement in a clone group,
-we check the clusters of its cloned statements and update its cluster
-via majority voting. For example, a changed statement $s$ marked with
-concern 1, and it belongs to a cloned fragment in which the other
-statements in that fragment and their clones are marked with concern 2
-in their majority, then we change $s$ to be about concern 2. If there
-is no majority, we adjust the cluster of $s$ to the concern/cluster
-with a lower index.
+statement with a concern. For each changed statement $s_c$ in a clone
+group, we check the clusters of its cloned statements and update the
+cluster for $s_c$ via majority voting. For example, a changed
+statement $s_c$ marked with concern 1, and it belongs to a cloned
+fragment in which the other statements in that fragment and their
+clones are marked with concern 2 in their majority, then we change $s_c$
+to be about concern 2. If there is no majority, we adjust the cluster
+of $s_c$ to the concern/cluster with a lower index.
 
 %Next, for each code change candidate, we check the clustering results $CL_{pre}$ from the last step for all changed statements in the clone candidate and update the clustering results for all changed statements to the cluster that appeared for the most times. If there is a tie, we update the clustering results to the cluster with the smaller index.
 
