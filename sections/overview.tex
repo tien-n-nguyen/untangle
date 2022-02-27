@@ -8,7 +8,7 @@
 	\centering
 	\includegraphics[width=5.3in]{figures/multi-version-graph-3.png}
 	\vspace{-6pt}
-	\caption{Multi-Version Program Dependence Graph ($\delta$-PDG)}
+	\caption{{\mvpdg}: Multi-Version Program Dependence Graph}
 	\label{fig:multi-version-pdg}
 \end{figure*}
 
@@ -16,7 +16,7 @@
 	\centering
  	\includegraphics[width=6.5in]{figures/overview.png}
 	\vspace{-6pt}
-	\caption{Architecture Overview}
+	\caption{{\tool}: Architecture Overview}
 	\label{fig:overview}
 \end{figure*}
 
@@ -160,18 +160,20 @@ With the contextualized embeddings built for all the changed nodes in
 {\mvpdg}, our {\bf code change clustering learning model} uses the
 hierarchical agglomerative clustering algorithm to cluster the changed
 nodes represented by their embeddings.
-%into the clusters for different concerns.
-{\em We modify the agglomerative clustering algorithm into a
-  supervised-learning clustering model}. During training, we know the
-ground truth clusters of the changed nodes from the training data. We
-define a {\em trainable threshold} for the linkage when merging the
-smaller clusters into a larger one. The trainable parameters of the
-model and the trainable threshold are computed over many iterations in
-training as the predicted clusters are compared against the correct
-clusters in the oracle. We design a loss function considering such
-comparison to adjust the model's parameters over the iterations.
-For predicting, the
-trained model is used to cluster the changed nodes in {\mvpdg}.
+%{\em We modify the agglomerative clustering algorithm into a
+%  supervised-learning clustering model}.
+That clustering algorithm is adapted into a
+supervised-learning clustering model as follows.
+%
+During training, we know the ground truth clusters of the changed
+nodes from the training data. We define a {\em trainable threshold}
+for the linkage when merging the smaller clusters into a larger
+one. The trainable parameters of the model and the trainable threshold
+are computed over many iterations in training as the predicted
+clusters are compared against the correct clusters in the oracle. We
+design a loss function considering such comparison to adjust the
+model's parameters over the iterations.  For predicting, the trained
+model is used to cluster the changed nodes in {\mvpdg}.
 
 %Specifically, during predicting, the number of clusters is
 %unknown. Thus, we use a {\em trainable threshold} for the linkage when

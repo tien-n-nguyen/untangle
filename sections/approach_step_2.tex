@@ -1,31 +1,33 @@
 \section{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 \label{clustering-model:sec}
 
-Let us explain in details our approach. While the first step (building
-the multi-version {\mvpdg}) is presented in
-Section~\ref{overview:sec}, we present in this section our
-context-aware, graph-based, code change (CC) clustering learning
-model.  This step has two tasks: 1) Taking the computed {\mvpdg} to
-learn the code change representation vectors (embeddings), and 2)
-performing clustering on those embeddings to cluster the changed
-statements.  During training, we have the ground truth on the clusters
-of the changed statements, thus, we have the cluster labels (concern
-1, concern 2, etc.) for the changed nodes in {\mvpdg}. During
+%Let us explain in details our approach.
+
+While the first step (building the multi-version {\mvpdg}) is
+presented in Section~\ref{overview:sec}, we present in this section
+our context-aware, graph-based, code change (CC) clustering learning
+model.  This step has two tasks: 1) taking the computed {\mvpdg} to
+learn the representation vectors (embeddings) for the changed code,
+and 2) performing clustering on those embeddings to cluster the
+changed statements.  During training, we have the ground truth on the
+clusters of the changed statements, thus, we have the cluster labels
+(concern 1, concern 2, etc.) for the changed nodes in {\mvpdg}. During
 predicting (i.e., clustering), the input {\mvpdg} will be fed into the
 trained clustering learning model to produce the cluster labels for
-the changed nodes/statements. For the given {\mvpdg}, the number of
-clusters is unknown to the model, and it decides that number via its
-agglomerative clustering. Let us detail the two tasks of our CC
-clustering learning model.
+the changed nodes/statements. For a given {\mvpdg}, the number of
+clusters is unknown to the model, and will be decided by the model
+during agglomerative clustering. Let us detail the two tasks.
+
+%of our CC clustering learning model.
 
 %traing and predicting
 
 
-\subsection{Context-aware, Code Change Representation Learning}
+\subsection{Context-aware Representation Learning for Code Changes}
 \label{vector:sec}
 
 \begin{figure*}[t]
-	\centering \includegraphics[width=5.8in]{figures/STEP_2-new.png}
+	\centering \includegraphics[width=5.8in]{figures/STEP_2-new-2.png}
 	\vspace{-6pt}
 	\caption{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 	\label{fig:step-2}
@@ -44,8 +46,8 @@ To achieve that, {\tool} first feeds the multi-version {\mvpdg} to a
 graph-based, deep learning model to learn the contextualized
 embeddings for the nodes in the graph. Because {\mvpdg} contains the
 labels (i.e., $i$, $j$, $(i,j)$) representing the (un)changes of the
-nodes, to better learn the useful information from the node features
-with the labels, {\tool} uses Label-GCN~\cite{} to model the graph.
+nodes, {\tool} uses Label-GCN~\cite{yi} to model the graph to better
+learn the useful information from the node features with the labels.
 
 
 %Before doing the clustering, in this step, \tool needs to get the representation vector $v'_c$ for each changed node $n_c$ first. To achieve it, \tool firstly put the {\mvpdg} into a graph-based deep learning model to learn the representation vector for each node in the graph. Because the {\mvpdg} contains the labels for each node, to better learn the useful information from the node features with the labels, \tool uses the Lable-GCN \cite{} model to do so.
@@ -56,8 +58,8 @@ Simlar to GCN~\cite{yi}, Label-GCN~\cite{yi} takes the graph with the
 node features as the input and produce the vectors for the nodes, when
 considering the features of the neighboring nodes of each node.  In
 addition, the Label-GCN also accepts the node labels in the first
-layer. For the node under consideration, it can take the labels of the
-neighboring nodes in account as part of the feature vectors. With
+layer. For the current node, it can take the labels of the
+neighboring nodes into account as part of the feature vectors. With
 that, it computes the vectors in the first layer as follows:
 \begin{equation}\label{eq1}
 	H^1 = \sigma [(\hat{A}X-diag(\hat{A})\sum_{j=1}^{K}e_je^T_j)W^0]
@@ -79,7 +81,7 @@ corresponding to the labels.
 
 %After the first layer, the result layers in Label-GCN follow the same process as normal GCN to calculate the hidden status. The formula of the following layers is as follow:
 
-In Label-GCN, the following layers after the first one follows the
+In Label-GCN, the following layers after the first layer follow the
 same process as in the GCN model~\cite{yi} to compute the hidden
 states. The computation in a following layer $l$ is as follows:
 \begin{equation}\label{eq4}
@@ -91,10 +93,10 @@ states. The computation in a following layer $l$ is as follows:
 This section explains how we process the multi-version {\mvpdg} to
 produce the input for the Label-GCN model. For each node $n$ of a
 statement $s$ in {\mvpdg}, we break it down into the code tokens $t$,
-and build the word embeddings $e_t$ via Glove~\cite{yi}. The vector
+and build the word embeddings $e_t$ for $t$ via Glove~\cite{yi}. The vector
 for the node $n$ is the average vector $Avg_n$ of the vectors of all
 the tokens $t$ within the corresponding statement $s$. Because each
-node $n$ has an (un)-changed label $i$, $j$, or $(i,j)$ for the
+node $n$ has a change label $i$, $j$, or $(i,j)$ for the
 versions, we combine $Avg_n$ with the one-hot vector of the length 3
 representing the labels $i$, $j$, or $(i,j)$. As a result, the
 combined vector $v_n$ (with the length of $len(Avg_n)$+3) is the node
@@ -105,16 +107,16 @@ embeddings $V_n$ for all the nodes in {\mvpdg}.
 
 %In \tool, we firstly use GloVe \cite{} to learn the word embedding $e_t$ for each token $t$ in each statement $n$ in the source code. Because in {\mvpdg}, each node is a statement $n$, we calculate the average embedding $Avg_n$ for each node based on the word embedding $e_t$ for each token inside of the statement. By combining $Avg_n$ with the known label $i$, $j$, and $i, j$ as one-hot labels, node embedding length become $len(Avg_n) + 3$ and \tool regards the combined vector $Avg'_n$ as the node feature vector for node $n$. Then, we put the {\mvpdg} with the node feature vectors $Avg'_n$ into the Label-GCN model to get the representation vector $v$ for each node $n$ in the graph.
 
-\subsubsection{Building Contexts and Contextualized Embeddings}
+\subsubsection{{\bf Building Contexts and Contextualized Embeddings}}
 After using Label-GCN, we obtain the vectors $V_n$ for all the nodes
 $n$. For a changed node $n_c$, we collect the nodes in its context
-$ctx$ (i.e., all un-changed nodes that are the $k$-hop neighbor of $n$
+$ctx$ (i.e., all un-changed nodes that are the $k$-hop neighbors of $n$
 together with all the inducing edges among them. We merge all the
 vectors for the nodes in $ctx$ into a matrix accordingly to the order
 of the statements in source code. We then use a fully-connected layer
 to learn the vector $v_{ctx}$ representing the context $ctx$ of the
 changed node $n_c$.
-
+%
 Finally, we perform a cross-product between the vector $v_{ctx}$ and
 the vector $V{n_c}$ for a changed node $n_c$, to produce the
 contextualized embedding $V^{*}_{n_c}$ for $n_c$.
