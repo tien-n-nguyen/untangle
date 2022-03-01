@@ -1,0 +1,62 @@
+\input{sections/dataset.tex}
+
+\subsection{Experimental Methodology}
+
+\noindent\textbf{RQ1. Comparison on Method-Level DL-based VD Approaches.}
+
+\textit{\underline{Baselines.}} We compare {\tool} with the state-of-the-art untangling approaches that are worked on C\# dataset in this RQ.
+
+\begin{itemize}
+	\item Barnett et al. \cite{barnett2015helping}: An automatic technique for decomposing changesets and evaluate its effectiveness through both a quantitative analysis and a qualitative user study
+	\item Herzig et al. \cite{herzig2016impact}: An automatic approach with multi-predictors to untangle code changes.
+	\item $\sigma-$PDG + CV \cite{flexeme-fse20}: The approach that uses multi-version PDG to do the clustering to untangle the commits.
+	\item Flexeme \cite{flexeme-fse20}: An approach that builds a new defined name flow graph from commits, then applies 	agglomerative alustering using graph similarity to that newly built graph to untangle its commits.
+\end{itemize}
+
+\textit{\underline{Procedure.}}
+In this RQ, we are focusing on the baselines that are workable on the C\# dataset. Within the C\# dataset, we firstly order all tangled commits in the dataset based on the latest modified time in the commit log from oldest to the newest. And then we split all of the tangled commits into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. We try to use the existing tangled commits to let model learn the features and then use the newest tangled commits to test the performance of the model. As for the baselines, because they don't need model training, we only evaluate the model performance on the 10\% testing dataset for fair comparison. We use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
+
+\noindent\textbf{RQ2. Comparison with other Interpretation Models for Fine-grained Interpretation.}
+
+\textit{\underline{Baselines.}} We compare {\tool} with the state-of-the-art untangling approaches that are worked on Java dataset in this RQ.
+
+\begin{itemize}
+	\item Base-1 \cite{smartcommit-fse21}: The rule-based approach that putting all changes into one group. 
+	\item Base-2 \cite{smartcommit-fse21}: The rule-based approach that putting changes in each file into one group 
+	\item Base-3 \cite{smartcommit-fse21}: The rule-based approach that considering only def-use, use-use and	same-enclosing-method relations.
+	\item SmartCommit \cite{smartcommit-fse21}: A graph-partitioning-based interactive approach to tangled changeset decomposition that leverages the efficiency of algorithms and the knowledge of developers.
+\end{itemize}
+
+\textit{ \underline{Procedure}.}
+In this RQ, we following the similar procedure in RQ1 to order all tangled commits based on the last modified time from oldest to the newest. And then we split the dataset into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. As for all baselines in this RQ, they all don't need training dataset, so we directly evaluate the performance of them on the 10\% testing dataset. The same as RQ1, we use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
+
+\noindent\textbf{RQ3. Within Project Analysis.}
+
+We used the C\# dataset in RQ1 as the dataset that used to do the analysis in this RQ. For each project in the dataset, we sorted the tangled commits based on the time in the commit log. Then we split the commits in each project into 80\%, 10\%, and 10\% for training, tuning, and testing. The oldest data is used to train the model while the newest data is used to test the model performance. We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$. 
+
+\noindent\textbf{RQ4. Overlapping Analysis.}
+
+{\color{red}{Need to add more.}}
+
+\noindent\textbf{RQ5. Sensitivity Analysis.}
+
+We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
+
+\noindent\textbf{RQ6. Case Study.} 
+
+We use real world cases to analysis the performance of \tool.
+
+\noindent\textbf{Evaluation Metrics}
+
+
+In all experiments, we measure the performance of all approaches with two evaluation metrics. The main metric we are using is the untangling accuracy $Accuracy^{(1)}$. It is defined as follow:
+
+\begin{equation}\label{eq7}
+	Accuracy^{(1)} = \frac{\#\:of\:Correctly\:Clustered\:Changed\:Statement}{\#\:of\:Changed\:Statement\:in\:the\:Commit}
+\end{equation}
+
+In RQ1, because we directly use the dataset from Partachi et al. \cite{flexeme-fse20} and compare with this study as a baseline in this research question, we also use the metric that has been used in Partachi et al.'s \cite{flexeme-fse20} study for doing the evaluation to fully analysis the differences on the performance. The accuracy metric in Partachi et al.'s \cite{flexeme-fse20} study is defined as follow:
+
+\begin{equation}\label{eq8}
+	Accuracy^{(2)} = \frac{\#\:of\:Correctly\: Clustered\: Changed\: Statement}{\#\: of\: Nodes\: in\: the\: Graph}
+\end{equation}
