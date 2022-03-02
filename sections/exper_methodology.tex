@@ -126,17 +126,47 @@ vector space.
 %and each concern contains at least two changed statements.
 
 
-\noindent\textbf{Evaluation Metrics}
+\noindent {\bf Evaluation Metrics.} We use two evaluation metrics for
+all approaches. First, $Accuracy^{c}$ is defined as the percentage of
+the {\em changed statements} that are labeled with a correct
+cluster/concern in all the statements in a commit: $Accuracy^{c}$=
+$\frac{\# changed\:stmts\:w.\:correct\:clusters}{\#
+all\:changed\:stmts\:in\:commit}$.  Note that a model might label the
+statements with a different permutation of cluster labels than the one
+in the ground truth. For example, we have five statements and three
+concerns. A model can predict [3,1,1,2,2] and the ground truth has
+[1,2,2,3,3]. A naive evaluation would give an accuracy of
+0.0. However, a permutation of the labels for clusters would give
+indeed an accuracy of 1.0. Thus, we use the Hungarian
+Algorithm~\cite{hungarian-algo} to find the permutation that gives the
+maximum accuracy, and use that for $Accuracy^{c}$.
+
+In RQ1, for the comparison with Flexeme~\cite{flexeme-fse20}, we also
+used another metric that was used in their paper, which is similar to
+$Accuracy^{c}$ except that it considers all statements: $Accuracy^{a}$
+= $\frac{\# stmts\:w.\:correct\:clusters}{\# all\:stmts\:in\:commit}$.
+We also consider all label permutations.
+
+%Both baselines, as well as Heddle, may recover an arbitrary
+%permutation of the ground truth labels. To avoid artificially
+%penalising them, we first use the Hungarian Algorithm [15] to find the
+%permutation that maximises accuracy. Consider the ground truth
+%‘[01122]’, should a tool output ‘[20011]’, a naïve approach would
+%award it 0.0 accuracy, while a trivial permutation of the labelling
+%function reveals that this is indeed 1.0 accuracy. We report this
+%maximal accuracy for each method.
 
 
-In all experiments, we measure the performance of all approaches with two evaluation metrics. The main metric we are using is the untangling accuracy $Accuracy^{(1)}$. It is defined as follow:
+%In all experiments, we measure the performance of all approaches with
+%two evaluation metrics. The main metric we are using is the untangling
+%accuracy $Accuracy^{(1)}$. It is defined as follow:
 
-\begin{equation}\label{eq7}
-	Accuracy^{(1)} = \frac{\#\:of\:Correctly\:Clustered\:Changed\:Statement}{\#\:of\:Changed\:Statement\:in\:the\:Commit}
-\end{equation}
+%\begin{equation}\label{eq7}
+%	Accuracy^{(1)} = \frac{\#\:of\:Correctly\:Clustered\:Changed\:Statement}{\#\:of\:Changed\:Statement\:in\:the\:Commit}
+%\end{equation}
 
-In RQ1, because we directly use the dataset from Partachi et al. \cite{flexeme-fse20} and compare with this study as a baseline in this research question, we also use the metric that has been used in Partachi et al.'s \cite{flexeme-fse20} study for doing the evaluation to fully analysis the differences on the performance. The accuracy metric in Partachi et al.'s \cite{flexeme-fse20} study is defined as follow:
+%In RQ1, because we directly use the dataset from Partachi et al. \cite{flexeme-fse20} and compare with this study as a baseline in this research question, we also use the metric that has been used in Partachi et al.'s \cite{flexeme-fse20} study for doing the evaluation to fully analysis the differences on the performance. The accuracy metric in Partachi et al.'s \cite{flexeme-fse20} study is defined as follow:
 
-\begin{equation}\label{eq8}
-	Accuracy^{(2)} = \frac{\#\:of\:Correctly\: Clustered\: Changed\: Statement}{\#\: of\: Nodes\: in\: the\: Graph}
-\end{equation}
+%\begin{equation}\label{eq8}
+%	Accuracy^{(2)} = \frac{\#\:of\:Correctly\: Clustered\: Changed\: Statement}{\#\: of\: Nodes\: in\: the\: Graph}
+%\end{equation}
