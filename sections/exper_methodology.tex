@@ -1,50 +1,130 @@
 \input{sections/dataset.tex}
 
 \subsection{Experimental Methodology}
+\label{method:sec}
 
-\noindent\textbf{RQ1. Comparison on Method-Level DL-based VD Approaches.}
+\noindent\textbf{RQ1. Comparison with Existing Approaches on C\# Dataset.}
 
-\textit{\underline{Baselines.}} We compare {\tool} with the state-of-the-art untangling approaches that are worked on C\# dataset in this RQ.
+{\em \underline{Baselines.}} We compare {\tool} with the
+state-of-the-art commit-untangling approaches that work on C\#
+programming language: Barnett {\em et al.}~\cite{barnett-icse15},
+Herzig {\em et al.}~\cite{kim-emse16}, Flexeme~\cite{flexeme-fse20},
+and $\delta$-PDG+CV~\cite{flexeme-fse20} ($\delta$-PDG+CV is a variant
+introduced by the authors of Flexeme via combining their $\delta$-PDG
+with confidence voting in Herzig {\em et al.}~\cite{kim-emse16}). See
+Section~\ref{intro:sec} for the details on the baselines.
 
-\begin{itemize}
-	\item Barnett et al. \cite{barnett2015helping}: An automatic technique for decomposing changesets and evaluate its effectiveness through both a quantitative analysis and a qualitative user study
-	\item Herzig et al. \cite{herzig2016impact}: An automatic approach with multi-predictors to untangle code changes.
-	\item $\sigma-$PDG + CV \cite{flexeme-fse20}: The approach that uses multi-version PDG to do the clustering to untangle the commits.
-	\item Flexeme \cite{flexeme-fse20}: An approach that builds a new defined name flow graph from commits, then applies 	agglomerative alustering using graph similarity to that newly built graph to untangle its commits.
-\end{itemize}
+%\begin{itemize}
+%	\item Barnett et al. \cite{barnett-icse15}: An automatic technique for decomposing changesets and evaluate its effectiveness through both a quantitative analysis and a qualitative user study
+%	\item Herzig et al. \cite{kim-emse16}: An automatic approach with multi-predictors to untangle code changes.
+%	\item $\sigma-$PDG + CV \cite{flexeme-fse20}: The approach that uses multi-version PDG to do the clustering to untangle the commits.
+%	\item Flexeme \cite{flexeme-fse20}: An approach that builds a new defined name flow graph from commits, then applies 	agglomerative alustering using graph similarity to that newly built graph to untangle its commits.
+%\end{itemize}
 
 \textit{\underline{Procedure.}}
-In this RQ, we are focusing on the baselines that are workable on the C\# dataset. Within the C\# dataset, we firstly order all tangled commits in the dataset based on the latest modified time in the commit log from oldest to the newest. And then we split all of the tangled commits into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. We try to use the existing tangled commits to let model learn the features and then use the newest tangled commits to test the performance of the model. As for the baselines, because they don't need model training, we only evaluate the model performance on the 10\% testing dataset for fair comparison. We use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
+We took all the commits in the C\# dataset and sorted them in the
+chronological order based on the creation time of the commit logs. For
+{\tool}, we then used 80\% of the oldest commits for training, 10\% of
+the next oldest ones for tuning, and the latest 10\% of the commits
+for testing. For the baselines, all of them do not need training,
+thus, we ran them on the 10\% testing data.
 
-\noindent\textbf{RQ2. Comparison with other Interpretation Models for Fine-grained Interpretation.}
+For {\tool}, we tuned it with autoML~\cite{NNI} for the following
+key hyper-parameters to have the best performance: (1) Epoch size
+(100, 200, 300); (2) Batch size (64, 128, 256); (3) Learning rate
+(0.001, 0.003, 0.005, 0.010); (4) Vector length of word embeddings and
+its output (150, 200, 250, 300).
 
-\textit{\underline{Baselines.}} We compare {\tool} with the state-of-the-art untangling approaches that are worked on Java dataset in this RQ.
+%(5) The maximum number $P$ of children nodes (4, 5, 6); (6) The maximum depth $Q$ of children nodes (3, 4, 5).
 
-\begin{itemize}
-	\item Base-1 \cite{smartcommit-fse21}: The rule-based approach that putting all changes into one group. 
-	\item Base-2 \cite{smartcommit-fse21}: The rule-based approach that putting changes in each file into one group 
-	\item Base-3 \cite{smartcommit-fse21}: The rule-based approach that considering only def-use, use-use and	same-enclosing-method relations.
-	\item SmartCommit \cite{smartcommit-fse21}: A graph-partitioning-based interactive approach to tangled changeset decomposition that leverages the efficiency of algorithms and the knowledge of developers.
-\end{itemize}
+%In this RQ, we are focusing on the baselines that are workable on the C\# dataset. Within the C\# dataset, we firstly order all tangled commits in the dataset based on the latest modified time in the commit log from oldest to the newest. And then we split all of the tangled commits into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. We try to use the existing tangled commits to let model learn the features and then use the newest tangled commits to test the performance of the model. As for the baselines, because they don't need model training, we only evaluate the model performance on the 10\% testing dataset for fair comparison. We use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
+
+\noindent\textbf{RQ2. Comparison with Existing Approaches on Java Dataset.}
+
+{\em \underline{Baselines.}} We compare {\tool} with the
+state-of-the-art untangling approach that works on Java source code,
+SmartCommit~\cite{smartcommit-fse21}, and the baselines used in their
+paper: Base-1~\cite{smartcommit-fse21} (a rule-based approach that
+puts all changes into one group), Base-2~\cite{smartcommit-fse21} (a
+rule-based approach that puts the changes in each file into one
+group), and Base-3~\cite{smartcommit-fse21} (a rule-based approach
+that considers only def-use, use-use and same-enclosing-method
+relations).
+
+
+
+%\begin{itemize}
+%	\item Base-1 \cite{smartcommit-fse21}: The rule-based approach that putting all changes into one group. 
+%	\item Base-2 \cite{smartcommit-fse21}: The rule-based approach that putting changes in each file into one group 
+%	\item Base-3 \cite{smartcommit-fse21}: The rule-based approach that considering only def-use, use-use and	same-enclosing-method relations.
+%	\item SmartCommit \cite{smartcommit-fse21}: A graph-partitioning-based interactive approach to tangled changeset decomposition that leverages the efficiency of algorithms and the knowledge of developers.
+%\end{itemize}
 
 \textit{ \underline{Procedure}.}
-In this RQ, we following the similar procedure in RQ1 to order all tangled commits based on the last modified time from oldest to the newest. And then we split the dataset into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. As for all baselines in this RQ, they all don't need training dataset, so we directly evaluate the performance of them on the 10\% testing dataset. The same as RQ1, we use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
+We used the same procedure as in RQ1, but on the Java dataset.  The
+baselines do not need training, thus, we ran them on the 10\% testing
+data. We also auto-tuned {\tool} with autoML~\cite{NNI}.
 
-\noindent\textbf{RQ3. Within Project Analysis.}
+%In this RQ, we following the similar procedure in RQ1 to order all tangled commits based on the last modified time from oldest to the newest. And then we split the dataset into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. As for all baselines in this RQ, they all don't need training dataset, so we directly evaluate the performance of them on the 10\% testing dataset. The same as RQ1, we use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
 
-We used the C\# dataset in RQ1 as the dataset that used to do the analysis in this RQ. For each project in the dataset, we sorted the tangled commits based on the time in the commit log. Then we split the commits in each project into 80\%, 10\%, and 10\% for training, tuning, and testing. The oldest data is used to train the model while the newest data is used to test the model performance. We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$. 
+\noindent\textbf{RQ3. Within-Project Analysis.}
+We used the C\# dataset and divided it into the commits for each
+project. For each group $G$ of commits for one project, we sorted them
+in the chronological order. For the commits in each group $G$, we
+splitted them as in RQ1, i.e., dividing them into 80\%, 10\%, 10\% for
+training, tuning, and testing, and using the older data for training
+and the newer data for tuning and testing.
+%
+We separately trained, fine-tuned, and tested a model under study the
+commits in each project. Because in all projects, there are
+insufficient data to train the model in this within-project setting
+(except for \code{CommandLine}), we reported the result running on
+the \code{CommandLine} project. For the other projects, we have the
+overfitting or underfitting problems due to insufficient training
+data.
 
-\noindent\textbf{RQ4. Overlapping Analysis.}
+%the commits in each project into 80%, 10%, and 10% for
+%training, tuning, and testing. The oldest data is used to train the
+%model while the newest data is used to test the model performance
 
-{\color{red}{Need to add more.}}
 
-\noindent\textbf{RQ5. Sensitivity Analysis.}
+%We used the C\# dataset in RQ1 as the dataset that used to do the analysis in this RQ. For each project in the dataset, we sorted the tangled commits based on the time in the commit log. Then we split the commits in each project into 80\%, 10\%, and 10\% for training, tuning, and testing. The oldest data is used to train the model while the newest data is used to test the model performance.
 
-We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
+%We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$. 
 
-\noindent\textbf{RQ6. Case Study.} 
+\noindent\textbf{RQ4. Sensitivity Analysis.}
+We built the variants of {\tool} by removing its important components,
+one at a time. First, we removed from {\tool} the context component by
+not considering the context vector when computing the vector
+for a changed statement. Second, we removed from {\tool} the
+clone detection component and used the resulting clusters from the
+code change clustering learning model as the final ones. We used the
+C\# dataset and the same setting as in RQ1.
 
-We use real world cases to analysis the performance of \tool.
+%We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
+
+\noindent\textbf{RQ5. Code Change Embedding Analysis.}
+We aim to confirm a hypothesis that the changed statements in the same
+concerns are projected nearer than the changed statements in different
+concerns. First, we randomly chose the commits with two or more
+clusters/concerns and in one of the cluster/concern, there are at
+least two changed statements. Let us use $C$ to denote that
+cluster/concern. We randomly chose two changed statements $S_1$ and
+$S_2$ in $C$. We then randomly selected another changed statement
+$S_3$ such that $S_3 \notin C$ and $S_3$ belongs to another cluster in
+the same commit with $S_1$ and $S_2$. We measured the distance
+$d_1(S_1,S_2)$ and $d_2(S_1,S_3)$. We repeated the process for all the
+commits satisfying the above conditions until to get XX triples of
+($S_1, S_2, S_3$). We then used statistical $p$-test to confirm or
+refute the hypothesis that $d_1(S_1,S_2)$ $\leq$ $d_2(S_1,S_3)$.
+Moreover, we also reported the examples where the same changed
+statements in different concerns are projected farther away in the
+vector space.
+
+
+%XX changed statements $S$ each of which belongs to a different concern
+%and each concern contains at least two changed statements.
+
 
 \noindent\textbf{Evaluation Metrics}
 
