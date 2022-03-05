@@ -132,9 +132,9 @@
 \begin{abstract}
 During software evolution, developers make several changes and commit
 them into the repositories. Unfortunately, many of them tangle
-different purposes, both hampering program comprehension and
-reduce separation of concerns. Automated approaches~have been
-proposed to untangle commits with deterministic solutions.
+different purposes, both hampering program comprehension and reduce
+separation of concerns. Automated approaches with deterministic
+solutions have been proposed to untangle commits.
 %Unlike the state-of-the-art, deterministic untangling approaches,
 
 In this work, we present {\tool}, a machine learning (ML)-based
@@ -149,18 +149,19 @@ supervised-learning clustering model operating on the learned code
 change embeddings via trainable parameters and a loss function in
 comparing the predicted clusters and the correct ones during training.
 %
-Another key idea of {\tool} is a {\em context-aware, graph-based, code
-change representation learning model}, leveraging Graph-based
-Convolution Network to produce the {\em contextualized embeddings
-for code changes}, that integrates program dependencies and
-the surrounding contexts of the changes. The contexts of the changes
-and cloned code are explicitly represented, helping {\tool}
+%Another key idea of {\tool} is
+To facilitate our clustering learning model, we develop a {\em
+context-aware, graph-based, code change representation learning
+model}, leveraging Label, Graph-based Convolution Network to produce
+the {\em contextualized embeddings for code changes}, that integrates
+program dependencies and the surrounding contexts of the changes. The
+contexts and cloned code are explicitly represented, helping {\tool}
 distinguish their concerns.
 %
-\textcolor{red}{Our empirical evaluation on a real-world C\# dataset
+\textcolor{red}{Our empirical evaluation on a public C\# dataset
 with 21k commits and 1,612 concerns shows that it achieves the
 accuracy of XX.X\%--XX.X\% relatively higher than the state-of-the-art
-approaches in correctly clustering the changed statements. We also
+approaches in clustering the changed code. We also
 evaluated {\tool} in a Java dataset with XX commits. The result shows
 that it achieves XX.X\% relatively higher accuracy than the
 state-of-the-art approach.}
