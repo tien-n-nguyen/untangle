@@ -4,7 +4,60 @@
 \subsection{Motivating Examples}
 \label{exe:sec}
 
-
+\begin{figure}[t]
+	\centering
+	\lstset{
+		numbers=left,
+		numberstyle= \tiny,
+		keywordstyle= \color{blue!70},
+		commentstyle= \color{red!50!green!50!blue!50},
+		frame=shadowbox,
+		rulesepcolor= \color{red!20!green!20!blue!20} ,
+		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
+		framexleftmargin=1.5em,
+                numbersep= 5pt,
+		language=Java,
+    basicstyle=\scriptsize\ttfamily,
+    numberstyle=\scriptsize\ttfamily,
+    emphstyle=\bfseries,
+                moredelim=**[is][\color{red}]{@}{@},
+		escapeinside= {(*@}{@*)}
+	}
+	\begin{lstlisting}[]
+Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
+ /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
+ ...
+(*@{\color{red}{- public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
+ ...
+(*@{\color{red}{- public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class},..., null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<> ("userAgentStylesheets", List.class, new Class<?>[]\{URI.class\},..., Collections.emptyList());}@*)
+ ...
+(*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS = new SimpleFigureKey<> ("inlineStylesheets", List.class, new Class<?>[]\{String.class\},..., null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS = new SimpleFigureKey<> ("inlineStylesheets", List.class, new Class<?>[]\{String.class\},..., Collections.emptyList());}@*)
+//--------------------------------------------------------------------------
+ /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/io/SimpleXmlIO.java
+ public Document toDocument(Drawing internal, Collection<Figure> selection) throws IOException {
+   ...
+            Element docElement = doc.getDocumentElement();
++            String linebreak = "\n";
+             for (Figure child : ordered) {
+-                writeNodeRecursively(doc, docElement, child);
+-            }
+-            docElement.appendChild(doc.createTextNode("\n"));
++                writeNodeRecursively(doc, docElement, child, linebreak);
++            }
++            docElement.appendChild(doc.createTextNode(linebreak));
+             return doc;
+  ...
+}
+  
+	\end{lstlisting}
+        \vspace{-15pt}
+        \caption{Co-Changed Statements for the Same Concern}
+        \vspace{-6pt}
+        \label{fig:motiv-cc}
+\end{figure}
 
 \begin{figure}[t]
 	\centering
@@ -26,34 +79,25 @@
 		escapeinside= {(*@}{@*)}
 	}
 	\begin{lstlisting}[]
-private static IEnumerable<Tuple<SpecificationProperty, Maybe<Error>>> MapValuesImpl(...) {
-  ...
-  var pt = specProps.First();
-(*@{\color{red}{   - var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().}@*) (*@{\color{red}{MapValueOrDefault(n => n, values.Count()));}@*)
-(*@{\color{cyan}{   + var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().}@*) (*@{\color{cyan}{GetValueOrDefault(values.Count()));}@*)
-   if (taken.Empty()) {...} ...
-}
 //--------------------------------------------------------------------------
-public static TypeDescriptor WithNextValue(this TypeDescriptor descriptor, Maybe<TypeDescriptor> nextValue) {
-(*@{\color{red}{  - return TypeDescriptor.Create(descriptor.TargetType,descriptor.MaxItems,}@*) (*@{\color{red}{nextValue.MapValueOrDefault(n => n, default(TypeDescriptor)));}@*)
-(*@{\color{cyan}{  + return TypeDescriptor.Create(descriptor.TargetType,descriptor.MaxItems,}@*) (*@{\color{cyan}{nextValue.GetValueOrDefault(default(TypeDescriptor)));}@*)
-}
-//--------------------------------------------------------------------------
-public static ParserResult<T> Build<T>(...) {
-  ...
-  select
-(*@{\color{red}{- sp.Value.MapValueOrDefault(v=>v,}@*) (*@{\color{red}{sp.Specification.DefaultValue.MapValueOrDefault(d => d,}@*)
-(*@{\color{cyan}{  + sp.Value.GetValueOrDefault(}@*)
-(*@{\color{cyan}{  + \quad sp.Specification.DefaultValue.GetValueOrDefault(}@*)
-(*@{\color{cyan}{   \quad  sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();}@*)
-  var immutable = (T)ctor.Invoke(values);
-  return immutable;
-}
+   /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
+   ... Fixes bugs in FigureStyleManager
+   
+ -    public final static Key<List<URI>> AUTHOR_STYLESHEETS = new SimpleFigureKey<>("authorStylesheets", List.class, "<URI>", DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+ +     public final static Key<List<URI>> AUTHOR_STYLESHEETS = new SimpleFigureKey<>("authorStylesheets", List.class, new Class<?>[]{URI.class}, DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+
+-    public final static Key<List<URI>> USER_AGENT_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, "<URI>", DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
++    public final static Key<List<URI>> USER_AGENT_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class}, DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+
+-    public final static Key<List<String>> INLINE_STYLESHEETS = new SimpleFigureKey<>("inlineStylesheets", List.class, "<String>", DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+
++    public final static Key<List<String>> INLINE_STYLESHEETS = new SimpleFigureKey<>("inlineStylesheets", List.class, new Class<?>[]{String.class}, DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+...
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Co-Changed Statements for the Same Concern}
+        \caption{...}
         \vspace{-6pt}
-        \label{fig:motiv-cc}
+        \label{fig:history}
 \end{figure}
 
 %public static ParserResult<T> Build<T>(...) {
