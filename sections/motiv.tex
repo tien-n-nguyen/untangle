@@ -30,31 +30,26 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 (*@{\color{red}{- public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ null);}@*)
 (*@{\color{cyan}{+ public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
  ...
-(*@{\color{red}{- public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class},..., null);}@*)
-(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<> ("userAgentStylesheets", List.class, new Class<?>[]\{URI.class\},..., Collections.emptyList());}@*)
+(*@{\color{red}{- public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class},...,}@*)(*@{\color{violet}{ null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<> ("userAgentStylesheets", List.class, new Class<?>[]\{URI.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
  ...
-(*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS = new SimpleFigureKey<> ("inlineStylesheets", List.class, new Class<?>[]\{String.class\},..., null);}@*)
-(*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS = new SimpleFigureKey<> ("inlineStylesheets", List.class, new Class<?>[]\{String.class\},..., Collections.emptyList());}@*)
+(*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets",List.class,new Class<?>[]\{String.class\},.,}@*)(*@{\color{violet}{null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets", List.class, new Class<?>[]\{String.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
 //--------------------------------------------------------------------------
  /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/io/SimpleXmlIO.java
- public Document toDocument(Drawing internal, Collection<Figure> selection) throws IOException {
-   ...
-            Element docElement = doc.getDocumentElement();
-+            String linebreak = "\n";
-             for (Figure child : ordered) {
--                writeNodeRecursively(doc, docElement, child);
--            }
--            docElement.appendChild(doc.createTextNode("\n"));
-+                writeNodeRecursively(doc, docElement, child, linebreak);
-+            }
-+            docElement.appendChild(doc.createTextNode(linebreak));
-             return doc;
-  ...
+ public Document toDocument(Drawing internal,Collection<Figure> selection)..{
+   for (Figure child : ordered) {
+   (*@{\color{red}{-            writeNodeRecursively(doc, docElement, child);}@*)
+   (*@{\color{red}{-\}}@*)
+   (*@{\color{red}{-          docElement.appendChild(doc.createTextNode("..."));}@*)
+   (*@{\color{cyan}{+            writeNodeRecursively(doc, docElement, child, linebreak);}@*)
+   (*@{\color{cyan}{+\}}@*)
+   (*@{\color{cyan}{+          docElement.appendChild(doc.createTextNode(linebreak));}@*)
+   return doc; ...
 }
-  
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Co-Changed Statements for the Same Concern}
+        \caption{A Tangled Commit at r1192 of JHotDraw}
         \vspace{-6pt}
         \label{fig:motiv-cc}
 \end{figure}
@@ -79,23 +74,21 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 		escapeinside= {(*@}{@*)}
 	}
 	\begin{lstlisting}[]
-//--------------------------------------------------------------------------
-   /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
-   ... Fixes bugs in FigureStyleManager
+  Commit r1023 ``Fixes bugs in FigureStyleManager''
+  /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
    
- -    public final static Key<List<URI>> AUTHOR_STYLESHEETS = new SimpleFigureKey<>("authorStylesheets", List.class, "<URI>", DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
- +     public final static Key<List<URI>> AUTHOR_STYLESHEETS = new SimpleFigureKey<>("authorStylesheets", List.class, new Class<?>[]{URI.class}, DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+(*@{\color{red}{-    public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, }@*)(*@{\color{violet}{"<URI>",}@*)(*@{\color{red}{,..., null);}@*)
+(*@{\color{cyan}{+     public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, }@*)(*@{\color{violet}{new Class<?>[]\{URI.class\},}@*)(*@{\color{cyan}{..., null);}@*)
 
--    public final static Key<List<URI>> USER_AGENT_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, "<URI>", DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
-+    public final static Key<List<URI>> USER_AGENT_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class}, DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+(*@{\color{red}{-    public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS=new SimpleFigureKey <>("userAgentStylesheets", List.class, }@*)(*@{\color{violet}{"<URI>",}@*)(*@{\color{red}{..., null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS=new SimpleFigureKey<> ("userAgentStylesheets", List.class, }@*)(*@{\color{violet}{new Class<?>[]\{URI.class\},}@*)(*@{\color{cyan}{..., null);}@*)
 
--    public final static Key<List<String>> INLINE_STYLESHEETS = new SimpleFigureKey<>("inlineStylesheets", List.class, "<String>", DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
-
-+    public final static Key<List<String>> INLINE_STYLESHEETS = new SimpleFigureKey<>("inlineStylesheets", List.class, new Class<?>[]{String.class}, DirtyMask.of(DirtyBits.NODE, DirtyBits.LAYOUT, DirtyBits.TRANSFORM, DirtyBits.CONNECTION_LAYOUT, DirtyBits.STYLE), null);
+(*@{\color{red}{-    public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets", List.class, }@*)(*@{\color{violet}{"<String>",}@*)(*@{\color{red}{..., null);}@*)
+(*@{\color{cyan}{+    public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets",List.class,}@*)(*@{\color{violet}{new Class<?>[]\{String.class\},}@*)(*@{\color{cyan}{.,null);}@*)
 ...
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{...}
+        \caption{Changes of the Same Concern at r1023 of JHotDraw}
         \vspace{-6pt}
         \label{fig:history}
 \end{figure}
@@ -115,19 +108,40 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 %}
 
 Let us present the real-world examples and our
-%observations for
-motivation. Figure~\ref{fig:motiv-cc} shows an example from the
-experimental dataset in a prior work~\cite{flexeme-fse20}. This commit
-has three changed statements at lines 4, 10, and 17 of the methods
-\code{MapValuesImpl}, \code{WithNextValue}, and \code{Build}.  The
-method \code{MapValueOrDefault} was renamed to
-\code{GetValueOr\-Default}, causing the changes to the call sites.
-These changes are deemed by the developers as serving the same
-concern/purpose of enhancing type resolution in the parser. {\em These
-  statements have been changed for the same concern} of fixing the
-value parsing in a past commit. This motivates us to build a ML model
+motivation. Figure~\ref{fig:motiv-cc} shows the changes at the commit
+r1192 of the JHotDraw project with the log {\em ``Fixes NPE and
+  implements indentation of XML elements''}. This is a tangled commit
+with two concerns/purposes: 1) the fix for Null Pointer Exception
+occurred at lines 4,7, and 10 of the \code{Drawing} class (the
+\code{null} argument was replaced with
+\code{Collections.emptyList()}); 2) the implementation of indentation
+of XML elements occurred at lines 16--18, and a few others of the
+\code{SimpleXmlIO} class and one line in the \code{Drawing} class (not
+shown).
+
+Figure~\ref{fig:history} shows the changes committed at r1023 earlier
+in JHotDraw. The changes occurred at the same lines 4, 7, and 10 of
+the \code{Drawing} class as the commit at r1192 in
+Figure~\ref{fig:motiv-cc}. However, the commit at r1023 was for only
+one concern as stated in the commit log {\em ``Fixes bugs in
+  FigureStyleManager''}. This example motivates us to build a ML model
 to learn from the co-changes for the same concern in the version
-history to untangle the commits.
+history to untangle the current commit.
+
+%Figure~\ref{fig:motiv-cc} shows an example from the experimental
+%dataset in a prior work~\cite{flexeme-fse20}. This commit has three
+%changed statements at lines 4, 10, and 17 of the methods
+%\code{MapValuesImpl}, \code{WithNextValue}, and \code{Build}.  The
+%method \code{MapValueOrDefault} was renamed to
+%\code{GetValueOr\-Default}, causing the changes to the call sites.
+%These changes are deemed by the developers as serving the same
+%concern/purpose of enhancing type resolution in the parser. {\em These
+%  statements have been changed for the same concern} of fixing the
+%value parsing in a past commit. This motivates us to build a ML model
+%to learn from the co-changes for the same concern in the version
+%history to untangle the commits.
+%---------------------
+
 %Tien
 %For this example, the untangling approaches relying on the PDGs or
 %program slices within individual methods cannot cluster the changed
@@ -174,8 +188,7 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
   figure = f;
 (*@{\color{red}{- if (figure != null) {}@*)
 (*@{\color{cyan}{+ if (figure != null}@*) && (*@{\color{cyan}{figure.isSelectable()) {}@*)
-      hoverHandles.addAll(figure.createHandles(-1));
-    ...
+      hoverHandles.addAll(figure.createHandles(-1)); ...
 }
 	\end{lstlisting}
         \vspace{-15pt}
@@ -185,7 +198,7 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
 \end{figure}
 
 Figure~\ref{fig:motiv-context} shows another example in JHotDraw
-project. At the commit rev. 463, two changes at line 3 and line 13 are
+project. At the commit r463, two changes at line 3 and line 13 are
 exactly the same with the addition of \code{figure.isSelectable()} to
 check whether a figure is selectable or not. However, those {\em two
   exact changes} occurred in two different methods \code{mousePressed}
@@ -205,67 +218,13 @@ one could not tell that they are for different purposes.
   concern of a change. The same change in two 
   contexts could be for different concerns}.
 
-\begin{figure}[t]
-	\centering
-	\lstset{
-		numbers=left,
-		numberstyle= \tiny,
-		keywordstyle= \color{blue!70},
-		commentstyle= \color{red!50!green!50!blue!50},
-		frame=shadowbox,
-		rulesepcolor= \color{red!20!green!20!blue!20} ,
-		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
-		framexleftmargin=1.5em,
-                numbersep= 5pt,
-		language=Java,
-    basicstyle=\scriptsize\ttfamily,
-    numberstyle=\scriptsize\ttfamily,
-    emphstyle=\bfseries,
-                moredelim=**[is][\color{red}]{@}{@},
-		escapeinside= {(*@}{@*)}
-	}
-	\begin{lstlisting}[]
-public override void Initialize() {
-  ...
-  // set algorithm framework models
-(*@{\color{red}{- PortfolioSelection=new}@*) (*@{\color{red}{ManualPortfolioSelectionModel(QuantConnect.Symbol.Create("BTCUSD",}@*) (*@{\color{red}{SecurityType.Crypto, Market.GDAX));}@*)   
-(*@{\color{cyan}{+ UniverseSelection=new}@*) (*@{\color{cyan}{ManualUniverseSelectionModel(QuantConnect.Symbol.Create("BTCUSD",}@*) (*@{\color{cyan}{SecurityType.Crypto, Market.GDAX));}@*)
-  Alpha = new ConstantAlphaModel(InsightType.Price, InsightDirection.Up,...);
-  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
-}
-//--------------------------------------------------------------------------
-public override void Initialize() {
-  ...
-  // set algorithm framework models
-(*@{\color{red}{- PortfolioSelection=new}@*) (*@{\color{red}{ManualPortfolioSelectionModel(QuantConnect.Symbol.Create("SPY",}@*) (*@{\color{red}{SecurityType.Equity, Market.USA));}@*)   
-(*@{\color{cyan}{+ UniverseSelection=new}@*) (*@{\color{cyan}{ManualUniverseSelectionModel(QuantConnect.Symbol.Create("SPY",}@*) (*@{\color{cyan}{SecurityType.Equity, Market.USA);}@*)
-  Alpha = new ConstantAlphaModel(InsightType.Price, InsightDirection.Up,...);
-  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
-	\end{lstlisting}
-        \vspace{-15pt}
-        \caption{Cloned Code in the Same Concern}
-        \vspace{-3pt}
-        \label{fig:motiv-clone}
-\end{figure}
-
-%//--------------------------------------------------------------------------
-%public override void Initialize() {
-%  ...
-%(*@{\color{red}{- PortfolioSelection = new CustomFundamentalPortfolioSelectionModel();}@*)
-%(*@{\color{cyan}{+ UniverseSelection = new CustomFundamentalUniverseSelectionModel();}@*)
-%  Alpha = new MacdAlphaModel(TimeSpan.FromMinutes(10),...);
-%  PortfolioConstruction = new EqualWeightingPortfolioConstructionModel();
-%}
-
-Figure~\ref{fig:motiv-clone} shows another example on the two
-fragments of cloned code for two different security types (Crypto and
-Equity) and markets (GDAX and USA). They were fixed in the same manner
-at line 4 and line 13. The two changes were in the same fix to convert
-the usage of \code{PortfolioSelection} into that of
-\code{UniverseSelection}, and the usage of
-\code{ManualPortfolioSelectionModel} into that of
-\code{ManualUniverseSelection\-Model} in the process of {\em ``setting
-  algorithm framework models''}. The two changes belong to the same
+Figure~\ref{fig:motiv-cc} also gives us another interesting
+observation. The changes at lines 4, 7, and 10 are exactly the same to
+fix the NPE: \code{null} $\rightarrow$ \code{Collections.emptyList()}.
+The three statements are cloned code of one another to support for
+different stylesheets (author, user agent, and inline stylesheets).
+In fact, the changes in Figure~\ref{fig:history} also occurred at the
+cloned statements. The three changes belong to the same
 concern/purpose since they serve as a fix for the same logic despite
 that there is no program dependency among them. The existing
 untangling
@@ -273,6 +232,16 @@ approaches~\cite{flexeme-fse20,smartcommit-fse21,roover-scam18,barnett-icse15}
 that require the explicit program dependencies among the changes with
 the same purpose will not classify these committed code as belonging
 to the same concern.
+
+%Figure~\ref{fig:motiv-clone} shows another example on the two
+%fragments of cloned code for two different security types (Crypto and
+%Equity) and markets (GDAX and USA). They were fixed in the same manner
+%at line 4 and line 13. The two changes were in the same fix to convert
+%the usage of \code{PortfolioSelection} into that of
+%\code{UniverseSelection}, and the usage of
+%\code{ManualPortfolioSelectionModel} into that of
+%\code{ManualUniverseSelection\-Model} in the process of {\em ``setting
+%  algorithm framework models''}.
 
 \noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
   fragments of cloned code have the same/similar logic, thus, have
