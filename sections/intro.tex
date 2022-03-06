@@ -71,11 +71,11 @@ in agglomerative clustering to partition tangled changes.
 The second category of untangling approaches leverage the {\em static
   analysis} techniques. Roover {\em et al.}~\cite{roover-scam18} use
 program slicing to segment a commit across a Program Dependency Graph
-(PDG).  However, it is limited in handling interprocedural and
+(PDG).  However, it is limited in handling inter-procedural and
 cross-file dependencies. Barnett {\em et al.}~\cite{barnett-icse15}
 use def-use chains, and cluster them. If the def-use chain all falls
 into a method, it is considered as trivial, otherwise,
-non-trivial. Because igoring the trivial clusters, it can miss tangled
+non-trivial. Because ignoring the trivial clusters, it can miss tangled
 concerns. Flexeme~\cite{flexeme-fse20} uses multi-version PDG
 augmented with name flows in the edges, and applies agglomerative
 clustering using graph similarity on that graph to untangle the
@@ -101,7 +101,7 @@ cosmetic links, etc.).
 
 Despite their successes, the state-of-the-art untangling commit
 techniques still have limitations. First, the boundaries across the
-concerns in a commit do not neccessarily and natually map to
+concerns in a commit do not necessarily and naturally map to
 clustering criteria of a clustering algorithm running on the PDG, name
 flows, program slices, change operations, or the changes
 themselves. The concerns might be linked via multiple edges, and a
@@ -173,34 +173,39 @@ concerns in the version history (Section~\ref{overview:sec}).
 To facilitate learning to cluster code changes, we develop a {\bf
   context-aware, graph-based, code change representation learning (RL)
   model}, leveraging Graph-based Convolution Network (GCN) to produce
-the {\em contextualized embeddings for the code changes}.
+the {\em contextualized embeddings for code changes}.
 
 Our clustering learning model and context-aware, graph-based RL model
-for code changes have the following unique characteristics that
-facilitates the untangling of code changes. First, we use GCN to model
-the changes and surrounding code by integrating both the versions
-before and after the changes in a multi-version program dependence
-graph, $\delta$-PDG~\cite{flexeme-fse20} that encodes the {\em
+%for code changes
+have the following unique characteristics that facilitates the
+untangling of code changes. First, we use GCN to model the changes and
+surrounding code by integrating both the versions before and after the
+changes in a multi-version program dependence graph,
+$\delta$-PDG~\cite{flexeme-fse20} that encodes the {\em
   \underline{program dependencies} between the changed and unchanged
   statements}. Second, to decompose the changes, we {\em explicitly
   represent the surrounding \underline{code context} of each
   change}. The explicit representation of the context could help
 {\tool} learn the important features of a change (e.g., code
-structures, data/control dependencies) to distiguish its concern among
-others. Third, {\tool} also considers an important feature for each
-change, that is, the cloned code that is similar to the code under
-consideration. The idea is that the {\em two \underline{cloned code}
-  with similar logic might be changed in the same manner in the same
-  concern in a commit}. Fourth, to untangle a commit, in our code
-change clustering learning model, agglomerative clustering is applied
-on the {\em \underline{contextualized embeddings for the code
-    changes}} that integrates richer, encoded information than the PDG
-or program slices, thus, helping better distinguish the concerns of
-the changes. Finally, we {\em \underline{adapt the agglomerative
-    clustering algorithm}} into a {\em
-  \underline{super}-\underline{vised-learning clustering model}} with
-trainable parameters and a loss function to adjust the parameters by
-comparing the predicted clusters and the correct ones during training.
+structures, data/control dependencies) to distinguish its concern among
+others.
+%
+Third, {\tool} also considers an implicit relationship:
+%an important feature for each change, that is,
+the cloned code that is similar to the changed code under study.
+%
+The idea is that the {\em two \underline{cloned code} with similar
+  logic might be changed in the same manner in the same concern in a
+  commit}. Fourth, to untangle a commit, in our code change clustering
+learning model, agglomerative clustering is applied on the {\em
+  \underline{contextualized embeddings for code}} {\em
+  \underline{changes}} that integrates richer, encoded information
+than the PDG or program slices, thus, helping better distinguish the
+concerns of the changes. Finally, we {\em \underline{adapt the
+    agglomerative clustering algorithm}} into a {\em
+  supervised-learning clustering model} with trainable parameters and
+a loss function to adjust the parameters by comparing the predicted
+clusters and the correct ones during training.
 
 %We then apply agglomerative clustering on the vectors to produce the
 %final clusters to untangle the commit. We expect that agglomerative
@@ -232,21 +237,21 @@ comparing the predicted clusters and the correct ones during training.
 
 The key contributions of this work include:
 
-{\bf 1. {\tool}: an ML-based commit-untangling approach with a novel
+{\bf 1. {\tool}: an ML-based, commit-untangling approach with a novel
   code change clustering learning model.} It is the first ML model
 that learns to untangle the commit by learning to cluster the code
 changes.  {\tool} learns from the changes belonging to the same
 concern in the version history. We adapt agglomerative clustering
 into a supervised-learning clustering model.
 
-{\bf 2. A Novel context-aware, graph-based representation learning for
+{\bf 2. A novel context-aware, graph-based representation learning for
   code changes.} We design GCN-based model to produce the {\em
   contextualized embeddings for the code changes}, that
 integrates the program dependencies, the representations of changes
 and contexts. Cloned code is also considered in untangling commits.
 
 {\bf 3. Extensive empirical evaluation.} We evaluated {\tool} against
-the recent approaches for untangling commits to show its
+the state-of-the-art approaches for untangling commits to show its better
 performance. Our tool and data are available at~\cite{utango-website}.
 
 %\textcolor{red}{We have conducted several experiments to evaluate
