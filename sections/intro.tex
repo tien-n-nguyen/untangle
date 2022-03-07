@@ -172,23 +172,24 @@ concerns in the version history (Section~\ref{overview:sec}).
 %
 To facilitate learning to cluster code changes, we develop a {\bf
   context-aware, graph-based, code change representation learning (RL)
-  model}, leveraging Graph-based Convolution Network (GCN) to produce
-the {\em contextualized embeddings for code changes}.
+  model}, leveraging Label, Graph-based Convolution
+Network~\cite{label-gcn} to produce the {\em contextualized embeddings
+  for code changes}.
 
 Our clustering learning model and context-aware, graph-based RL model
 %for code changes
 have the following unique characteristics that facilitates the
-untangling of code changes. First, we use GCN to model the changes and
-surrounding code by integrating both the versions before and after the
-changes in a multi-version program dependence graph,
+untangling of code changes. First, we use Label-GCN to model the
+changes and surrounding code by integrating both the versions before
+and after the changes in a multi-version program dependence graph,
 $\delta$-PDG~\cite{flexeme-fse20} that encodes the {\em
   \underline{program dependencies} between the changed and unchanged
   statements}. Second, to decompose the changes, we {\em explicitly
   represent the surrounding \underline{code context} of each
   change}. The explicit representation of the context could help
 {\tool} learn the important features of a change (e.g., code
-structures, data/control dependencies) to distinguish its concern among
-others.
+structures, data/control dependencies) to distinguish its concern
+among others.
 %
 Third, {\tool} also considers an implicit relationship:
 %an important feature for each change, that is,

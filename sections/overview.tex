@@ -139,8 +139,8 @@ that, {\tool} first learns to construct the {\bf contextualized
   embeddings} (vectors) to represent the code changes via our novel
 {\bf context-aware, graph-based code change representation learning
   model}. In that model, to build the contextualized embeddings, we
-leverage Label, Graph-based Convolution Network (GCN)~\cite{yi} that
-can deal with the nodes with multiple labels (used to denote the
+leverage Label, Graph-based Convolution Network (GCN)~\cite{label-gcn}
+that can deal with the nodes with multiple labels (used to denote the
 versions $i$, $j$) to learn the representation vector $v$ for each
 node $n$ in the graph. For a changed node $n_c$, {\tool} collects the
 vectors for the un-changed nodes in the context for $n_c$ into a
@@ -148,13 +148,12 @@ matrix. It uses a fully connected layer to convert the matrix into a
 vector $v_{ctx}$ to encode the contextual information for the changed
 node $n_c$. The context vector $v_{ctx}$ is then used as {\em a weight
   to represent the impact of context on the learning to produce the
-  final vector for the changed node $n_c$}. The final vector
-$v'_c$ for $n_c$ is computed as the cross-product between the vector
-$v_c$ of $n_c$ from Label-GCN and the context vector $v_{ctx}$.
+  final vector for the changed node $n_c$}.
+%Tien
+%The final vector $v'_c$ for $n_c$ is computed as the cross-product
+%between the vector $v_c$ of $n_c$ computed from Label-GCN and the
+%context vector $v_{ctx}$.
 
-%To compute the final embeding for the changed node $n_c$, we perform
-%cross-product between the vector $v_c$ of $n_c$ and the context vector
-%$v_{ctx}$.
 
 
 %By having the multi-version PDG$^{i,j}$ as the input, \tool firstly uses an advanced GCN model \cite{} that can deal with the nodes with different labels to learn the representation vectors $v_p$ for each node $n_p$ in the graph. For each changed node $n_c$ in $n_p$, \tool collects all unchanged node representation vectors in the context as a matrix. It then uses a fully connected layer to convert it to a vector $v_pc$ to represent all context information for the changed node $n_p$. Next, \tool generates the final representation vector $v'_p$ for changed node $n_p$ by using the cross product between $v_p$ and $v_pc$.
@@ -164,13 +163,10 @@ $v_c$ of $n_c$ from Label-GCN and the context vector $v_{ctx}$.
 With the contextualized embeddings built for all the changed nodes in
 {\mvpdg}, our {\bf code change clustering learning model} uses the
 hierarchical agglomerative clustering algorithm to cluster the changed
-nodes represented by their embeddings.
-%{\em We modify the agglomerative clustering algorithm into a
-%  supervised-learning clustering model}.
-That clustering algorithm is adapted into a
-supervised-learning clustering model as follows.
+nodes represented by their embeddings. That clustering algorithm is
+adapted into a supervised-learning clustering~model as follows.
 %
-During training, we know the ground truth clusters of the changed
+During training, we know the correct clusters of the changed
 nodes from the training data. We define a {\em trainable threshold}
 for the linkage when merging the smaller clusters into a larger
 one. The trainable parameters of the model and the trainable threshold

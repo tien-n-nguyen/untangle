@@ -26,9 +26,8 @@ representation learning model to {\em learn the contextualized
   embeddings (vectors) for the code changes} that integrates {\em
   program dependencies} among the program elements, and the {\em
   contexts} of~code changes. We train a Label, Graph-based Convolution
-Network~\cite{yi} to learn the embeddings and learn the clusters from the
-history of changed code for the same concerns.
-%in the commits.
+Network~\cite{label-gcn} to learn the embeddings and learn the
+clusters from the history of changed code for the same concerns.
 For prediction, we apply supervised-learning agglomerative
 clustering on the embeddings of code changes to produce the clusters
 to untangle the commit. We expect that supervised-learning clustering
