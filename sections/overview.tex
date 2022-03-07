@@ -25,11 +25,13 @@ Let us first define some important concepts used in {\tool}.
 %First, we formally define the PDG, multi-version PDG, changed/unchanged statements, and context to conduct our approach's overview. Within these definitions, We re-use the definition of program dependency graph and multi-version program dependency graph from Partachi et al.'s research \cite{flexeme-fse20}.
 
 \begin{Definition}[Program Dependence Graph]
-The \textbf{program dependency graph (PDG)} is a directed graph with
-a set $N$ of nodes and a set $E$ of edges such that each node $n \in N$
-represents a program statement or a conditional expression; each edge
-$e \in E$ represents the data or control flow among the statements.
+The \textbf{program dependency graph (PDG)}~\cite{pdg} is a directed
+graph with a set $N$ of nodes and a set $E$ of edges such that each
+node $n \in N$ represents a program statement or a conditional
+expression; each edge $e \in E$ represents the data or control flow
+among the statements.
 \end{Definition}
+
 %s.t. each node 𝑛 ∈ 𝑁 is annotated with either a program statement or a
 %conditional expression; each edge 𝑒 ∈ 𝐸 has an optional annotation
 %representing the name or the data that flows along it, and a kind that
@@ -44,10 +46,10 @@ $i$, and those of the PDG after the change are marked with $j$.
 
 %As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph. $\delta$-PDG$^{i,j}$
 
-\begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}~\cite{flexeme-fse20}).
-A {\mvpdg} is a directed graph generated from the disjoint union of
-all nodes and edges in the PDGs at the version $i$ and the version
-$j$.
+\begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}).
+A {\mvpdg}~\cite{flexeme-fse20} is a directed graph generated from the
+disjoint union of all nodes and edges in the PDGs at the version $i$
+and the version $j$.
 %
 %  The \textbf{multi-version program dependency graph (Multi-version PDG$^{i,j}$)} is a directed graph that generated from the disjoint union of all nodes and edges between the version $i$ and version $j$. $\delta-PDG^{i,i}$ is the PDG at the version $i$.
 \end{Definition}
@@ -64,9 +66,9 @@ versions.
 
 \begin{Definition}[Changed/Un-changed Nodes]
 In the multi-version PDG, $\delta$-PDG$^{i,j}$ for the versions before
-and after the change, the changed nodes for the changed statements are
-the ones labeled with either $i$ or $j$, while the un-changed nodes
-are labeled with $i,j$.
+and after the change, the changed nodes represent the changed
+statements, and are labeled with either $i$ or $j$, while the
+un-changed nodes are labeled with $i,j$.
 %The \textbf{changed statements} between version $i$ and $j$ are the statements that are added or deleted to changed the code from version $i$ to version $j$. The modification on an existing statement in version $i$ is regarded as a new statement addition with an old statement deletion. The \textbf{un-changed statements} between version $i$ and $j$ are the statements that keep the same in both version $i$ and version $j$.
 \end{Definition}
 
@@ -79,15 +81,16 @@ statements.
 
 \begin{Definition}[Context]
 The context $C$ of a changed node $n$ is a sub-graph of the
-multi-version {\mvpdg} that includes all the un-changed nodes that are the
-$k$-hop neighbors of the changed node $n$, together with all the
+multi-version {\mvpdg} that includes all the un-changed nodes within
+the $k$-hop neighbors of the changed node $n$, together with all the
 inducing edges among them.
 \end{Definition}
 
 In Figure~\ref{fig:multi-version-pdg}(c), when $k$=1, the context for
-the change at line 5 consists of all three nodes labeled with $i,j$
-since they are one hop from the changed nodes \code{int next
-  = i + 1;} and \code{var next = i + 1;}.
+the changed node/statement at line 5 consists of all three nodes
+labeled with $i,j$ because they are one hop from the changed node
+\code{int next = i + 1;}.
+%and \code{var next = i + 1;}.
 
 %To better understand the context of a changed statement, we still use the figure \ref{fig:multi-version-pdg} as an example to explain. For the statement $int\, next = 1 + 1;$ in the multi-version PDG$^{i,j}$, we select the sub-graph that contains all $k$-hops neighbors as the context. When $k=1$, the sub-graph is built with three statements that labeled with $i, j$ in the multi-version PDG$^{i,j}$.
 
@@ -95,7 +98,7 @@ since they are one hop from the changed nodes \code{int next
 
 
 \subsection{Architecture Overview}
-\label{overview:sec}
+\label{arch-overview:sec}
 
 %After having the definition for the important concepts, we use them to describe the overview of our approach. Within our approach, there are three main steps. We will introduce them one by one.
 
