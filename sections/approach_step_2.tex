@@ -1,3 +1,5 @@
+%\vspace{-4pt}
+
 \section{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 \label{clustering-model:sec}
 
@@ -14,16 +16,16 @@ clusters of the changed statements, thus, we have the cluster labels
 (concern 1, concern 2, etc.) for the changed nodes in {\mvpdg}. During
 predicting (i.e., clustering), the input {\mvpdg} will be fed into the
 trained clustering learning model to produce the cluster labels for
-the changed nodes/statements. For a given {\mvpdg}, the number of
-clusters is unknown to the model, and will be decided by the model
+the changed nodes/statements. {\em For a given {\mvpdg}, the number of
+clusters is unknown to the model}, and will be decided by the model
 during agglomerative clustering. Let us detail the two tasks.
 
 %of our CC clustering learning model.
 
 %traing and predicting
 
-
-\subsection{Context-aware Representation Learning for Code Changes}
+%\vspace{-6pt}
+\subsection{Representation Learning for Code Changes}
 \label{vector:sec}
 
 \begin{figure*}[t]
@@ -33,11 +35,11 @@ during agglomerative clustering. Let us detail the two tasks.
 	\label{fig:step-2}
 \end{figure*}
 
-The goal of this task is to build the vector representations (i.e.,
-embeddings) for the code changes (i.e., the changed statements)
+This task is aimed to build the vector representations (i.e.,
+embeddings) for the code changes (i.e., changed statements)
 represented by the changed nodes in {\mvpdg}. A characteristic of the
-embeddings for the code changes is {\em context-aware} or {\em
-  contextualized}. That is, the same code change in different contexts
+embeddings for code changes is {\em context-aware} or {\em
+  contextualized}: the same code change in different contexts
 will have different embeddings.
 
 \subsubsection{{\bf Label, Graph-based Convolutional Network (Label-GCN)}}
@@ -45,9 +47,9 @@ will have different embeddings.
 To achieve that, {\tool} first feeds the multi-version {\mvpdg} to a
 graph-based, deep learning model to learn the contextualized
 embeddings for the nodes in the graph. Because {\mvpdg} contains the
-labels (i.e., $i$, $j$, $(i,j)$) representing the (un)changes of the
-nodes, {\tool} uses Label-GCN~\cite{yi} to model the graph to better
-learn the useful information from the node features with the labels.
+labels (i.e., $i$, $j$, $(i,j)$) representing the (un)changes, {\tool}
+uses Label-GCN~\cite{label-gcn} to model the graph to better learn the useful
+information from the node features with the labels.
 
 
 %Before doing the clustering, in this step, \tool needs to get the representation vector $v'_c$ for each changed node $n_c$ first. To achieve it, \tool firstly put the {\mvpdg} into a graph-based deep learning model to learn the representation vector for each node in the graph. Because the {\mvpdg} contains the labels for each node, to better learn the useful information from the node features with the labels, \tool uses the Lable-GCN \cite{} model to do so.
