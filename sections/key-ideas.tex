@@ -10,30 +10,30 @@ ideas.
 
 {\bf Key Idea 1 [Code Change Clustering Learning Model]}. Instead of
 deciding a deterministic clustering criterion on the concrete
-artifacts such as PDGs, program slices, code changes, change
-operations, or change graphs, from Observation 1, we aim to build an
-ML model to untangle the commits by learning to cluster code~changes
-w.r.t. different concerns. The model learns from the history of the
+artifacts (PDGs, program slices, code changes, operations, or change
+graphs), from Observation 1, we build an ML model to untangle the
+commits by learning to cluster code~changes represented by embeddings,
+w.r.t. different concerns. The model learns from the~history of the
 co-changed statements in the same commits for the same concerns, and
 applies to cluster the changes in the current commit.  We also modify
-an agglomerative clustering algorithm into a supervised-learning
-clustering model via trainable parameters and a loss function in
-comparing the predicted clusters and the correct ones.
+an agglomerative clustering algorithm into a~super\-vised-learning
+clustering model via trainable parameters and a loss function to
+compare the predicted clusters and the correct ones.
 
 {\bf Key Idea 2 [Context-aware, Graph-based Representation Learning
     for Code Changes].} We design a context-aware, graph-based,
 representation learning model to {\em learn the contextualized
   embeddings (vectors) for the code changes} that integrates {\em
   program dependencies} among the program elements, and the {\em
-  contexts} of~code changes. We train a Graph-based Convolution
-Network (Label-GCN~\cite{yi}) to learn the embeddings and the
-clusters from the history of changed code for the same concerns.
+  contexts} of~code changes. We train a Label, Graph-based Convolution
+Network~\cite{yi} to learn the embeddings and learn the clusters from the
+history of changed code for the same concerns.
 %in the commits.
 For prediction, we apply supervised-learning agglomerative
 clustering on the embeddings of code changes to produce the clusters
 to untangle the commit. We expect that supervised-learning clustering
-on vectors is more effective than on the above artifacts because the
-embedddings capture richer information integrated from the
+on vectors is more effective than on the above artifacts since the
+embeddings capture~richer information integrated from the
 dependencies and contexts.
 
 
@@ -45,7 +45,7 @@ a change via the multi-version program dependence~graph,
 $\delta$-PDG~\cite{flexeme-fse20}, consisting of the elements of both
 versions before and after the changes, and program dependencies. The
 context is defined as the surrounding nodes of the changed statement
-node in that graph. The GCN is used to model the statements and their
+node in that graph. The Label-GCN is used to model the statements and their
 dependencies in $\delta$-PDG and to learn the vector
 representation of the context for a change. The context vectors are
 then used as weights in learning contextualized embeddings for the
