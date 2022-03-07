@@ -124,8 +124,8 @@ edges relevant to the added nodes. More details on building
 $\delta$-PDG$^{i,j}$ can be found in~\cite{flexeme-fse20}.
 
 After constructing $\delta$-PDG$^{i,j}$, for each changed node in the
-graph, \tool collects all unchanged nodes within the $k$-hops and the
-edges between them to build a sub-graph as the context for the changed
+graph, \tool collects all unchanged nodes within the $k$-hops and all the
+inducing edges to build a sub-graph as the context for the changed
 node. $\delta$-PDG$^{i,j}$ and the context for each changed node will
 be used as the input for the next step. This step of building
 $\delta$-PDG$^{i,j}$ and contexts is used in both training and
