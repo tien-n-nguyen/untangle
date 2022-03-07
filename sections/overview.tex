@@ -14,7 +14,7 @@
 
 \begin{figure*}[t]
 	\centering
- 	\includegraphics[width=6in]{figures/overview.png}
+ 	\includegraphics[width=6in]{figures/overview-2.png}
 	\vspace{-6pt}
 	\caption{{\tool}: Architecture Overview}
 	\label{fig:overview}
@@ -120,16 +120,18 @@ respective statements to filter the candidates and line-span proximity
 to rank them. When considering the edge changes, we back-propagate the
 delete nodes to the edges flowing into them. We also add all unmatched
 edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the
-edges relevant to the added nodes. More details on building
+edges relevant to the added nodes. Details on building
 $\delta$-PDG$^{i,j}$ can be found in~\cite{flexeme-fse20}.
 
 After constructing $\delta$-PDG$^{i,j}$, for each changed node in the
-graph, \tool collects all unchanged nodes within the $k$-hops and all the
-inducing edges to build a sub-graph as the context for the changed
-node. $\delta$-PDG$^{i,j}$ and the context for each changed node will
-be used as the input for the next step. This step of building
-$\delta$-PDG$^{i,j}$ and contexts is used in both training and
-predicting processes.
+graph, we collect all unchanged nodes within the $k$-hops and
+all~the inducing edges to build a sub-graph as the context for the
+changed~node. 
+%$\delta$-PDG$^{i,j}$ and the context for each changed node will
+%be used as the input for the next step.
+This step of building $\delta$-PDG$^{i,j}$ and contexts is used in
+both training and predicting processes. $\delta$-PDG$^{i,j}$ and contexts are used in step
+2.
 
 %First, \tool accepts two versions $i$ and $j$ of source code. Following the existing study from Partachi et al. \cite{flexeme-fse20}, \tool firstly generates the PDGs for both the version $i$ and version $j$ for the source code. Next, to construct the multi-version PDG$^{i,j}$, \tool starts from the initial version $i$. \tool uses the PDGs and the Git diff tool on the source files to determine changed and unchanged nodes. Added nodes are introduced to the multi-version PDG$^{i,j}$ as they appear in the newer version $j$. \tool retains nodes deleted across the versions and uses a different label (label $i$) on the nodes to represent the deletion. The unchanged nodes between versions are matched by using string similarity to filter candidates and line-span proximity to rank them. When considering the edge changes, \tool back-propagates the delete nodes to edges flowing into them. Also, \tool considers and adds all unmatched edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the edges relevant to the added nodes. After having the constructed multi-version PDG$^{i,j}$, for each changed node in the graph, \tool collects all unchanged nodes within the $k$-hops and the edges between them to build a sub-graph as the context for the changed node. The multi-version PDG$^{i,j}$ and the context for each changed node in it will be used as the input for the next step.
 
@@ -139,16 +141,19 @@ that, {\tool} first learns to construct the {\bf contextualized
   embeddings} (vectors) to represent the code changes via our novel
 {\bf context-aware, graph-based code change representation learning
   model}. In that model, to build the contextualized embeddings, we
-leverage Label, Graph-based Convolution Network (GCN)~\cite{label-gcn}
-that can deal with the nodes with multiple labels (used to denote the
-versions $i$, $j$) to learn the representation vector $v$ for each
-node $n$ in the graph. For a changed node $n_c$, {\tool} collects the
-vectors for the un-changed nodes in the context for $n_c$ into a
-matrix. It uses a fully connected layer to convert the matrix into a
-vector $v_{ctx}$ to encode the contextual information for the changed
-node $n_c$. The context vector $v_{ctx}$ is then used as {\em a weight
-  to represent the impact of context on the learning to produce the
-  final vector for the changed node $n_c$}.
+leverage
+%Label, Graph-based Convolution Network (GCN)
+the Label-GCN~\cite{label-gcn} that can deal with the nodes with
+multiple labels (used to denote the versions $i$, $j$) to
+learn the representation vector $v$ for each node $n$ in the
+graph. For a changed node $n_c$, {\tool} collects the vectors for the
+un-changed nodes in the context for $n_c$ into a matrix. It uses a
+fully connected layer to convert the matrix into a vector $v_{ctx}$ to
+encode the contextual information for the node $n_c$. The
+context vector $v_{ctx}$ is then used as {\em a weight to represent
+  the impact of context on the learning to produce the final vector
+  for the changed node $n_c$}.
+
 %Tien
 %The final vector $v'_c$ for $n_c$ is computed as the cross-product
 %between the vector $v_c$ of $n_c$ computed from Label-GCN and the
@@ -201,12 +206,12 @@ of the clusters of atomic changes for training.
 
 \subsubsection{{\bf Step 3. Updating Clusters via Code Clone Detection}}
 
-After having the resulting clusters from step 2, we use a code clone
+After having the resulting clusters from Step 2, we use a code clone
 detection tool to detect if there is a cloned statement $s'_m$ of a
-changed statement $s_m$ in the multi-version {\mvpdg}. If so, we check
-the clusters containing $s_m$ and $s'_m$. If they are different,
-we merge those clusters for one concern. After iterating over
-all the changed statement $s_m$, we obtain the final resulting clusters.
+changed statement $s_m$ in the {\mvpdg}. If so, we check the clusters
+containing $s_m$ and $s'_m$. When the clusters are different, we merge
+those clusters for one concern if needed. After iterating over all the
+changed statement $s_m$, we obtain the final resulting clusters.
 
 %$Stmt_m$ and $Stmt_n$ in the multi-version PDG$^{i,j}$. If so, we
 %check the clustering results for $Stmt_m$ and $Stmt_n$ in $C$. If they
@@ -223,6 +228,6 @@ training and predicting processes. The key difference is that in
 training, the ground truth with respect to the clusters (concern 1,
 concern 2, etc.) for the changed statements are known, while in
 predicting, {\tool} will predict the clusters (concern 1, concern 2,
-etc.), and finally update them via code clone checking process. During
+etc.), and finally update them via code clone detection process. During
 predicting/clustering, the number of clusters is unknown.
 
