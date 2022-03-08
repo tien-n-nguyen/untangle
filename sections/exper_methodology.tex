@@ -104,22 +104,10 @@ C\# dataset and the same setting and procedure as in RQ1.
 %We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
 
 \noindent\textbf{RQ5. Code Change Embedding Analysis.}
-We aim to confirm a hypothesis that the changed statements in the same
-concerns are projected nearer than the changed statements in different
-concerns. First, we randomly chose the commits with two or more
-clusters/concerns and in one of the cluster/concern, there are at
-least two changed statements. Let us use $C$ to denote that
-cluster/concern. We randomly chose two changed statements $S_1$ and
-$S_2$ in $C$. We then randomly selected another changed statement
-$S_3$ such that $S_3 \notin C$ and $S_3$ belongs to another cluster in
-the same commit with $S_1$ and $S_2$. We measured the distance
-$d_1(S_1,S_2)$ and $d_2(S_1,S_3)$. We repeated the process for all the
-commits satisfying the above conditions until to get 384 triples of
-($S_1, S_2, S_3$). We then used statistical $p$-value to confirm or
-refute the hypothesis that $d_1(S_1,S_2)$ $\leq$ $d_2(S_1,S_3)$.
-Moreover, we also reported the examples where the same changed
-statements in different concerns are projected farther away in the
-vector space.
+We use statistical $p$-test to confirm/refute the hypothesis
+that the changed statements in the same concerns are
+projected nearer to one another than the changed statements in
+different concerns in the vector space.
 
 
 %XX changed statements $S$ each of which belongs to a different concern
