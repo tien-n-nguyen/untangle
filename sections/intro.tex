@@ -104,11 +104,11 @@ techniques still have limitations. First, the boundaries across the
 concerns in a commit do not necessarily and naturally map to
 clustering criteria of a clustering algorithm running on the PDG, name
 flows, program slices, change operations, or the changes
-themselves. The concerns might be linked via multiple edges, and a
-statement might belong to multiple concerns. To apply a clustering
-algorithm on the PDG, program slices, or change graphs, it is
-challenging to specify the right criteria to obtain perfect partitions
-matching with the concerns.
+themselves. The concerns might be linked via multiple edges.
+%, and a statement might belong to multiple concerns.
+To apply a clustering algorithm on the PDG, program slices, or change
+graphs, it is challenging to specify the right criteria to obtain
+perfect partitions matching with the concerns.
 %Applying a clustering algorithm on the PDG, slices, or change graphs
 %makes it difficult to specify clustering criteria to achieve the
 %partitions matching with the concerns.
@@ -121,10 +121,11 @@ distinguish the concerns for the changes. Finally, not all the changes
 in the same concern need to have program dependencies among one
 another. The logic connection among the co-changed code in the same
 commit could be due to the reasons different than program
-dependencies. For example, two pieces of cloned code realizing the
+dependencies. For example,~two pieces of cloned code realizing the
 same bubble sorting algorithm have the same bug, e.g., at the
-comparison operator. They might be changed in the same commit to fix
-that logic bug.
+comparison operator. They might be changed for the same concern to fix
+that logic bug despite that they have no data/control dependency.
+
 
 %We develop {\tool}, a {\em novel code change clustering learning
 %model} that learns to cluster the code changes, represented by the

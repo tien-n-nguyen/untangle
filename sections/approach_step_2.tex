@@ -29,7 +29,7 @@ during agglomerative clustering. Let us detail the two tasks.
 \label{vector:sec}
 
 \begin{figure*}[t]
-	\centering \includegraphics[width=5.8in]{figures/STEP_2-new-3.png}
+	\centering \includegraphics[width=5.6in]{figures/STEP_2-new-3.png}
 	\vspace{-6pt}
 	\caption{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 	\label{fig:step-2}
@@ -56,7 +56,7 @@ the node features with change labels.
 
 %In the Label-GCN, similarly to the normal GCN \cite{}, it takes the graph with the node features as the input and generates the representation vector for each node as the output. Compared with normal GCN, it also accepts the node labels in the first layer. In this case, when dealing with a central node, the model is allowed to see the labels of the neighbors, and the labels can then become part of the feature vector. With this, Label-GCN calculates the representation vectors in the first layer as follow:
 
-Simlar to GCN~\cite{gcn}, Label-GCN~\cite{label-gcn} takes the graph
+Similar to GCN~\cite{gcn}, Label-GCN~\cite{label-gcn} takes the graph
 with the node features as the input and produces the vectors for the
 nodes, when considering the features of the neighboring nodes of each
 node.  In addition, for the current node, in the first layer,
@@ -90,7 +90,7 @@ In Label-GCN, the following layers after the first layer follow the
 same process as in the GCN model~\cite{gcn} to compute the hidden
 states. The computation in a following layer $l$ is as follows:
 \begin{equation}\label{eq4}
-	H^{l+1} = \sigma (\hat{A}H^lW^l), l \geq 1 
+	H^{l+1} = \sigma (\hat{A}H^lW^l), l \geq 1
 \end{equation}
 
 \subsubsection{{\bf Using Label-GCN to model {\mvpdg}}}
@@ -107,7 +107,7 @@ of the length 3 representing the labels $i$, $j$, or $(i,j)$. As a
 result, the combined vector $v_n$ (with the length of $len(Avg_n)$+3)
 is the node feature vector for $n$. Then, we build the graph with the
 same structure as {\mvpdg} in which a node $n$ is replaced with the
-node feature vector $v_n$, and feed that graph to the Labe-GCN model to obtain
+node feature vector $v_n$, and feed that graph to the Label-GCN model to obtain
 the embeddings $V_n$ for all the nodes in {\mvpdg}.
 
 
@@ -155,21 +155,22 @@ $S_6$.
 
 %Then, we pick the added node $S6$ as an example. The context includes the un-changed nodes $S3, S4, S7$, and the representation vectors for them are $V3, V4, V7$. By putting them as a matrix and passing through a fully connected layer, we have the context representation vector $v_{ctx}$ for $S6$.
 
-%Then, we use the cross-product to calculate $v_{ctv} x V6$. The calculation result is the final code change representation vector $v'_{S6}$ for node $S6$.  
+%Then, we use the cross-product to calculate $v_{ctv} x V6$. The calculation result is the final code change representation vector $v'_{S6}$ for node $S6$.
 
-\subsection{Code Change Clustering Learning}
+\subsection{Learning to Cluster Code Changes}
 \label{clustering:sec}
 
 After building the contextualized embeddings $V^{*}_{n_c}$ for all the
 changed nodes $n_c$ in {\mvpdg}, {\tool} performs clustering on those
 vectors to untangle the commit. We have modified the hierarchical
-agglomerative clustering algorithm~\cite{yi} into a
+agglomerative clustering algorithm~\cite{clustering} into a
 supervised-learning clustering model to cluster those vectors based on
-the change clusters in the training data. Specifically, the training
-process for our CC clustering learning model works as follows.
+the clusters of code changes in the training data. Specifically, the
+training process for our code change clustering learning model works as
+follows.
 
-{\em \underline{Step 1.}} We first consider each changed node $n_c$ as a
-separate cluster $CL_c$.
+{\em \underline{Step 1.}} We consider each changed node $n_c$ as
+a separate cluster $CL_c$.
 
 {\em \underline{Step 2.}} We merge any two clusters whose cluster
 similarity is the largest and higher than a threshold $T$.
@@ -188,19 +189,21 @@ will be updated accordingly to the loss function for the next
 iteration. The training will stop when the process converges and we
 obtain the most suitable parameters for our learning model.
 
-\subsubsection*{{\bf Cluster Similarity}} To compute the similarity between
-two clusters $CL_1$ and $CL_2$, we take all the pairs of the changed
-nodes $(n_1,n_2)$ where $n_1 \in CL_1$ and $n_2 \in CL_2$. We
-then compute the cosine similarity between the corresponding vectors
-$V^{*}_{n_1}$ and $V^{*}_{n_2}$ for each pair. The similarity between
-two clusters is calculated as the average of all the similarity scores
-of all the pairs $(n_1,n_2)$.
+\subsubsection*{{\bf Cluster Similarity}}
+To compute the similarity between two clusters $CL_1$ and $CL_2$, we
+take all the pairs of the changed nodes $(n_1,n_2)$ where $n_1 \in
+CL_1$ and $n_2 \in CL_2$. We then compute the cosine similarity
+between the corresponding vectors $V^{*}_{n_1}$ and $V^{*}_{n_2}$ for
+each pair. The similarity between two clusters is calculated as the
+average of all the similarity scores of all the pairs $(n_1,n_2)$.
 
-\subsubsection*{{\bf Trainable Threshold T}} In our CC clustering learning model,
-we treat the merging threshold $T$ between smaller clusters as a {\em
-  trainable parameter} of the model. $T$ is updated after each
-iteration in accordance with the criteria defined in the loss function
-as any other parameters of the model.
+\subsubsection*{{\bf Trainable Threshold T}}
+In our
+%CC clustering learning
+model, we treat the merging threshold $T$ between smaller clusters as
+a {\em trainable parameter}. $T$ is updated after each iteration in
+accordance with the criteria defined in the loss function as any other
+parameters of the model.
 
 %After having the code change representation vector $v'_c$ for the changed node $n_c$ from the last step, \tool uses hierarchical agglomerative clustering algorithm on top of the $v'_c$ to do the clustering in this step. The hierarchical agglomerative clustering algorithm first regards each changed statement $n_c$ as a separated cluster $CL_c$. Secondly, it calculates the cluster similarity between every two clusters. Thirdly, \tool merges the two clusters that the cluster similarity between them is the largest one, and the cluster similarity is higher than the merging threshold $thres$. Finally, \tool repeats the small steps two and three until there are noclusters that can be merged, and then the left clusters $CL_{pre}$ are the final clustering results in this step.
 
@@ -215,11 +218,11 @@ as any other parameters of the model.
 %When doing training, the ground true clustering results $CL_{label}$ and the predicted clustering results $CL_{pre}$ may have different number of clusters $Cluster_{label}$ and $Cluster_{pre}$. To make the model trainable, we transfer the clustering problem into a classification problem by picking the biggest number of clusters $C_{max} = max($ $Cluster_{label}, Cluster_{pre})$ as the number of classes. \tool uses the zero padding to fill the missed results for the clusters in $CL_{label}$ or $CL_{pre}$. Then \tool uses the cross entropy loss to train the model:
 
 %\begin{equation}\label{new-func}
-%	Loss^{*}(X, Y)= \min\limits_{\substack{X_n \in X\\ Y_m \in Y}}(-\sum_{\substack{x_i\in X_n\\ y_j 
+%	Loss^{*}(X, Y)= \min\limits_{\substack{X_n \in X\\ Y_m \in Y}}(-\sum_{\substack{x_i\in X_n\\ y_j
 %			\in Y_m}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X_n}x_j)}y_i)
 %\end{equation}
 
-%The above cross-entropy loss has been widely used in multi-class classification problems. However, the clustering problem is slightly different from the classification problem because the order of the clusters is not fixed as in the classification problem. So to address this problem, for each pair of predicted clustering results and ground true cluster results $\{x_1, ..., x_{C_{max}}\}$ and $\{y_1,...,y_{C_{max}}\}$, \tool could have $C_{max}!$ different possible orders for both predicted cluster results $X = \{X_1, ..., X_{C_{max}!}\}$ and ground true clustering results $Y = \{Y_1, ..., Y_{C_{max}!}\}$. 
+%The above cross-entropy loss has been widely used in multi-class classification problems. However, the clustering problem is slightly different from the classification problem because the order of the clusters is not fixed as in the classification problem. So to address this problem, for each pair of predicted clustering results and ground true cluster results $\{x_1, ..., x_{C_{max}}\}$ and $\{y_1,...,y_{C_{max}}\}$, \tool could have $C_{max}!$ different possible orders for both predicted cluster results $X = \{X_1, ..., X_{C_{max}!}\}$ and ground true clustering results $Y = \{Y_1, ..., Y_{C_{max}!}\}$.
 
 We need to have a loss function that minimizes the differences between
 the predicted set of clusters $CL$=$\{CL_1,CL_2, ...,$ $CL_M\}$ and
@@ -231,43 +234,43 @@ to the smaller set between $CL$ and $CL_{oracle}$.
 %
 Because we do not know what predicted cluster $CL_i$ in $CL$ is mapped
 to a cluster $Co_j$ in the correct set $C_{oracle}$, we consider all
-possible orders of the clusters in both $CL$ and $CL_{oracle}$, and
-all possible maps between each cluster $CL_i$ and $Co_j$. Note that
-the number of clusters is usually small ($\leq$ 6 as reported
-in~\cite{nguyen-issre13}), thus, it is manageable to consider all
-$\mathcal{M}!$ possible orders in $CL$ and all $\mathcal{M}!$ possible
-orders in $C_{oracle}$.
+possible orders of the clusters in both $CL$ and $CL_{oracle}$.
+%and all possible maps between each cluster $CL_i$ and $Co_j$.
+Note that the number of clusters is usually small ($\leq$ 6 as
+reported in~\cite{nguyen-issre13}), thus, it is manageable to consider
+all $\mathcal{M}!$ possible orders in $CL$ and all $\mathcal{M}!$
+possible orders in $C_{oracle}$.
 
 Let us consider an order in $CL$ = $\{CL'_1,..., CL'_{\mathcal{M}}\}$,
 and an order in $C_{oracle}$ = $\{Co'_{1},..., Co'_{\mathcal{M}}\}$.
 For a changed statement $s_c$ with the corresponding changed node
 $n_c$ in {\mvpdg}, we build the 1-hot vector $X$ of the length
-$\mathcal{M}$ that represents the cluster for the node $n_c$
-predicted by the model as follows. If $n_c$ is predicted to belong to
-a cluster $CL'_{i}$, the value at the $i$ position of the vector $X$
-will be set to 1, otherwise it is set to 0. For example, if
-$\mathcal{M}$=4, the changed node $n_c$ is predicted to belong to the
-cluster $CL'_3$, the vector $X$=$\{0,0,1,0\}$. A changed statement can
-belong to multiple clusters. Similarly, we build the 1-hot vector $Y$
-to represent the correct cluster for $n_c$ in the oracle: if $n_c$
-belongs to a cluster $Co'_{i}$, the value at the $i$ position of the
-vector $Y$ will be set to 1, otherwise it is 0.
+$\mathcal{M}$ that represents the cluster for the node $n_c$ predicted
+by the model as follows. If $n_c$ is predicted to belong to a cluster
+$CL'_{i}$, the value at the $i^{th}$ position of the vector $X$ will be set
+to 1, otherwise it is set to 0. For example, if $\mathcal{M}$=4 and
+the changed node $n_c$ is predicted to belong to the cluster $CL'_3$,
+the vector $X$ is $\{0,0,1,0\}$.
+%A changed statement can belong to multiple clusters.
+Similarly, we build the 1-hot vector $Y$ to represent the correct
+cluster for $n_c$ in the oracle: if $n_c$ belongs to a cluster
+$Co'_{i}$, the value at the $i^{th}$ position of the vector $Y$ is 1,
+otherwise it is 0.
 
-For a specific order in $CL$ = $\{CL'_1,..., CL'_{\mathcal{M}}\}$, and
-a specific order in $C_{oracle}$ = $\{Co'_{1},...,
-Co'_{\mathcal{M}}\}$, for a changed node $n_c$, we use the
-cross-entropy loss function in the multi-class classification problem:
+For a specific order in $CL$=$\{CL'_1,..., CL'_{\mathcal{M}}\}$, and a
+specific order in $C_{oracle}$=$\{Co'_{1},..., Co'_{\mathcal{M}}\}$,
+for a changed node $n_c$, we use the~cross-entropy loss function in
+the multi-class classification: ($X$ = $\{x_1,...,$ $x_{\mathcal{M}}\}$, $Y$=$\{y_1,...,y_{\mathcal{M}}\}$ are the predicted and correct
+vectors for $n_c$)
 \begin{equation}\label{loss-func}
 	Loss(X,Y) = -\sum^{\mathcal{M}}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{\mathcal{M}}_{j=1}x_j)}y_i
 \end{equation}
-$X$=$\{x_1,...,x_{\mathcal{M}}\}$ is the predicted vector,
-$Y$=$\{y_1,...,y_{\mathcal{M}}\}$ is the one in the oracle for $n_c$. To
-adjust Formula~\ref{loss-func} for our clustering problem, we
+To adjust Formula~\ref{loss-func} for our clustering problem, we
 consider all possible orders in the cluster set $CL$ and those in
-$C_{oracle}$. The cross-entropy loss function for a changed node
-$n_c$ of a changed statement $s_c$ is the minimum value among all the
-values on the right-hand side of Formula~\ref{loss-func}. Our
-loss function is as follows.
+$C_{oracle}$. The cross-entropy loss function for a changed node $n_c$
+of a changed statement $s_c$ is the minimum value among all the values
+on the right-hand side of Formula~\ref{loss-func}. That is, our loss function
+is computed as follows.
 \begin{equation}\label{eq6}
 	Loss'(X, Y)= \min\limits_{\substack{all (\mathcal{M}!)^{2}\\orders}}(-\sum^{\mathcal{M}}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{\mathcal{M}}_{j=1}x_j)}y_i)
 \end{equation}
@@ -277,7 +280,7 @@ The loss function for each changed node $n_c$ will be used for
 the model to adjust the parameters in the next iteration.
 
 %\begin{equation}\label{eq6}
-%	Loss'(X, Y)= \min\limits_{\substack{X_n \in X\\ Y_m \in Y}}(-\sum_{\substack{x_i\in X_n\\ y_j 
+%	Loss'(X, Y)= \min\limits_{\substack{X_n \in X\\ Y_m \in Y}}(-\sum_{\substack{x_i\in X_n\\ y_j
 %			\in Y_m}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X_n}x_j)}y_i)
 %\end{equation}
 
