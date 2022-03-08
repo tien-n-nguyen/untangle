@@ -47,7 +47,7 @@ the commits with two, three, and all concerns, respectively.
 			\hline
 			       \multirow{2}{*}{}                  & \multicolumn{3}{c}{$Accuracy^c$}\\
 \cline{2-4}
-& 2 & 3& Overall\\
+\#concerns & 2 & 3& Overall\\
 			\hline
 			\tool ($k=1$)          & 0.42 & 0.45 &  0.43          \\
 			\tool ($k=2$)          & 0.44 & 0.47 &  0.45          \\
@@ -61,4 +61,29 @@ the commits with two, three, and all concerns, respectively.
 	\end{center}
 \end{table}
 
-Table~\ref{RQ4-result-2} shows that selecting $k$-neighbors for context in \tool, $k=2$ is the best choice for \tool because of the highest $Accuracy^c$ on $2$ concerns data, $3$ concerns data and overall performance. Even though in this table, we only show the $k$ value range from $1$ to $5$. However, from the trend of $Accuracy^c$ changing, we can see that if $k>=2$, when $k$ increases, the $Accuracy^c$ decreases with the reason that when $k$ increases, the newly added nodes have less relationship with the entire node and may bring more biases. Based on this, even compared with the untested $k$ value, $k=2$ is still the best setting for \tool.
+Table~\ref{RQ4-result-2} shows the accuracy when we vary the size $K$
+of a context (i.e., the number of hops from the changed node). As
+seen, when the number of surrounding nodes of the changed node
+increases from $K$=1--2, the accuracy increases and reaches its peak
+at $K$=2. As $K$=1, the immediate surrounding nodes cannot capture
+well the relevant nodes for {\tool} to distinguish the concerns of the
+changed statements. With two hops from the changed node, the context
+seems to sufficiently contains the crucial nodes w.r.t. determining
+the concerns. However, as the size continues to increase, the accuracy
+decreases. When the entire graph is used as the context, the accuracy
+is lowest. If more nodes are considered in the context, more noises 
+are added as more irrelevant data is used.  The trend is the same for
+the commits with two, three, or all concerns.
+
+%Table~\ref{RQ4-result-2} shows that selecting $k$-neighbors for
+%context in \tool, $k=2$ is the best choice for \tool because of the
+%highest $Accuracy^c$ on $2$ concerns data, $3$ concerns data and
+%overall performance. Even though in this table, we only show the $k$
+%value range from $1$ to $5$.
+
+%However, from the trend of $Accuracy^c$ changing, we can see that if
+%$k>=2$, when $k$ increases, the $Accuracy^c$ decreases with the reason
+%that when $k$ increases, the newly added nodes have less relationship
+%with the entire node and may bring more biases. Based on this, even
+%compared with the untested $k$ value, $k=2$ is still the best setting
+%for \tool.
