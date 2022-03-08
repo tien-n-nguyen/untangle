@@ -54,8 +54,8 @@ relations).
 
 
 %\begin{itemize}
-%	\item Base-1 \cite{smartcommit-fse21}: The rule-based approach that putting all changes into one group. 
-%	\item Base-2 \cite{smartcommit-fse21}: The rule-based approach that putting changes in each file into one group 
+%	\item Base-1 \cite{smartcommit-fse21}: The rule-based approach that putting all changes into one group.
+%	\item Base-2 \cite{smartcommit-fse21}: The rule-based approach that putting changes in each file into one group
 %	\item Base-3 \cite{smartcommit-fse21}: The rule-based approach that considering only def-use, use-use and	same-enclosing-method relations.
 %	\item SmartCommit \cite{smartcommit-fse21}: A graph-partitioning-based interactive approach to tangled changeset decomposition that leverages the efficiency of algorithms and the knowledge of developers.
 %\end{itemize}
@@ -71,12 +71,12 @@ data. We also auto-tuned {\tool} with autoML~\cite{NNI}.
 We used the C\# dataset and divided it into the commits for each
 project. For each group $G$ of commits for one project, we sorted them
 in the chronological order. For the commits in each group $G$, we
-splitted them as in RQ1, i.e., dividing them into 80\%, 10\%, 10\% for
+split them as in RQ1, i.e., dividing them into 80\%, 10\%, 10\% for
 training, tuning, and testing, and using the older data for training
 and the newer data for tuning and testing.
 %
-We separately trained, fine-tuned, and tested a model under study the
-commits in each project. Because in all projects, there are
+We separately trained, fine-tuned, and tested a model under study on
+the commits in each project. Because in all projects, there are
 insufficient data to train the model in this within-project setting
 (except for \code{CommandLine}), we reported the result running on
 the \code{CommandLine} project. For the other projects, we have the
@@ -90,7 +90,7 @@ data.
 
 %We used the C\# dataset in RQ1 as the dataset that used to do the analysis in this RQ. For each project in the dataset, we sorted the tangled commits based on the time in the commit log. Then we split the commits in each project into 80\%, 10\%, and 10\% for training, tuning, and testing. The oldest data is used to train the model while the newest data is used to test the model performance.
 
-%We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$. 
+%We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$.
 
 \noindent\textbf{RQ4. Sensitivity Analysis.}
 We built the variants of {\tool} by removing its important components,
@@ -98,8 +98,8 @@ one at a time. First, we removed from {\tool} the context component by
 not considering the context vector when computing the vector
 for a changed statement. Second, we removed from {\tool} the
 clone detection component and used the resulting clusters from the
-code change clustering learning model as the final ones. We used the
-C\# dataset and the same setting as in RQ1.
+code change clustering learning model as the final results. We used the
+C\# dataset and the same setting and procedure as in RQ1.
 
 %We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
 
