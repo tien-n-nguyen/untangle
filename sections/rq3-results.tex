@@ -1,20 +1,27 @@
 \subsection{RQ3. Within-Project Analysis}
 
 \begin{table}[t]
-	\caption{RQ3. Within-Project Result}
+	\caption{RQ3. Comparison between Within-Project and Cross-project Settings on Project $Commandline$}
 	\vspace{-0.1in}
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
-		\renewcommand{\arraystretch}{1} \begin{tabular}{p{1.4cm}<{\centering}|p{3cm}<{\centering}|p{3cm}<{\centering}}
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{1.4cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
 			\hline
-			Approaches          & \tool (Within Project) & \tool (Cross Project)\\
+			\multirow{2}{*}{Approaches}     & \multicolumn{3}{c|}{\tool (Within Project)} & \multicolumn{3}{c}{\tool (Cross Project)}\\
+			\cline{2-7}
+			                               &        2       &      3         & Overall  &      2       &        3     & Overall    \\
+			
 			\hline
-			$Accuracy^{(1)}$   &      0.47          &		0.45	       \\
+			$Accuracy^c$   &  0.46  & 0.49  &     0.47          &	0.45   & 0.47 &	0.46	       \\
 
 			\hline
 		\end{tabular}
 		\label{RQ3-result}
+		
 	\end{center}
 \end{table}
+
+
+Table~\ref{RQ3-result} shows the comparison between the within and cross-project settings for \tool on C\# dataset. As we mentioned in the methodology section, because only on the project $Commandline$, \tool can have meaningful results, in Table~\ref{RQ3-result}, all results are only from the project $Commandline$ for a fair comparison. As seen, for $2$ concerns data, $3$ concerns data, and the overall performance, the within project setting can have $2.2\%, 4.3\%,$ and $2.2\%$ higher $Accuracy^c$ compared with the cross-project setting. It shows that using the data from the same project can help the model learn the feature more accurately. However, because the improvement percentages are all less than $5\%$, it proves that \tool can have consistent and similar performance on both the within and cross-project settings.

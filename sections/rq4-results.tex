@@ -1,22 +1,3 @@
-%\subsection{{\bf RQ4. Overlapping Analysis.}}
-%
-%\begin{table}[t]
-%	\caption{RQ4. Overlapping Analysis.}
-%	\vspace{-0.1in}
-%	\begin{center}
-%		\footnotesize
-%		\tabcolsep 4pt
-%		\renewcommand{\arraystretch}{1} \begin{tabular}{p{1.4cm}<{\centering}|p{1.3cm}<{\centering}p{1.2cm}<{\centering}p{1.4cm}<{\centering}p{0.8cm}<{\centering}|p{0.7cm}<{\centering}}
-%			
-%			\hline
-%			Approaches          & Barnett et al. & Herzig et al. & $\sigma-$PDG + CV& Flexeme & \tool\\
-%			\hline
-%			\hline
-%		\end{tabular}
-%		\label{RQ4-result}
-%	\end{center}
-%\end{table}
-
 \subsection{RQ4. Sensitivity Analysis}
 
 
@@ -26,19 +7,24 @@
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
-		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{2cm}<{\centering}}
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
 			\hline
-			                         & $Accuracy^{(1)}$\\
+			       \multirow{2}{*}{}                  & \multicolumn{3}{c}{$Accuracy^c$}\\
+			                         \cline{2-4}
+			                         & 2 & 3& Overall\\
 			\hline
-			\tool                    &     0.45          \\
-			\tool w/o Context        &     0.40          \\
-			\tool w/o Code Clone     &     0.43         \\
+			\tool                    &  0.44 & 0.47  &   0.45        \\
+			\tool w/o Context        &  0.38 & 0.43  &   0.40        \\
+			\tool w/o Code Clone     &  0.42 & 0.44  &   0.43        \\
 			\hline
 		\end{tabular}
 		\label{RQ4-result-1}
 	\end{center}
 \end{table}
+
+
+Table~\ref{RQ4-result-1} shows the changes to the metrics as we remove one key feature from \tool. Generally, each key feature contributes positively to the better performance of {\tool}, as the decreasing of $Accuracy^c$ when removing each of them from \tool. When {\tool} removes context information, the $Accuracy^c$ decreased by $13.7\%, 8.5\%$, and $11.1\%$ on $2$ concerns data, $3$ concerns data, and overall performance, respectively. When {\tool} removes code clone, the $Accuracy^c$ decreased by $4.5\%, 6.4\%$, and $4.4\%$ on $2$ concerns data, $3$ concerns data, and overall performance, respectively.
 
 
 \begin{table}[t]
@@ -47,19 +33,23 @@
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
-		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{2cm}<{\centering}}
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
 			\hline
-		                            	& $Accuracy^{(1)}$\\
+			       \multirow{2}{*}{}                  & \multicolumn{3}{c}{$Accuracy^c$}\\
+\cline{2-4}
+& 2 & 3& Overall\\
 			\hline
-			\tool ($k=1$)          &     0.43          \\
-			\tool ($k=2$)          &     0.45          \\
-			\tool ($k=3$)          &     0.44          \\
-			\tool ($k=4$)          &     0.42          \\
-			\tool ($k=5$)          &     0.42          \\
-			\tool (Full Graph)     &     0.41          \\
+			\tool ($k=1$)          & 0.42 & 0.45 &  0.43          \\
+			\tool ($k=2$)          & 0.44 & 0.47 &  0.45          \\
+			\tool ($k=3$)          & 0.43 & 0.45 &  0.44          \\
+			\tool ($k=4$)          & 0.40 & 0.44 &  0.42          \\
+			\tool ($k=5$)          & 0.41 & 0.44 &  0.42          \\
+			\tool (Full Graph)     & 0.39 & 0.43 &  0.41          \\
 			\hline
 		\end{tabular}
 		\label{RQ4-result-2}
 	\end{center}
 \end{table}
+
+Table~\ref{RQ4-result-2} shows that selecting $k$-neighbors for context in \tool, $k=2$ is the best choice for \tool because of the highest $Accuracy^c$ on $2$ concerns data, $3$ concerns data and overall performance. Even though in this table, we only show the $k$ value range from $1$ to $5$. However, from the trend of $Accuracy^c$ changing, we can see that if $k>=2$, when $k$ increases, the $Accuracy^c$ decreases with the reason that when $k$ increases, the newly added nodes have less relationship with the entire node and may bring more biases. Based on this, even compared with the untested $k$ value, $k=2$ is still the best setting for \tool.
