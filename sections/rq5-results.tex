@@ -40,67 +40,65 @@ clustering into different concerns}.
 
 % which means that our code change embeddings are in good quality.
 
-\iffalse
-\begin{figure}[t]
-	\centering
-	\lstset{
-		numbers=left,
-		numberstyle= \tiny,
-		keywordstyle= \color{blue!70},
-		commentstyle= \color{red!50!green!50!blue!50},
-		frame=shadowbox,
-		rulesepcolor= \color{red!20!green!20!blue!20} ,
-		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
-		framexleftmargin=1.5em,
-		numbersep= 5pt,
-		language=Java,
-		basicstyle=\scriptsize\ttfamily,
-		numberstyle=\scriptsize\ttfamily,
-		emphstyle=\bfseries,
-		moredelim=**[is][\color{red}]{@}{@},
-		escapeinside= {(*@}{@*)}
-	}
-	\begin{lstlisting}[]
-//-----------------------------------Concern-1-------------------------------
-    private void Dispose(bool disposing)
-    {
-(*@{\color{red}{-     \space \space\space\space\space\space\space\space      if (this.disposed)}@*)
-(*@{\color{cyan}{+    \space\space\space\space\space\space\space\space\space        if (disposed)}@*)
-        {
-            return;
-        }
-        ...
-    }
-
-//-----------------------------------Concern-2-------------------------------
-    private HelpText AddOption(string requiredWord, int maxLength, OptionSpecification option, int widthOfHelpText)
-    {
-        ...
-        if (option.ShortName.Length > 0)
-        {
-(*@{\color{red}{-\space\space\space\space\space\space\space\space\space\space        if (this.addDashesToOption)}@*)
-(*@{\color{cyan}{+\space\space\space\space\space\space\space\space\space\space       if (addDashesToOption)}@*)
-	    	{
-			    optionName.Append('-');
-	    	}
-    	...
-    }
-    
-    internal HelpText AddToHelpText(HelpText helpText, bool before)
-    {
-        return before
-(*@{\color{red}{- \space\space\space\space\space\space\space\space               ? this.AddToHelpText(helpText, line => helpText.AddPreOptionsLine(line)) : this.AddToHelpText(helpText, line => helpText.AddPostOptionsLine(line));}@*)
-(*@{\color{cyan}{+  \space\space\space\space\space\space\space\space 	? AddToHelpText(helpText, helpText.AddPreOptionsLine) : AddToHelpText(helpText, helpText.AddPostOptionsLine);}@*)
-    }
-
-	\end{lstlisting}
-	\vspace{-15pt}
-	\caption{Example for RQ5}
-	\vspace{-6pt}
-	\label{RQ5-example}
-\end{figure}
+%\begin{figure}[t]
+%	\centering
+%	\lstset{
+%		numbers=left,
+%		numberstyle= \tiny,
+%		keywordstyle= \color{blue!70},
+%		commentstyle= \color{red!50!green!50!blue!50},
+%		frame=shadowbox,
+%		rulesepcolor= \color{red!20!green!20!blue!20} ,
+%		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
+%		framexleftmargin=1.5em,
+%		numbersep= 5pt,
+%		language=Java,
+%		basicstyle=\scriptsize\ttfamily,
+%		numberstyle=\scriptsize\ttfamily,
+%		emphstyle=\bfseries,
+%		moredelim=**[is][\color{red}]{@}{@},
+%		escapeinside= {(*@}{@*)}
+%	}
+%	\begin{lstlisting}[]
+%//-----------------------------------Concern-1-------------------------------
+%    private void Dispose(bool disposing)
+%    {
+%(*@{\color{red}{-     \space \space\space\space\space\space\space\space      if% (this.disposed)}@*)
+%(*@{\color{cyan}{+    \space\space\space\space\space\space\space\space\space   %     if (disposed)}@*)
+%        {
+%            return;
+%        }
+%        ...
+%    }
+%
+%//-----------------------------------Concern-2-------------------------------
+%    private HelpText AddOption(string requiredWord, int maxLength, OptionSpecification option, int widthOfHelpText)
+%    {
+%        ...
+%        if (option.ShortName.Length > 0)
+%        {
+%(*@{\color{red}{-\space\space\space\space\space\space\space\space\space\space  %      if (this.addDashesToOption)}@*)
+%(*@{\color{cyan}{+\space\space\space\space\space\space\space\space\space\space %      if (addDashesToOption)}@*)
+%	    	{
+%			    optionName.Append('-');
+%	    	}
+%    	...
+%    }
+%    
+%    internal HelpText AddToHelpText(HelpText helpText, bool before)
+%    {
+%        return before
+%(*@{\color{red}{- \space\space\space\space\space\space\space\space               ? this.AddToHelpText(helpText, line => helpText.AddPreOptionsLine(line)) : this.AddToHelpText(helpText, line => helpText.AddPostOptionsLine(line));}@*)
+%(*@{\color{cyan}{+  \space\space\space\space\space\space\space\space 	? AddToHelpText(helpText, helpText.AddPreOptionsLine) : AddToHelpText(helpText, helpText.AddPostOptionsLine);}@*)
+%    }
+%	\end{lstlisting}
+%	\vspace{-15pt}
+%	\caption{Example for RQ5}
+%	\vspace{-6pt}
+%	\label{RQ5-example}
+%\end{figure}
 			
-The code in Figure \ref{RQ5-example} shows an example that contains two concerns. The statement in $Line-4$ in concern-1 is very similar to the statement in $Line-18$ in concern-2. Following the statistical analysis procedure, we pick the statement in $Line-4$ as $S_3$, the statement in $Line-18$ as $S_2$, and the statement in $Line-29$ as $S_1$. Then we calculate the $d_1(S_1,S_2)$ and $d_2(S_1,S_3)$ by using \tool to generate the representation vectors for each changed statement. The results are $d_1(S_1,S_2) = 0.285$ and $d_2(S_1,S_3)=0.491$. This result proves that the similar changed statements in different concerns are projected farther away in the vector space when \tool generates the embedding vectors for the code change statements. It also shows that \tool learns the context information well to distinguish the differences between the similar code changes in a different context.
+%The code in Figure \ref{RQ5-example} shows an example that contains two concerns. The statement in $Line-4$ in concern-1 is very similar to the statement in $Line-18$ in concern-2. Following the statistical analysis procedure, we pick the statement in $Line-4$ as $S_3$, the statement in $Line-18$ as $S_2$, and the statement in $Line-29$ as $S_1$. Then we calculate the $d_1(S_1,S_2)$ and $d_2(S_1,S_3)$ by using \tool to generate the representation vectors for each changed statement. The results are $d_1(S_1,S_2) = 0.285$ and $d_2(S_1,S_3)=0.491$. This result proves that the similar changed statements in different concerns are projected farther away in the vector space when \tool generates the embedding vectors for the code change statements. It also shows that \tool learns the context information well to distinguish the differences between the similar code changes in a different context.
 
 \fi
 
