@@ -1,5 +1,39 @@
 \subsection{Datasets}
 
+\begin{table}[t]
+	\caption{C\# Dataset Overview}
+	\vspace{-0.1in}
+	\begin{center}
+		\footnotesize
+		\tabcolsep 4pt
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
+			
+			\hline
+			\multirow{2}{*}{Project}                  & \multicolumn{3}{c}{Concerns}\\
+			\cline{2-4}
+			                     & 2 & 3& Overall\\
+			\hline
+			
+			Commandline        &  308 & 32  &   340        \\
+			CommonMark        &  52 & 0  &   52        \\
+			Hangfire        &  229 & 87  &   316        \\
+			Humanizer        &  85 & 4  &   89        \\
+			Lean        &  154 & 24  &   178        \\
+			Nancy        &  284 & 67  &   351        \\
+			Newtonsoft.Json        &  84 & 7  &   91        \\
+			Ninject        &  82 & 0  &  82        \\
+			RestSharp        &  95 & 18  &   113        \\
+			\hline
+			Overall        &  1373 & 239  &  1612        \\
+			\hline
+		\end{tabular}
+		\label{C-dataset}
+	\end{center}
+\end{table}
+
+
+
+
 We have conducted our evaluation on two datasets. The first one is the
 C\# dataset that has been used in a prior commit-untangling research,
 Flexeme~\cite{flexeme-fse20}. This C\# dataset contains 1,612 tangled
