@@ -2,72 +2,77 @@
 \label{rq1:sec}
 
 \begin{table}[t]
-	\caption{RQ1. Comparison Results on C\# Dataset for $Accuracy^c$}
+	\caption{RQ1. Comparison on C\# Dataset ($Accuracy^c$\%)}
 	\vspace{-0.1in}
 	\begin{center}
-		\scriptsize
+		\footnotesize
 		\tabcolsep 4pt
 		\renewcommand{\arraystretch}{1} \begin{tabular}{p{0.2cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}}
 			
 			\hline
-		\multirow{2}{*}{}          & \multicolumn{3}{c|}{Barnett {\em et al.}} & \multicolumn{3}{c|}{Herzig {\em et al.}} & \multicolumn{3}{c|}{$\delta-$PDG + CV} & \multicolumn{3}{c|}{Flexeme} & \multicolumn{3}{c}{\tool}\\
+		\multirow{2}{*}{}          & \multicolumn{3}{c|}{Barnett {\em et al.}} & \multicolumn{3}{c|}{Herzig {\em et al.}} & \multicolumn{3}{c|}{$\delta-$PDG + CV} & \multicolumn{3}{c|}{Flexeme} & \multicolumn{3}{c}{\bf {\tool}}\\
 		\cline{2-16}
 		 & 2 & 3 & OA & 2 & 3 & OA & 2 & 3 & OA & 2 & 3 & OA & 2 & 3 & OA \\
 			\hline
-			CL   & 0.14 & *    & 0.14 & 0.28 & *    & 0.28 & 0.34 & *    & 0.34 & 0.34 & *    & 0.34 & 0.46 & *    & 0.46 \\
+			CL   & 14 & *    & 14 & 28 & *    & 28 & 34 & *    & 34 & 34 & *    & 34 & 46 & *    & 46 \\
 			CM   & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    \\
-			HF   & 0.10 & 0.13 & 0.11 & 0.27 & 0.29 & 0.28 & 0.34 & 0.37 & 0.35 & 0.30 & 0.35 & 0.31 & 0.43 & 0.48 & 0.45 \\
-			HU   & 0.13 & *    & 0.13 & 0.27 & *    & 0.27 & 0.30 & *    & 0.30 & 0.33 & *    & 0.33 & 0.44 & *    & 0.44 \\
-			LE   & 0.08 & 0.06 & 0.08 & 0.29 & 0.24 & 0.29 & 0.35 & 0.34 & 0.35 & 0.33 & 0.36 & 0.33 & 0.44 & 0.47 & 0.45\\
+			HF   & 10 & 13 & 11 & 27 & 29 & 28 & 34 & 37 & 35 & 30 & 35 & 31 & 43 & 48 & 45 \\
+			HU   & 13 & *    & 13 & 27 & *    & 27 & 30 & *    & 30 & 33 & *    & 33 & 44 & *    & 44 \\
+			LE   & 8 & 6 & 8 & 29 & 24 & 29 & 35 & 34 & 35 & 33 & 36 & 33 & 44 & 47 & 45\\
 			NA   & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    \\
-			NJ   & 0.07 & *    & 0.07 & 0.28 & *    & 0.28 & 0.34 & *    & 0.34 & 0.27 & *    & 0.27 & 0.41 & *    & 0.41 \\
-			NI   & 0.10 & *    & 0.10 & 0.26 & *    & 0.26 & 0.37 & *    & 0.37 & 0.32 & *    & 0.32 & 0.46 & *    & 0.46 \\
-			RS   & 0.09 & 0.11 & 0.09 & 0.31 & 0.30 & 0.31 & 0.30 & 0.36 & 0.31 & 0.32 & 0.35 & 0.33 & 0.42 & 0.49 & 0.43\\
+			NJ   & 7 & *    & 7 & 28 & *    & 28 & 34 & *    & 34 & 27 & *    & 27 & 41 & *    & 41 \\
+			NI   & 10 & *    & 10 & 26 & *    & 26 & 37 & *    & 37 & 32 & *    & 32 & 46 & *    & 46 \\
+			RS   & 9 & 11 & 9 & 31 & 30 & 31 & 30 & 36 & 31 & 32 & 35 & 33 & 42 & 49 & 43\\
 			\hline
-			OA   & 0.08 & 0.06 & 0.08 & 0.31 & 0.25 & 0.29 & 0.35 & 0.34 & 0.35 & 0.32 & 0.36 & 0.33 & 0.44 & 0.47 & 0.45 \\
+			OA   & 8 & 6 & 8 & 31 & 25 & 29 & 35 & 34 & 35 & 32 & 36 & 33 & {\bf 44} & {\bf 47} & {\bf 45} \\
 			\hline
 		\end{tabular}
 		\label{RQ1-result-1}
-		CM: Commandline, CM: CommonMark, HF:Hangfire, HU: Humanizer, LE: Lean, NA: Nancy, NJ: Newtonsoft.Json, NI: Ninject, RS: RestSharp, OA: Overall, *: No available data point.
+		CL:Commandline, CM:CommonMark, HF:Hangfire, HU:Humanizer, LE:Lean, NA:Nan cy, NJ:Newtonsoft.Json, NI:Ninject, RS:RestSharp, OA: Overall, *: No avail data point.
 	\end{center}
 \end{table}
 
 \begin{table}[t]
-	\caption{RQ1. Comparison Results on C\# Dataset for $Accuracy^a$}
+	\caption{RQ1. Comparison on C\# Dataset ($Accuracy^a$\%)}
 	\vspace{-0.1in}
 	\begin{center}
-		\scriptsize
+		\footnotesize
 		\tabcolsep 4pt
 		\renewcommand{\arraystretch}{1} \begin{tabular}{p{0.2cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}|p{0.25cm}<{\centering}p{0.25cm}<{\centering}p{0.25cm}<{\centering}}
 			
 			\hline
-			\multirow{2}{*}{}          & \multicolumn{3}{c|}{Barnett {\em et al.}} & \multicolumn{3}{c|}{Herzig {\em et al.}} & \multicolumn{3}{c|}{$\delta-$PDG + CV} & \multicolumn{3}{c|}{Flexeme} & \multicolumn{3}{c}{\tool}\\
+			\multirow{2}{*}{}          & \multicolumn{3}{c|}{Barnett {\em et al.}} & \multicolumn{3}{c|}{Herzig {\em et al.}} & \multicolumn{3}{c|}{$\delta-$PDG + CV} & \multicolumn{3}{c|}{Flexeme} & \multicolumn{3}{c}{\bf {\tool}}\\
 			\cline{2-16}
 			& 2 & 3 & OA & 2 & 3 & OA & 2 & 3 & OA & 2 & 3 & OA & 2 & 3 & OA \\
 			\hline
-			CL   & 0.13 & *    & 0.13 & 0.68 & *    & 0.68 & 0.80 & *    & 0.80 & 0.85 & *    & 0.85 & 0.90 & *    & 0.90 \\
+			CL   & 13 & *    & 13 & 68 & *    & 68 & 80 & *    & 80 & 85 & *    & 85 & 90 & *    & 90 \\
 			CM   & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    \\
-			HF   & 0.06 & 0.11 & 0.07 & 0.71 & 0.59 & 0.68 & 0.81 & 0.86 & 0.82 & 0.80 & 0.89 & 0.82 & 0.84 & 0.91 & 0.86 \\
-			HU   & 0.14 & *    & 0.14 & 0.66 & *    & 0.66 & 0.79 & *    & 0.79 & 0.83 & *    & 0.83 & 0.89 & *    & 0.89 \\
-			LE   & 0.13 & 0.10 & 0.12 & 0.72 & 0.64 & 0.70 & 0.80 & 0.83 & 0.81 & 0.84 & 0.86 & 0.84 & 0.87 & 0.90 & 0.88\\
+			HF   & 06 & 11 & 07 & 71 & 59 & 68 & 81 & 86 & 82 & 80 & 89 & 82 & 84 & 91 & 86 \\
+			HU   & 14 & *    & 14 & 66 & *    & 66 & 79 & *    & 79 & 83 & *    & 83 & 89 & *    & 89 \\
+			LE   & 13 & 10 & 12 & 72 & 64 & 70 & 80 & 83 & 81 & 84 & 86 & 84 & 87 & 90 & 88\\
 			NA   & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    & *    \\
-			NJ   & 0.10 & *    & 0.10 & 0.68 & *    & 0.68 & 0.85 & *    & 0.85 & 0.75 & *    & 0.75 & 0.83 & *    & 0.83 \\
-			NI   & 0.15 & *    & 0.15 & 0.64 & *    & 0.64 & 0.83 & *    & 0.83 & 0.81 & *    & 0.81 & 0.91 & *    & 0.91 \\
-			RS   & 0.12 & 0.17 & 0.13 & 0.76 & 0.78 & 0.76 & 0.74 & 0.81 & 0.76 & 0.82 & 0.87 & 0.83 & 0.87 & 0.88 & 0.87\\
+			NJ   & 10 & *    & 10 & 68 & *    & 68 & 85 & *    & 85 & 75 & *    & 75 & 83 & *    & 83 \\
+			NI   & 15 & *    & 15 & 64 & *    & 64 & 83 & *    & 83 & 81 & *    & 81 & 91 & *    & 91 \\
+			RS   & 12 & 17 & 13 & 76 & 78 & 76 & 74 & 81 & 76 & 82 & 87 & 83 & 87 & 88 & 87\\
 			\hline
-			OA   & 0.13 & 0.10 & 0.12 & 0.72 & 0.64 & 0.70 & 0.79 & 0.83 & 0.81 & 0.82 & 0.86 & 0.83 & 0.88 & 0.91 & 0.89 \\
+			OA   & 13 & 10 & 12 & 72 & 64 & 70 & 79 & 83 & 81 & 82 & 86 & 83 & {\bf 88} & {\bf 91} & {\bf 89} \\
 			\hline
 		\end{tabular}
 		\label{RQ1-result-2}
-		CM: Commandline, CM: CommonMark, HF:Hangfire, HU: Humanizer, LE: Lean, NA: Nancy, NJ: Newtonsoft.Json, NI: Ninject, RS: RestSharp, OA: Overall, *: No available data point.
+		CL:Commandline, CM:CommonMark, HF:Hangfire, HU:Humanizer, LE:Lean, NA:Nan cy, NJ:Newtonsoft.Json, NI:Ninject, RS:RestSharp, OA: Overall, *: No avail data point.
 	\end{center}
 \end{table}
 
 
-\textcolor{red}{Yi: consider adding Table 2 in Flexeme paper to our paper on the statistics of the data}.
+%\textcolor{red}{Yi: consider adding Table 2 in Flexeme paper to our paper on the statistics of the data}.
 
-\textcolor{red}{Yi: add Figure 4(a) in Flexeme paper to our paper to show
-  the accuracy distribution for different numbers of concerns.}
+%\textcolor{red}{Yi: add Figure 4(a) in Flexeme paper to our paper to show the accuracy distribution for different numbers of concerns.}
+
+Table~\ref{RQ1-result-1} shows the comparison on $Accuracy^{c}$ when
+accuracy is measured on the changed statements. As seen, {\tool}
+improves $Accuracy^c$ by {\bf 462.5\%, 55.2\%, 28.6\%, and 36.4\%} in
+comparison with Barnett {\em et al.}, Herzig {\em et al.},
+$\sigma-$PDG+CV, and Flexeme, respectively.
 
 Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2} show the results about comparing \tool with baselines on C\# dataset. Table~\ref{RQ1-result-1} shows the $Accuracy^c$ results that \tool can improve the $Accuracy^c$ by $462.5\%, 55.2\%, 28.6\%, $ and $36.4\%$ compared with Barnett et al., Herzig et al., $\sigma-$PDG + CV, and Flexeme, respectively. Table~\ref{RQ1-result-2} shows the $Accuracy^a$ results that \tool can improve the  $Accuracy^a$ by $641.7\%, 27.1\%, 9.9\%, $ and $7.3\%$ comparing with Barnett et al., Herzig et al., $\sigma-$PDG + CV, and Flexeme, respectively. On all projects, \tool have the best overall performance compared with baselines, which proves the high accuracy of \tool on untangling task on C\# dataset.
 

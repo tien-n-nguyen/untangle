@@ -117,7 +117,7 @@ different concerns in the vector space.
 \noindent {\bf Evaluation Metrics.} We use two evaluation metrics for
 all approaches. First, $Accuracy^{c}$ is defined as the percentage of
 the {\em changed statements} that are labeled with a correct
-cluster/concern in all the statements in a commit: $Accuracy^{c}$=
+cluster/concern in all the statements in a commit: $\mathbf{Accuracy^{c}}$=
 $\frac{\# changed\:stmts\:w.\:correct\:clusters}{\#
 all\:changed\:stmts\:in\:commit}$.  Note that a model might label the
 statements with a different permutation of cluster labels than the one
@@ -131,7 +131,7 @@ maximum accuracy, and use that for $Accuracy^{c}$.
 
 In RQ1, for the comparison with Flexeme~\cite{flexeme-fse20}, we also
 used another metric that was used in their paper, which is similar to
-$Accuracy^{c}$ except that it considers all statements: $Accuracy^{a}$
+$Accuracy^{c}$ except that it considers all statements: $\mathbf{Accuracy^{a}}$
 = $\frac{\# stmts\:w.\:correct\:clusters}{\# all\:stmts\:in\:commit}$.
 We also consider all label permutations.
 
