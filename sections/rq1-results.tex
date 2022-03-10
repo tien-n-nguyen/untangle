@@ -69,33 +69,58 @@
 %\textcolor{red}{Yi: add Figure 4(a) in Flexeme paper to our paper to show the accuracy distribution for different numbers of concerns.}
 
 Table~\ref{RQ1-result-1} shows the comparison on $Accuracy^{c}$ when
-accuracy is measured on the changed statements. As seen, {\tool}
-improves $Accuracy^c$ by {\bf 462.5\%, 55.2\%, 28.6\%, and 36.4\%} in
-comparison with Barnett {\em et al.}, Herzig {\em et al.},
-$\sigma-$PDG+CV, and Flexeme, respectively.
+accuracy was measured on the changed statements. As seen, {\tool}
+improves Barnett {\em et al.}, Herzig {\em et al.}, $\sigma-$PDG+CV,
+and Flexeme in overall $Accuracy^c$ by {\bf 462.5\%, 55.2\%, 28.6\%},
+and {\bf 36.4\%}, respectively. As seen in Table~\ref{RQ1-result-2},
+when $Accuracy^{a}$ is measured on all the statements (changed and
+un-changed) in a commit, the results for all models are higher because
+they have correct classifications for the changed statements by
+default. We include $Accuracy^{a}$ for the comparison purpose with
+Flexeme (as its authors used this metric in their paper). As seen,
+{\tool} also improves Barnett {\em et al.}, Herzig {\em et al.},
+$\sigma-$PDG+CV, and Flexeme by {\bf 641.7\%, 27.1\%, 9.9\%,} and {\bf
+  7.3\%} in overall $Accuracy^{a}$, respectively. Moreover, {\tool}'s
+accuracies are consistently better than those of the baselines for all
+the subject projects with different numbers of concerns in the
+commits.
 
-Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2} show the results about comparing \tool with baselines on C\# dataset. Table~\ref{RQ1-result-1} shows the $Accuracy^c$ results that \tool can improve the $Accuracy^c$ by $462.5\%, 55.2\%, 28.6\%, $ and $36.4\%$ compared with Barnett et al., Herzig et al., $\sigma-$PDG + CV, and Flexeme, respectively. Table~\ref{RQ1-result-2} shows the $Accuracy^a$ results that \tool can improve the  $Accuracy^a$ by $641.7\%, 27.1\%, 9.9\%, $ and $7.3\%$ comparing with Barnett et al., Herzig et al., $\sigma-$PDG + CV, and Flexeme, respectively. On all projects, \tool have the best overall performance compared with baselines, which proves the high accuracy of \tool on untangling task on C\# dataset.
+%Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2} show the results about comparing \tool with baselines on C\# dataset. Table~\ref{RQ1-result-1} shows the $Accuracy^c$ results that \tool can improve the $Accuracy^c$ by $462.5\%, 55.2\%, 28.6\%, $ and $36.4\%$ compared with Barnett et al., Herzig et al., $\sigma-$PDG + CV, and Flexeme, respectively. Table~\ref{RQ1-result-2} shows the $Accuracy^a$ results that \tool can improve the  $Accuracy^a$ by $641.7\%, 27.1\%, 9.9\%, $ and $7.3\%$ comparing with Barnett et al., Herzig et al., $\sigma-$PDG + CV, and Flexeme, respectively. On all projects, \tool have the best overall performance compared with baselines, which proves the high accuracy of \tool on untangling task on C\# dataset.
 
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.2\textwidth}
+	\begin{subfigure}{0.235\textwidth}
 		\centering
-		\includegraphics[width=1.4in]{figures/RQ_1_1.png}
+		\includegraphics[width=1.7in]{figures/RQ_1_1.png}
+                \vspace{-16pt}
 		\caption{$Accuracy^c$}
 		\label{RQ1-result-3-1}
 	\end{subfigure}
-	\begin{subfigure}{0.2\textwidth}
+	\begin{subfigure}{0.235\textwidth}
 		\centering
-		\includegraphics[width=1.4in]{figures/RQ_1_2.png}
+		\includegraphics[width=1.7in]{figures/RQ_1_2.png}
+                \vspace{-16pt}
 		\caption{$Accuracy^a$}
 		\label{RQ1-result-3-2}
 	\end{subfigure}
+        \vspace{-12pt}
 	\caption{Boxplots for the Results in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}. Orange Boxes: 2 concerns data, Yellow Boxes: 3 concerns data}
 	\label{RQ1-result-3}
 \end{figure}
 
-Figure~\ref{RQ1-result-3} shows the boxplots for both the $Accuracy^c$ and $Accuracy^a$ results in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}. The orange boxes are for the commits with two concerns, while the yellow boxes are for the commits with three concerns. The results show that the median of the \tool is higher than all baselines on both the two concerns data and three concerns data. By considering the average accuracy reported in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}, \tool has been proved to have the best results on the C\# dataset when compared with all baselines.
+Figure~\ref{RQ1-result-3} shows the boxplots for both $Accuracy^c$ and
+$Accuracy^a$ results in Tables~\ref{RQ1-result-1}
+and~\ref{RQ1-result-2}. The orange boxes are for the commits with two
+concerns, while the yellow ones are for those with three concerns. As
+seen, the median accuracy of {\tool} is higher than those of all
+baselines on both types of two and three concerns. Moreover, the gap
+between {\tool} and the baselines in $Accuracy^{c}$ is larger than the
+gap between them in $Accuracy^{a}$ because all models have correct
+classifications by default for the changed statements, which are many
+more than the changed ones.
+
+%By considering the average accuracy reported in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}, \tool has been proved to have the best results on the C\# dataset when compared with all baselines.
 
 To better understand the performance of \tool, we do an extra analysis on the number of tangled commits that \tool or the best-performed baseline $Flexeme$ can $100\%$ cluster each changed statement correctly. The results show that there are $92$ commits that \tool can $100\%$ cluster the changed statements correctly while there are $64$ commits that $Flexeme$ can $100\%$ cluster the changed statements correctly. The overlapping between them is about $13$ commits. And the concerns in these commits often have $2-9$ statements inside. The number of commits that \tool can $100\%$ correctly cluster changed statements is limited because there are many concerns in the commits containing many changed statements. It is very hard for \tool to cluster each of them correctly at the same time perfectly. That's also why the concerns in $100\%$ correctly clustered commits often have the limited size from $1$ statements to $9$ statements. 
 
