@@ -122,6 +122,17 @@ more than the changed ones.
 
 %By considering the average accuracy reported in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}, \tool has been proved to have the best results on the C\# dataset when compared with all baselines.
 
-To better understand the performance of \tool, we do an extra analysis on the number of tangled commits that \tool or the best-performed baseline $Flexeme$ can $100\%$ cluster each changed statement correctly. The results show that there are $92$ commits that \tool can $100\%$ cluster the changed statements correctly while there are $64$ commits that $Flexeme$ can $100\%$ cluster the changed statements correctly. The overlapping between them is about $13$ commits. And the concerns in these commits often have $2-9$ statements inside. The number of commits that \tool can $100\%$ correctly cluster changed statements is limited because there are many concerns in the commits containing many changed statements. It is very hard for \tool to cluster each of them correctly at the same time perfectly. That's also why the concerns in $100\%$ correctly clustered commits often have the limited size from $1$ statements to $9$ statements. 
+%\vspace{3pt}
+\noindent {\bf Further Analysis.} To better understand the
+performance of {\tool}, we report that there are {\bf 92} commits that
+{\tool} can correctly classify 100\% of all the changed statements,
+while there are {\bf 64} commits that the best baseline, Flexeme, can
+correctly classify all the changed statements. Both models correctly
+classified 100\% all the changed statements of {\bf 13} commits. 
+Those commits contain from 2--9 changed statements.
+       
+
+
+%do an extra analysis on the number of tangled commits that \tool or the best-performed baseline $Flexeme$ can $100\%$ cluster each changed statement correctly. The results show that there are $92$ commits that \tool can $100\%$ cluster the changed statements correctly while there are $64$ commits that $Flexeme$ can $100\%$ cluster the changed statements correctly. The overlapping between them is about $13$ commits. And the concerns in these commits often have $2-9$ statements inside. The number of commits that \tool can $100\%$ correctly cluster changed statements is limited because there are many concerns in the commits containing many changed statements. It is very hard for \tool to cluster each of them correctly at the same time perfectly. That's also why the concerns in $100\%$ correctly clustered commits often have the limited size from $1$ statements to $9$ statements. 
 
 To better understand the performance of \tool on different sizes of concerns, we collect all concerns, and their size is from $1$ statements to $189$ statements. Then, by dividing them into four groups with the same amount of concerns following the order of the size, \tool can achieve $0.49$, $0.47$, $0.44$, and $0.40$ $Accuracy^c$ on group 1 (with the smallest size of concerns) to group 4 (with the biggest size of concerns), respectively. The results show that \tool can perform slightly better on the smaller size of concerns, but the gap on the results is not too big and still in the acceptable range.
