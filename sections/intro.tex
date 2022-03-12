@@ -1,15 +1,13 @@
 \section{Introduction}
 \label{intro:sec}
 
-During software evolution, developers make several changes over time
+During software evolution, developers make changes over time
 %and commit them into a source code repository.
-to perform software maintenance tasks. The changes to the
-source files that are committed to the repository in the same
-transaction are referred to as a {\em change set} or a {\em
-  commit}. For separation of concerns, each commit should be about one
+to perform software maintenance tasks. 
+The changes to source files committed to the repository in the same transaction are referred to as a {\em change set} or a {\em commit}. 
+For separation of concerns, each commit should be about one
 purpose~or~concern regarding the programming task at hand.
-Unfortunately, it has been reported that many commits tangle different
-concerns including the changes for bug-fixing, refactoring,
+Unfortunately, it has been reported that many commits tangle different  concerns including the changes for bug-fixing, refactoring,
 enhancements, improvements, or
 documentation~\cite{tao-fse12,kim-emse16,kim-msr13,hill-tse12,nguyen-issre13}.
 %Tao {\em et al.}~\cite{tao-fse12}, Kim {\em et
@@ -33,43 +31,44 @@ refactoring, enhancements, or
 documentation~\cite{kim-emse16,kim-msr13,nguyen-issre13}. Those
 tangled commits have negative impact on the accuracy of bug
 prediction or bug localization models that rely on the changes mined from
-the repository~\cite{kim-emse16,kim-msr13}. Those models
-consider an entire commit as for fixing or non-fixing, thus, are
-significantly affected by the tangled commits.
+the repository~\cite{kim-emse16,kim-msr13}. 
+Those models are significantly affected by the tangled commits as they consider an entire commit as for fixing or non-fixing. 
 
-Recognizing the need of the tools that untangle, i.e., decompose a
-commit into untangle changes, several researchers have proposed
-different approaches that can be broadly classified into two
+
+%Those models consider an entire commit as for fixing or non-fixing, thus, are significantly affected by the tangled commits.
+
+Recognizing the need of tools that untangle, i.e., decompose a
+commit into untangled changes, several researchers have proposed different approaches that can be broadly classified into two
 categories: {\em mining software repositories}, and {\em program
   analysis}.
 
 First, earlier approaches leverage {\em mining software repositories
-  (MSR)} techniques to untangle commits. Herzig {\em et
-  al.}~\cite{kim-msr13,kim-emse16} utilize~a confidence voter
-technique together with agglomerative clustering on the change
+  (MSR)} techniques to untangle commits. For example, Herzig {\em et
+  al.}~\cite{kim-msr13,kim-emse16} utilize a confidence voter
+technique with agglomerative clustering on change
 operations for untangling.
 %the commits.
 %Each confidence voter is responsible for an important aspect
 %including call-graphs, change couplings, data dependencies, and
 %distance measures.
-However, the voters~are independent, thus, do not reflect well the
+However, the voters are independent, thus, do not reflect well the
 interdependency~nature of program elements under change.
 %
 Kirinuki {\em et al.}~\cite{higo-apsec16, higo-icpc14} consider a
 commit as tangled if it includes another commit in the past. However,
-there are tangled commits whose part of them have~not occurred
+there are tangled commits whose part of them have not occurred
 in the past.
 %rely on the histories of the co-changes to split the tangled code
 %changes before they are committed. However, they do not consider the
 %relations among the changes such as data or control dependencies.
 %
 Dias {\em et al.}~\cite{dias-saner15} use confidence voters
-on the~fine-grained change events in an editor. The scores are converted
+on the fine-grained change events in an editor. The scores are converted
 into the similarity ones via a Random Forest Regressor, which are used
 in agglomerative clustering to partition tangled changes.
 
 The second category of untangling approaches leverage the {\em static
-  analysis} techniques. Roover {\em et al.}~\cite{roover-scam18} use
+  analysis} techniques. For example, Roover {\em et al.}~\cite{roover-scam18} use
 program slicing to segment a commit across a Program Dependency Graph
 (PDG).  However, it is limited in handling inter-procedural and
 cross-file dependencies. Barnett {\em et al.}~\cite{barnett-icse15}
@@ -100,8 +99,7 @@ cosmetic links, etc.).
 %clustering criteria to achieve the best partitioning.
 
 Despite their successes, the state-of-the-art untangling commit
-techniques still have limitations. First, the boundaries across the
-concerns in a commit do not necessarily and naturally map to
+techniques still have limitations. First, the boundaries across concerns in a commit do not necessarily and naturally map to
 clustering criteria of a clustering algorithm running on the PDG, name
 flows, program slices, change operations, or the changes
 themselves. The concerns might be linked via multiple edges.
@@ -157,7 +155,7 @@ that logic bug despite that they have no data/control dependency.
 %changes in a commit.
 
 %Tien
-To address those challenges, we propose {\tool}, a {\bf novel code
+To address those challenges, we propose {\bf \tool}, a {\bf novel code
   change clustering learning model} that learns to untangle a~commit
 by clustering the code changes (represented by the embeddings) into
 groups for different concerns.
