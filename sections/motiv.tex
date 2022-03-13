@@ -106,15 +106,16 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 %  return immutable;
 %}
 
-Let us present the real-world examples and our
-motivation. Figure~\ref{fig:motiv-cc} shows the changes at the commit
+Let us present the real-world examples to motivate {\tool}.
+%our motivation.
+Figure~\ref{fig:motiv-cc} shows the changes at the commit
 r1192 of the JHotDraw project with the log {\em ``Fixes NPE and
-  implements indentation of XML elements''}. This is a tangled commit
+  implements indentation of~XML elements''}. This is a tangled commit
 with two concerns/purposes: 1) the fix for Null Pointer Exception
 occurred at lines 4,7, and 10 of the \code{Drawing} class (the
 \code{null} argument was replaced with
-\code{Collections.emptyList()}); 2) the implementation of indentation
-of XML elements occurred at lines 16--18, and a few others of the
+\code{Collections.empty\-List()}); 2) the implementation of the indentation
+of XML elements occurred at lines 16--18, and a few other lines of the
 \code{SimpleXmlIO} class and one line in the \code{Drawing} class (not
 shown).
 
@@ -148,6 +149,7 @@ history to untangle the current commit.
 
 %(e.g.,~\cite{flexeme-fse20},~\cite{roover-scam18})
 
+\vspace{3pt}
 \noindent {\bf Observation 1 [Learn to Cluster Code Changes].} {\em
   History of the co-changed statements with the same concern could be
   a good source for a machine learning model to learn to cluster the
@@ -191,7 +193,7 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
 }
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Same Change in Two Contexts for Diff. Concerns in the commit r463 of JHotDraw}
+        \caption{Same Change in Two Contexts for Different Concerns in the Commit r463 of JHotDraw}
         \vspace{-6pt}
         \label{fig:motiv-context}
 \end{figure}
@@ -209,9 +211,10 @@ a fix for a different bug as the hovered object needs to be selected
 ({\em ``Selection classes now check the flag on the hovering figures
   to be selected.''}). The addition of \code{figure.isSelectable()} is
 common for checking if a figure is selectable in the two tasks of
-dragging figure and hovering figure. Without the surrounding contexts,
+dragging and hovering a figure. Without the surrounding contexts,
 one could not tell that they are for different purposes.
 
+\vspace{3pt}
 \noindent {\bf Observation 2 [Context].} {\em The surrounding context
   consisting of un-changed code is crucial to determine the
   concern of a change. The same change in two 
@@ -242,10 +245,11 @@ to the same concern.
 %\code{ManualUniverseSelection\-Model} in the process of {\em ``setting
 %  algorithm framework models''}.
 
+\vspace{2pt}
 \noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
   fragments of cloned code have the same/similar logic, thus, have
   implicit dependencies, and could be modified in the same manner to
-  serve the same purpose.}
+  serve the same concern.}
 
 \input{sections/key-ideas}
 
