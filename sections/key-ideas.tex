@@ -8,6 +8,7 @@ ideas.
 %{\bf Key Idea 1 [Code Change Representation Learning with Graph
 %    Convolution Network (GCN)]}.
 
+\vspace{2pt}
 {\bf Key Idea 1 [Code Change Clustering Learning Model]}. Instead of
 deciding a deterministic clustering criterion on the concrete
 artifacts (PDGs, program slices, code changes, operations, or change
@@ -20,22 +21,23 @@ an agglomerative clustering algorithm into a~super\-vised-learning
 clustering model via trainable parameters and a loss function to
 compare the predicted clusters and the correct ones.
 
-{\bf Key Idea 2 [Context-aware, Graph-based Representation Learning
-    for Code Changes].} We design a context-aware, graph-based,
-representation learning model to {\em learn the contextualized
-  embeddings (vectors) for the code changes} that integrates {\em
-  program dependencies} among the program elements, and the {\em
-  contexts} of~code changes. We train a Label, Graph-based Convolution
-Network~\cite{label-gcn} to learn the embeddings and learn to
-cluster them from the history of changed code for the same concerns.
-For prediction, we apply supervised-learning agglomerative
-clustering on the embeddings of code changes to produce the clusters
-to untangle the commit. We expect that supervised-learning clustering
-on vectors is more effective than on the above artifacts since the
-embeddings capture~richer information integrated from the
-dependencies and contexts.
+\vspace{3pt} {\bf Key Idea 2 [Context-aware, Graph-based
+    Representation Learning for Code Changes].} We design a
+context-aware, graph-based, representation learning model to {\em
+  learn the contextualized embeddings for the code changes}
+that integrates {\em program dependencies} among the program elements,
+and the {\em contexts} of~code changes. We train a Label, Graph-based
+Convolution Network~\cite{label-gcn} to learn~the embeddings and learn
+to cluster them from the history.
+%of changed code for the same concerns.
+For prediction, we apply supervised-learning agglomerative clustering
+on~the embeddings of code changes to produce the clusters to untangle
+the commit. We expect that supervised-learning clustering on vectors
+is more effective than on those artifacts since the embeddings
+capture~richer information integrated from dependencies and
+contexts.
 
-
+\vspace{3pt}
 {\bf Key Idea 3 [Explicit Context Representation as a Weight to
     Compute Vectors for Code Changes]}. As in Observation 2, the
 contexts of the code changes can help distinguish their concerns in
@@ -50,6 +52,7 @@ representing the context for a change. The context vectors are then
 used as weights in learning contextualized embeddings for the code
 changes.
 
+\vspace{3pt}
 {\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}. As in
 Observation 3, the cloned code exhibits implicit dependencies with
 regard to whether they can be changed in the same commits for the same
