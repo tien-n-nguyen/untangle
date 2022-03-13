@@ -5,7 +5,7 @@
 
 \noindent\textbf{RQ1. Comparison with Existing Approaches on C\# Dataset.}
 
-{\em \underline{Baselines.}} We compare {\tool} with the
+{\em \underline{Baselines.}} We compared {\tool} with the
 state-of-the-art commit-untangling approaches that work on C\#
 programming language: Barnett {\em et al.}~\cite{barnett-icse15},
 Herzig {\em et al.}~\cite{kim-emse16}, Flexeme~\cite{flexeme-fse20},
@@ -33,7 +33,7 @@ For {\tool}, we tuned it with autoML~\cite{NNI} for the following
 key hyper-parameters to have the best performance: (1) Epoch size
 (100, 200, 300); (2) Batch size (64, 128, 256); (3) Learning rate
 (0.001, 0.003, 0.005, 0.010); (4) Vector length of word embeddings and
-its output (150, 200, 250, 300). We empirically set the number of hops from the changed node to generate a context to 2 (details in RQ4).
+its output (150, 200, 250, 300). We empirically set the number of hops from the changed node to generate a context of size 2 (details in RQ4).
 
 %(5) The maximum number $P$ of children nodes (4, 5, 6); (6) The maximum depth $Q$ of children nodes (3, 4, 5).
 
