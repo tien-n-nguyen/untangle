@@ -33,7 +33,7 @@ For {\tool}, we tuned it with autoML~\cite{NNI} for the following
 key hyper-parameters to have the best performance: (1) Epoch size
 (100, 200, 300); (2) Batch size (64, 128, 256); (3) Learning rate
 (0.001, 0.003, 0.005, 0.010); (4) Vector length of word embeddings and
-its output (150, 200, 250, 300).
+its output (150, 200, 250, 300). We empirically set the number of hops from the changed node to generate a context to 2 (details in RQ4).
 
 %(5) The maximum number $P$ of children nodes (4, 5, 6); (6) The maximum depth $Q$ of children nodes (3, 4, 5).
 
@@ -63,25 +63,21 @@ relations).
 \textit{ \underline{Procedure}.}
 We used the same procedure as in RQ1, but on the Java dataset.  The
 baselines do not need training, thus, we ran them on the 10\% testing
-data. We also auto-tuned {\tool} with autoML~\cite{NNI}.
+data. We also auto-tuned {\tool} with autoML~\cite{NNI} and set 2 to the number of hops from the changed node to generate a context. 
 
 %In this RQ, we following the similar procedure in RQ1 to order all tangled commits based on the last modified time from oldest to the newest. And then we split the dataset into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. As for all baselines in this RQ, they all don't need training dataset, so we directly evaluate the performance of them on the 10\% testing dataset. The same as RQ1, we use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
 
-\noindent\textbf{RQ3. Within-Project Analysis.}
-We used the C\# dataset and divided it into the commits for each
-project. For each group $G$ of commits for one project, we sorted them
-in the chronological order. For the commits in each group $G$, we
-split them as in RQ1, i.e., dividing them into 80\%, 10\%, 10\% for
-training, tuning, and testing, and using the older data for training
-and the newer data for tuning and testing.
-%
-We separately trained, fine-tuned, and tested a model under study on
-the commits in each project. Because in all projects, there are
-insufficient data to train the model in this within-project setting
-(except for \code{CommandLine}), we reported the result running on
-the \code{CommandLine} project. For the other projects, we have the
-overfitting or underfitting problems due to insufficient training
-data.
+\noindent\textbf{RQ3. Within-Project Analysis.} We randomly selected one of the largest projects from each dataset: C\# and Java datasets: \code{CommandLine}  C\# project and \code{xxxxx} Java project. For each project, we sorted all of the commits in the chronological order based on commit time. We split the commits into 80\%, 10\%, 10\% for training, tuning, and testing, and using the older data for training
+and the newer data for tuning and testing. We separately trained, fine-tuned, and tested a model under study on
+the commits in each project. 
+
+
+%Because in all projects, there are
+%insufficient data to train the model in this within-project setting
+%(except for \code{CommandLine}), we reported the result running on
+%the \code{CommandLine} project. For the other projects, we have the
+%overfitting or underfitting problems due to insufficient training
+%data.
 
 %the commits in each project into 80%, 10%, and 10% for
 %training, tuning, and testing. The oldest data is used to train the
@@ -92,19 +88,17 @@ data.
 
 %We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$.
 
-\noindent\textbf{RQ4. Sensitivity Analysis.}
-We built the variants of {\tool} by removing its important components,
+\noindent\textbf{RQ4. Sensitivity Analysis.} We built the variants of {\tool} by removing its important components,
 one at a time. First, we removed from {\tool} the context component by
 not considering the context vector when computing the vector
 for a changed statement. Second, we removed from {\tool} the
 clone detection component and used the resulting clusters from the
-code change clustering learning model as the final results. We used the
-C\# dataset and the same setting and procedure as in RQ1.
+code change clustering learning model as the final results. Third, we studied the impact of the size K of a context on the accuracy. 
+We used the C\# dataset and the same setting and procedure as in RQ1.
 
 %We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
 
-\noindent\textbf{RQ5. Code Change Embedding Analysis.}
-We use statistical $p$-test to confirm/refute the hypothesis
+\noindent\textbf{RQ5. Code Change Embedding Analysis.} We use statistical $p$-test to confirm/refute the hypothesis
 that the changed statements in the same concerns are
 projected nearer to one another than the changed statements in
 different concerns in the vector space.
