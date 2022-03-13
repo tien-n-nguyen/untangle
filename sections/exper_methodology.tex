@@ -1,5 +1,6 @@
 \input{sections/dataset.tex}
 
+%\vspace{-11pt}
 \subsection{Experimental Methodology}
 \label{method:sec}
 
@@ -7,12 +8,15 @@
 
 {\em \underline{Baselines.}} We compared {\tool} with the
 state-of-the-art commit-untangling approaches that work on C\#
-programming language: Barnett {\em et al.}~\cite{barnett-icse15},
-Herzig {\em et al.}~\cite{kim-emse16}, Flexeme~\cite{flexeme-fse20},
-and $\delta$-PDG+CV~\cite{flexeme-fse20} ($\delta$-PDG+CV is a variant
+(details in Section~\ref{related:sec}):
+%programming language:
+Barnett {\em et al.}~\cite{barnett-icse15}, Herzig {\em et
+al.}~\cite{kim-emse16}, Flexeme~\cite{flexeme-fse20}, and
+$\delta$-PDG+CV~\cite{flexeme-fse20} ($\delta$-PDG+CV is a model
 introduced by the authors of Flexeme via combining their $\delta$-PDG
-with confidence voting in Herzig {\em et al.}~\cite{kim-emse16}). See
-Section~\ref{intro:sec} for the details on the baselines.
+with confidence voting in Herzig {\em et al.}~\cite{kim-emse16}).
+
+%See Section~\ref{intro:sec} for the details on the baselines.
 
 %\begin{itemize}
 %	\item Barnett et al. \cite{barnett-icse15}: An automatic technique for decomposing changesets and evaluate its effectiveness through both a quantitative analysis and a qualitative user study
@@ -28,17 +32,29 @@ chronological order based on the creation time of the commit logs. For
 the next oldest ones for tuning, and the latest 10\% of the commits
 for testing. For the baselines, all of them do not need training,
 thus, we ran them on the 10\% testing data.
+%
+We did not use the setting of leave-one-out by project (testing on
+part of a project and training on other 8 projects). The reason is
+that after sorting in a chronological order, we could not test on the
+oldest project due to no training data. Even with the 2nd/3rd oldest
+ones, there is no sufficient training data of the commits that came
+from the older projects and before the test commits in those projects.
 
-For {\tool}, we tuned it with autoML~\cite{NNI} for the following
-key hyper-parameters to have the best performance: (1) Epoch size
-(100, 200, 300); (2) Batch size (64, 128, 256); (3) Learning rate
-(0.001, 0.003, 0.005, 0.010); (4) Vector length of word embeddings and
-its output (150, 200, 250, 300). We empirically set the number of hops from the changed node to generate a context of size 2 (details in RQ4).
+We tuned {\tool} with autoML~\cite{NNI} for the following key
+hyper-pa\-rameters to have the best performance: (1) Epoch size (100,
+200, 300); (2) Batch size (64, 128, 256); (3) Learning rate (0.001,
+0.003, 0.005, 0.010); (4) Vector length of word embeddings and its
+output (150, 200, 250, 300). We empirically set the context size of 2
+(RQ4).
+
+%set the number of hops from the changed node to generate a context of
+%size 2 (details in RQ4).
 
 %(5) The maximum number $P$ of children nodes (4, 5, 6); (6) The maximum depth $Q$ of children nodes (3, 4, 5).
 
 %In this RQ, we are focusing on the baselines that are workable on the C\# dataset. Within the C\# dataset, we firstly order all tangled commits in the dataset based on the latest modified time in the commit log from oldest to the newest. And then we split all of the tangled commits into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. We try to use the existing tangled commits to let model learn the features and then use the newest tangled commits to test the performance of the model. As for the baselines, because they don't need model training, we only evaluate the model performance on the 10\% testing dataset for fair comparison. We use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
 
+\vspace{2pt}
 \noindent\textbf{RQ2. Comparison with Existing Approaches on Java Dataset.}
 
 {\em \underline{Baselines.}} We compare {\tool} with the
@@ -61,15 +77,29 @@ relations).
 %\end{itemize}
 
 \textit{ \underline{Procedure}.}
-We used the same procedure as in RQ1, but on the Java dataset.  The
-baselines do not need training, thus, we ran them on the 10\% testing
-data. We also auto-tuned {\tool} with autoML~\cite{NNI} and set 2 to the number of hops from the changed node to generate a context. 
+We used the same procedure, tuning with autoML~\cite{NNI}, and
+parameters as in RQ1 on the Java dataset. The baselines do not need
+training, thus, we ran them on the 10\% testing data.
+
+%We set the context size of 2 (see RQ4).
+
+%We also auto-tuned {\tool} with autoML~\cite{NNI}.
+
+%and set 2 to the number of hops from the changed node to generate a context.
 
 %In this RQ, we following the similar procedure in RQ1 to order all tangled commits based on the last modified time from oldest to the newest. And then we split the dataset into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. As for all baselines in this RQ, they all don't need training dataset, so we directly evaluate the performance of them on the 10\% testing dataset. The same as RQ1, we use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
 
-\noindent\textbf{RQ3. Within-Project Analysis.} We randomly selected one of the largest projects from each dataset: C\# and Java datasets: \code{CommandLine}  C\# project and \code{xxxxx} Java project. For each project, we sorted all of the commits in the chronological order based on commit time. We split the commits into 80\%, 10\%, 10\% for training, tuning, and testing, and using the older data for training
-and the newer data for tuning and testing. We separately trained, fine-tuned, and tested a model under study on
-the commits in each project. 
+\vspace{2pt}
+\noindent\textbf{RQ3. Within-Project Analysis.}
+We randomly selected one of the largest projects from each dataset:
+the \code{CommandLine} project in C\# and
+the \textcolor{red}{\code{xxxxxxxxxx}} project in Java. For each
+project, we sorted all of the commits in the chronological order based
+on commit time. We split the commits into 80\%, 10\%, 10\% for
+training, tuning, and testing, and using the older data for training
+and the newer data for tuning and testing. We separately trained,
+fine-tuned, and tested a model under study on the commits in each
+project.
 
 
 %Because in all projects, there are
@@ -88,17 +118,23 @@ the commits in each project.
 
 %We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$.
 
-\noindent\textbf{RQ4. Sensitivity Analysis.} We built the variants of {\tool} by removing its important components,
-one at a time. First, we removed from {\tool} the context component by
-not considering the context vector when computing the vector
-for a changed statement. Second, we removed from {\tool} the
-clone detection component and used the resulting clusters from the
-code change clustering learning model as the final results. Third, we studied the impact of the size K of a context on the accuracy. 
-We used the C\# dataset and the same setting and procedure as in RQ1.
+\vspace{2pt}
+\noindent\textbf{RQ4. Sensitivity Analysis.}
+We built the variants of {\tool} by removing its important components,
+one at a time. First, we removed from {\tool} the context by not using
+the context vector when computing the vector for a changed
+statement. Second, we removed from {\tool} the clone detection
+component and used the resulting clusters from the code change
+clustering learning model as the final results. Third, we studied the
+impact of the size K of a context on the accuracy. We also studied the
+impact of the data size. We used the C\# dataset and the same
+setting/procedure as in RQ1.
 
 %We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
 
-\noindent\textbf{RQ5. Code Change Embedding Analysis.} We use statistical $p$-test to confirm/refute the hypothesis
+\vspace{2pt}
+\noindent\textbf{RQ5. Code Change Embedding Analysis.} 
+We use statistical $p$-test to confirm/refute the hypothesis
 that the changed statements in the same concerns are
 projected nearer to one another than the changed statements in
 different concerns in the vector space.
