@@ -45,7 +45,7 @@ will have different embeddings.
 \subsubsection{{\bf Label, Graph-based Convolutional Network (Label-GCN)}}
 
 To achieve that, {\tool} first feeds the multi-version {\mvpdg} to a
-graph-based, ML model to learn the contextualized
+graph-based ML model to learn the contextualized
 embeddings for the nodes in the graph. Since {\mvpdg} contains the
 labels (i.e., $i$, $j$, $(i,j)$) representing the (un)changes,
 Label-GCN~\cite{label-gcn}~is used to learn the graph structure and
@@ -57,7 +57,7 @@ the node features with change labels.
 %In the Label-GCN, similarly to the normal GCN \cite{}, it takes the graph with the node features as the input and generates the representation vector for each node as the output. Compared with normal GCN, it also accepts the node labels in the first layer. In this case, when dealing with a central node, the model is allowed to see the labels of the neighbors, and the labels can then become part of the feature vector. With this, Label-GCN calculates the representation vectors in the first layer as follow:
 
 Similar to GCN~\cite{gcn}, Label-GCN~\cite{label-gcn} takes the graph
-with the node features as the input and produces the vectors for the
+with node features as input and produces the vectors for the
 nodes, when considering the features of the neighboring nodes of each
 node.  In addition, for the current node, in the first layer,
 Label-GCN considers the change labels of the neighboring nodes as part
@@ -97,7 +97,7 @@ states. The computation in a following layer $l$ is as follows:
 \label{sec:preprocess}
 Let us explain how we process the multi-version {\mvpdg} to produce
 the input for the Label-GCN model. For each node $n$ of a statement
-$s$ in {\mvpdg}, we break $s$ down into the code tokens $t$, and build
+$s$ in {\mvpdg}, we break $s$ down into code tokens $t$, and build
 the vector $e_t$~for~$t$ using the word embedding technique
 Glove~\cite{glove2014}. The vector for the node $n$ is the average vector
 $Avg_n$ of the vectors of all the~tokens~$t$ within the corresponding
