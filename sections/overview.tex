@@ -136,9 +136,9 @@ both training and predicting processes. $\delta$-PDG$^{i,j}$ and contexts are us
 %First, \tool accepts two versions $i$ and $j$ of source code. Following the existing study from Partachi et al. \cite{flexeme-fse20}, \tool firstly generates the PDGs for both the version $i$ and version $j$ for the source code. Next, to construct the multi-version PDG$^{i,j}$, \tool starts from the initial version $i$. \tool uses the PDGs and the Git diff tool on the source files to determine changed and unchanged nodes. Added nodes are introduced to the multi-version PDG$^{i,j}$ as they appear in the newer version $j$. \tool retains nodes deleted across the versions and uses a different label (label $i$) on the nodes to represent the deletion. The unchanged nodes between versions are matched by using string similarity to filter candidates and line-span proximity to rank them. When considering the edge changes, \tool back-propagates the delete nodes to edges flowing into them. Also, \tool considers and adds all unmatched edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the edges relevant to the added nodes. After having the constructed multi-version PDG$^{i,j}$, for each changed node in the graph, \tool collects all unchanged nodes within the $k$-hops and the edges between them to build a sub-graph as the context for the changed node. The multi-version PDG$^{i,j}$ and the context for each changed node in it will be used as the input for the next step.
 
 \subsubsection{{\bf Step 2. Context-aware, Graph-based, Code Change Clustering Learning Model}} The task of this model is to {\em learn to cluster the code changes}, represented by
-the changed nodes and corresponding contexts in {\mvpdg}. To achieve
+the changed nodes and corresponding contexts in {\mvpdg}. For
 that, {\tool} first learns to construct the {\bf contextualized
-  embeddings} (vectors) to represent the code changes via our novel
+  embeddings} to represent the code changes via our novel
 {\bf context-aware, graph-based code change representation learning
   model}. In that model, to build the contextualized embeddings, we
 leverage
