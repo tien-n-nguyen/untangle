@@ -3,8 +3,8 @@
 
 During software evolution, developers make changes over time
 %and commit them into a source code repository.
-to perform software maintenance tasks. 
-The changes to source files committed to the repository in the same transaction are referred to as a {\em change set} or a {\em commit}. 
+to perform software maintenance tasks.
+The changes to source files committed to the repository in the same transaction are referred to as a {\em change set} or a {\em commit}.
 For separation of concerns, each commit should be about one
 purpose~or~concern regarding the programming task at hand.
 Unfortunately, it has been reported that many commits tangle different  concerns including the changes for bug-fixing, refactoring,
@@ -31,8 +31,8 @@ refactoring, enhancements, or
 documentation~\cite{kim-emse16,kim-msr13,nguyen-issre13}. Those
 tangled commits have negative impact on the accuracy of bug
 prediction or bug localization models that rely on the changes mined from
-the repository~\cite{kim-emse16,kim-msr13}. 
-Those models are significantly affected by the tangled commits as they consider an entire commit as for fixing or non-fixing. 
+the repository~\cite{kim-emse16,kim-msr13}.
+Those models are significantly affected by the tangled commits as they consider an entire commit as for fixing or non-fixing.
 
 
 %Those models consider an entire commit as for fixing or non-fixing, thus, are significantly affected by the tangled commits.
@@ -51,12 +51,14 @@ operations for untangling.
 %Each confidence voter is responsible for an important aspect
 %including call-graphs, change couplings, data dependencies, and
 %distance measures.
-However, the voters are independent, thus, do not reflect well the
-interdependency~nature of program elements under change.
+%However, the voters are independent, thus, do not reflect well the
+%interdependency~nature of program elements under change.
+The voters consider data dependencies, call graphs, change
+couplings, and distances.
 %
 Kirinuki {\em et al.}~\cite{higo-apsec16, higo-icpc14} consider a
 commit as tangled if it includes another commit in the past. However,
-there are tangled commits whose part of them have not occurred
+there are tangled commits whose parts of them have not occurred
 in the past.
 %rely on the histories of the co-changes to split the tangled code
 %changes before they are committed. However, they do not consider the
@@ -68,17 +70,17 @@ into the similarity ones via a Random Forest Regressor, which are used
 in agglomerative clustering to partition tangled changes.
 
 The second category of untangling approaches leverage the {\em static
-  analysis} techniques. For example, Roover {\em et al.}~\cite{roover-scam18} use
-program slicing to segment a commit across a Program Dependency Graph
-(PDG).  However, it is limited in handling inter-procedural and
-cross-file dependencies. Barnett {\em et al.}~\cite{barnett-icse15}
-use def-use chains, and cluster them. If the def-use chain all falls
-into a method, it is considered as trivial, otherwise,
-non-trivial. Because ignoring the trivial clusters, it can miss tangled
-concerns. Flexeme~\cite{flexeme-fse20} uses multi-version PDG
-augmented with name flows in the edges, and applies agglomerative
-clustering using graph similarity on that graph to untangle the
-commits. SmartCommit~\cite{smartcommit-fse21} uses a
+analysis} techniques. Roover {\em et
+  al.}~\cite{roover-scam18} use program slicing to segment a commit
+across a Program Dependency Graph (PDG).  However, it is limited in
+handling inter-procedural and cross-file dependencies. Barnett {\em et
+  al.}~\cite{barnett-icse15} use def-use chains, and cluster them. If
+the def-use chain all falls into a method, it is considered as
+trivial, otherwise, non-trivial. Because ignoring the trivial
+clusters, it can miss tangled concerns. Flexeme~\cite{flexeme-fse20}
+uses multi-version PDG augmented with name flows in the edges, and
+applies agglomerative clustering using graph similarity on that graph
+to untangle the commits. SmartCommit~\cite{smartcommit-fse21} uses a
 graph-partitioning algorithm on a graph representation to capture the
 relations among code changes (hard and soft links, refactoring links,
 cosmetic links, etc.).
@@ -86,7 +88,7 @@ cosmetic links, etc.).
 %the targets of their clustering algorithms are either changes, change
 %operations, change events, or slices, PDGs, which do not sufficiently
 %contain the information for untangling commits. The reason is that
-%the boundaries across the concerns in a commit do not neccessarily
+%the boundaries across the concerns in a commit do not necessarily
 %and natually map to a specific clustering criteria on those targets
 %such as changes or PDGs. First, the boundaries across the concerns
 %in a commit do not neccessarily and natually map to a clustering
@@ -99,14 +101,15 @@ cosmetic links, etc.).
 %clustering criteria to achieve the best partitioning.
 
 Despite their successes, the state-of-the-art untangling commit
-techniques still have limitations. First, the boundaries across concerns in a commit do not necessarily and naturally map to
+techniques still have limitations. First, the boundaries across concerns 
+in a commit do not necessarily and naturally map to
 clustering criteria of a clustering algorithm running on the PDG, name
 flows, program slices, change operations, or the changes
 themselves. The concerns might be linked via multiple edges.
 %, and a statement might belong to multiple concerns.
 To apply a clustering algorithm on the PDG, program slices, or change
-graphs, it is challenging to specify the right criteria to obtain
-perfect partitions matching with the concerns.
+graphs, it is challenging to deterministically specify the right
+criteria to obtain perfect partitions matching with the concerns.
 %Applying a clustering algorithm on the PDG, slices, or change graphs
 %makes it difficult to specify clustering criteria to achieve the
 %partitions matching with the concerns.
@@ -116,13 +119,13 @@ existing approaches {\em do~not~consider a change w.r.t. the context
   of surrounding code with a clear distinction of the changed elements
   and the un-changed ones in the context}. Such context could help
 distinguish the concerns for the changes. Finally, not all the changes
-in the same concern need to have program dependencies among one
-another. The logic connection among the co-changed code in the same
-commit could be due to the reasons different than program
-dependencies. For example,~two pieces of cloned code realizing the
-same bubble sorting algorithm have the same bug, e.g., at the
-comparison operator. They might be changed for the same concern to fix
-that logic bug despite that they have no data/control dependency.
+in the same concern need to have program dependencies among them. The
+logic connection among the co-changed code in the same commit could be
+due to the reasons different than program dependencies. For
+example,~two pieces of cloned code realizing the same bubble sorting
+algorithm have the same bug, e.g., at the comparison operator. They
+might be changed for the same concern to fix that logic bug despite
+that they have no data/control dependency.
 
 
 %We develop {\tool}, a {\em novel code change clustering learning
@@ -162,7 +165,7 @@ groups for different concerns.
 %
 While deterministic clustering criteria on the PDG, slices, or change
 operations do not always produce the clusters that naturally map to
-the boundaries among the concerns, a machine learning (ML) model is
+the boundaries between the concerns, a machine learning (ML) model is
 expected to learn to cluster the changes, thus, untangling a
 commit. The~model learns from the changes belonging to the same
 concerns in the~version history. We adapt Herzig {\em et
@@ -181,8 +184,8 @@ have the following unique characteristics that facilitates the
 untangling of code changes. First, we use Label-GCN to model the
 changes and surrounding code by integrating both the versions before
 and after the changes in a multi-version program dependence graph,
-$\delta$-PDG~\cite{flexeme-fse20} that encodes the {\em
-  \underline{program dependencies} between the changed and unchanged
+$\delta$-PDG~\cite{flexeme-fse20}. $\delta$-PDG encodes the {\em
+  \underline{program dependencies} among the changed and unchanged
   statements}. Second, to decompose the changes, we {\em explicitly
   represent the surrounding \underline{code context} of each
   change}. The explicit representation of the context could help
@@ -218,21 +221,21 @@ clusters and the correct ones during training.
   \textcolor{red}{We have conducted several experiments to evaluate
     {\tool}. Our experimental results on a real-world C\# dataset with
     21k commits and 1,612 concerns show that {\tool} achieves the
-    accuracy of XX.X\%, XX.X\%, and XX.X\% relatively higher than the
-    baseline approaches Flexeme~\cite{flexeme-fse20}, Barnett
-    {\em et al.}~\cite{barnett-icse15}, and Herzig {\em et
-      al.}~\cite{kim-emse16}, respectively. {\tool} can correctly
-    cluster 39\% the changed statements into the correct
-    concerns.
+    accuracy of 36.4\%, 28.6\%, 55.2\%, and 462.5\% relatively higher
+    than the baseline approaches Flexeme~\cite{flexeme-fse20},
+    $\delta$-PDG+CV~\cite{flexeme-fse20}, Herzig {\em et
+      al.}~\cite{kim-emse16}, and Barnett {\em et
+      al.}~\cite{barnett-icse15}. {\tool} can correctly cluster 39\%
+    of the changed statements into correct concerns.
 %
   We also evaluated {\tool} in a Java dataset with XX commits and
-  X,XXX concerns. The results show that {\tool} achieves XX.X\%
+  X,XXX concerns. The results show that {\tool} achieves 23\%
   accuracy relatively higher than the state-of-the-art approach
   SmartCommit~\cite{smartcommit-fse21}. Our sensitivity analysis shows
   that all designed components in {\tool} contributes positively to
-  its high accuracy. We also show that the changed statements in the
+  its accuracy. We show that the changed statements in the
   same concerns are projected nearer to each other~than the ones in
-  different concerns.}
+  different concerns, helping {\tool} better in change clustering.}
   %The same changed statements in
   %different concerns are projected farther away in the vector space.}
 
