@@ -16,9 +16,9 @@ clusters of the changed statements, thus, we have the cluster labels
 (concern 1, concern 2, etc.) for the changed nodes in {\mvpdg}. During
 predicting (i.e., clustering), the input {\mvpdg} will be fed into the
 trained clustering learning model to produce the cluster labels for
-the changed nodes/statements. {\em For a given {\mvpdg}, the number of
-clusters is unknown to the model}, and will be decided by the model
-during agglomerative clustering. Let us detail the two tasks.
+the changed nodes. Note: for a given {\mvpdg}, the number of
+clusters is unknown to the model, and will be decided by the model
+during agglomerative clustering. Let us detail those two tasks.
 
 %of our CC clustering learning model.
 
@@ -29,7 +29,7 @@ during agglomerative clustering. Let us detail the two tasks.
 \label{vector:sec}
 
 \begin{figure*}[t]
-	\centering \includegraphics[width=5.6in]{figures/STEP_2-new-3.png}
+	\centering \includegraphics[width=5.6in]{figures/STEP_2-new-4.png}
 	\vspace{-6pt}
 	\caption{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 	\label{fig:step-2}
@@ -97,15 +97,15 @@ states. The computation in a following layer $l$ is as follows:
 \label{sec:preprocess}
 Let us explain how we process the multi-version {\mvpdg} to produce
 the input for the Label-GCN model. For each node $n$ of a statement
-$s$ in {\mvpdg}, we break $s$ down into code tokens $t$, and build
+$s$ in {\mvpdg}, we break $s$ down into the code tokens $t$, and build
 the vector $e_t$~for~$t$ using the word embedding technique
-Glove~\cite{glove2014}. The vector for the node $n$ is the average vector
+GloVe~\cite{glove2014}. The vector for the node $n$ is the average vector
 $Avg_n$ of the vectors of all the~tokens~$t$ within the corresponding
 statement $s$. Because each node $n$ has a change label $i$, $j$, or
 $(i,j)$ for the versions, we combine $Avg_n$ with the one-hot vector
 of the length 3 representing the labels $i$, $j$, or $(i,j)$. As a
 result, the combined vector $v_n$ (with the length of $len(Avg_n)$+3)
-is the node feature vector for $n$. Then, we build the graph with the
+is the {\em node feature vector} for $n$. Then, we build the graph with the
 same structure as {\mvpdg} in which a node $n$ is replaced with the
 node feature vector $v_n$, and feed that graph to the Label-GCN model to obtain
 the embeddings $V_n$ for all the nodes in {\mvpdg}.
@@ -127,7 +127,7 @@ to build the vector $v_{ctx}$ representing the context $ctx$ of the
 changed node $n_c$.
 %
 Finally, we perform a cross-product between the context vector $v_{ctx}$ and
-the vector $V{n_c}$ produced by Label-GCN for a changed node $n_c$, to
+the vector $V_{n_c}$ produced by Label-GCN for a changed node $n_c$, to
 build the contextualized embedding $V^{*}_{n_c}$ for $n_c$.
 
 %After we have $v$ for each node $n$, for each changed node $n_c$ in $n$, we pick the context for node $n$ which are the un-changed nodes $n_{uc}$ in $k$-hops neighbors. By merging all representation vectors $v_{uc}$ in the context based on the original node orders as a matrix, \tool uses a fully-connected layer to learn the context representation vector $v_{ctx}$ for node $n_c$. In the end, to get the final representation vector $v'_c$ for the changed node $n_c$, we uses the cross-product to merge $v_c$ and $v_{ctx}$.
@@ -175,7 +175,7 @@ a separate cluster $CL_c$.
 {\em \underline{Step 2.}} We merge any two clusters whose cluster
 similarity is the largest and higher than a threshold $T$.
 
-{\em \underline{Step 3.}} We continue the merging in Step 2 to form
+{\em \underline{Step 3.}} We repeat the merging in Step 2 to form
 larger clusters until there is no cluster that can be merged. After
 this step, we obtain the predicted clusters $CL$ at the current
 iteration.
