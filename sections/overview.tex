@@ -211,7 +211,7 @@ detection tool to detect if there is a cloned statement $s'_m$ of a
 changed statement $s_m$ in the {\mvpdg}. If so, we check the clusters
 containing $s_m$ and $s'_m$. When the clusters are different, we merge
 those clusters for one concern if needed. After iterating over all the
-changed statement $s_m$, we obtain the final resulting clusters.
+changed statements $s_m$, we obtain the final resulting clusters.
 
 %$Stmt_m$ and $Stmt_n$ in the multi-version PDG$^{i,j}$. If so, we
 %check the clustering results for $Stmt_m$ and $Stmt_n$ in $C$. If they
@@ -225,9 +225,9 @@ changed statement $s_m$, we obtain the final resulting clusters.
 \subsubsection*{Training and Predicting}
 All the steps in Figure~\ref{fig:overview} are shared between the
 training and predicting processes. The key difference is that in
-training, the ground truth with respect to the clusters (concern 1,
+training, the ground truth labels with respect to the clusters (concern 1,
 concern 2, etc.) for the changed statements are known, while in
-predicting, {\tool} will predict the clusters (concern 1, concern 2,
+predicting, {\tool} predicts the clusters (concern 1, concern 2,
 etc.), and finally update them via code clone detection process. During
 predicting/clustering, the number of clusters is unknown.
 
