@@ -14,7 +14,12 @@ by project, our setting reflects the actual use of our tool in which
 we can use all the commits in other projects that occurred before the
 current commit.
 
-\noindent {\bf Limitations.}
+\noindent {\bf Limitations.} {\tool} is less accurate for the commits
+with too many changed statements ($>=$ 20), or with too many concerns
+($>=$ 20). As with any data-driven approaches, {\tool} does not work
+well with little data. Finally, we currently integrate only the code
+clone relations. We will explore other types of implicit relations,
+e.g., in event-driven source code, or other links as in SmartCommit.
 
 %too many changed statements
 %too many concerns
