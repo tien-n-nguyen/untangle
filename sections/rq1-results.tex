@@ -121,10 +121,10 @@ and~\ref{RQ1-result-2}. The orange boxes are for the commits with two
 concerns, while the yellow ones are for those with three concerns. As
 seen, the median accuracy of {\tool} is higher than those of all
 baselines on both types of two and three concerns. Moreover, the gap
-between {\tool} and the baselines in $Accuracy^{c}$ is larger than the
-gap between them in $Accuracy^{a}$ because all models have correct
-classifications by default for the changed statements, which are many
-more than the changed ones.
+(in \%) between {\tool} and the baselines in $Accuracy^{c}$ is larger
+than the gap between them in $Accuracy^{a}$ because all models have
+correct classifications by default for the changed statements, which
+are many more than the changed ones.
 
 %By considering the average accuracy reported in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}, \tool has been proved to have the best results on the C\# dataset when compared with all baselines.
 
@@ -132,7 +132,7 @@ more than the changed ones.
 \noindent {\bf Further Analysis.} For further comparison, we report
 that there are {\bf 92} commits that {\tool} correctly classified
 100\% of all the changed statements, while there are {\bf 64} commits
-that the best baseline, Flexeme, correctly classified all the
+that Flexeme correctly classified all the
 changed statements. Both models correctly classified 100\% all the
 changed statements of {\bf 13} commits.  Those commits contain from
 2--9 changed statements.
@@ -165,5 +165,4 @@ addition of large files with $>$1.3k lines.
 
 
 Training of \tool on $80\%$ of C\# dataset takes 1.75 hours and
-predicting on $10\%$ of C\# dataset takes 1.3-2.5 seconds for each
-commit.
+predicting on $10\%$ of C\# dataset takes 1.3-2.5 seconds per commit.
