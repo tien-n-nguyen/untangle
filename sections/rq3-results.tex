@@ -1,20 +1,21 @@
 \subsection{RQ3. Within-Project Analysis}
 
 \begin{table}[t]
-	\caption{RQ3. Comparison between Within-Project and Cross-project Settings on Project $Commandline$}
+	\caption{RQ3. Results for Within- and Mixed-project Settings}
 	\vspace{-0.1in}
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
-		\renewcommand{\arraystretch}{1} \begin{tabular}{p{1.4cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{2cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
 			\hline
-			\multirow{2}{*}{Approaches}     & \multicolumn{3}{c|}{\tool (Within Project)} & \multicolumn{3}{c}{\tool (Cross Project)}\\
+			\multirow{2}{*}{Project}     & \multicolumn{3}{c|}{\tool (Within-Project)} & \multicolumn{3}{c}{\tool (Cross-Project)}\\
 			\cline{2-7}
 			                               &        2       &      3         & Overall  &      2       &        3     & Overall    \\
 			
 			\hline
-			$Accuracy^c$   &  0.46  & 0.49  &     0.47          &	0.45   & 0.47 &	0.46	       \\
+			CommandLine (C\#)   &  0.46  & 0.49  &     0.47          &	0.45   & 0.47 &	0.46	       \\
+                        \textcolor{red}{xxxxxxxxx} (Java)   &  0.XX  & 0.XX  &     0.XX          &	0.XX   & 0.XX &	0.XX	       \\
 
 			\hline
 		\end{tabular}
@@ -24,4 +25,14 @@
 \end{table}
 
 
-Table~\ref{RQ3-result} shows the comparison between the within and cross-project settings for \tool on C\# dataset. As we mentioned in the methodology section, because only on the project $Commandline$, \tool can have meaningful results, in Table~\ref{RQ3-result}, all results are only from the project $Commandline$ for a fair comparison. As seen, for $2$ concerns data, $3$ concerns data, and the overall performance, the within project setting can have $2.2\%, 4.3\%,$ and $2.2\%$ higher $Accuracy^c$ compared with the cross-project setting. It shows that using the data from the same project can help the model learn the feature more accurately. However, because the improvement percentages are all less than $5\%$, it proves that \tool can have consistent and similar performance on both the within and cross-project settings.
+Table~\ref{RQ3-result} shows the comparison between running {\tool} in
+the within and cross-project settings. As seen, with sufficient
+within-project data, $Accuracy^{c}$ in the within-project setting is
+slightly better than that of the mixed-project setting for both
+projects in C\# and Java. The trend is consistent for the commits with
+2 or 3 concerns. This is expected because the changes in the same
+project tend to be more similar than the changes across projects.
+This shows that {\tool} works in both within- and mixed-project
+settings.
+
+%As we mentioned in the methodology section, because only on the project $Commandline$, \tool can have meaningful results, in Table~\ref{RQ3-result}, all results are only from the project $Commandline$ for a fair comparison. As seen, for $2$ concerns data, $3$ concerns data, and the overall performance, the within project setting can have $2.2\%, 4.3\%,$ and $2.2\%$ higher $Accuracy^c$ compared with the cross-project setting. It shows that using the data from the same project can help the model learn the feature more accurately. However, because the improvement percentages are all less than $5\%$, it proves that \tool can have consistent and similar performance on both the within and cross-project settings.
