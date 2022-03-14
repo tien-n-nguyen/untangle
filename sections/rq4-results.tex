@@ -68,10 +68,10 @@ increases from $K$=1--2, the accuracy increases and reaches its peak
 at $K$=2. As $K$=1, the immediate surrounding nodes cannot capture
 well the relevant nodes for {\tool} to distinguish the concerns of the
 changed statements. With two hops from the changed node, the context
-seems to sufficiently contains the crucial nodes w.r.t. determining
+seems to sufficiently contain the crucial nodes w.r.t. determining
 the concerns. However, as the size continues to increase, the accuracy
 decreases. When the entire graph is used as the context, the accuracy
-is lowest. If more nodes are considered in the context, more noises 
+is the lowest. If more nodes are considered in the context, more noises 
 are added as more irrelevant data is used.  The trend is the same for
 the commits with two, three, or all concerns.
 
@@ -87,3 +87,26 @@ the commits with two, three, or all concerns.
 %with the entire node and may bring more biases. Based on this, even
 %compared with the untested $k$ value, $k=2$ is still the best setting
 %for \tool.
+
+\begin{table}[t]
+%	\caption{Top-1 with Data Splitting on CPatMiner dataset}
+\caption{Impact of the Size of Training Data}
+	\vspace{-7pt}
+	\tabcolsep 2pt
+	\small
+	\begin{center}
+\begin{tabular}{|c|l|l|l|}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  Splitting on C\# dataset & 80\%/10\%/10\% & 70\%/15\%/15\% & 60\%/20\%/20\% \\
+  \hline
+  \% $Accuracy^{c}$ & 45\% & 43\% & 41\% \\
+  \hline
+\end{tabular}
+\label{splitting}
+	\end{center}
+\vspace{-3pt}
+\end{table}
+
+As seen in Table~\ref{splitting}, the size of training data has impact
+on performance. The more training data, the higher the accuracy.
