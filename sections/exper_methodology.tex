@@ -8,13 +8,12 @@
 
 {\em \underline{Baselines.}} We compared {\tool} with the
 state-of-the-art commit-untangling approaches that work on C\#
-(details in Section~\ref{related:sec}):
-%programming language:
-Barnett {\em et al.}~\cite{barnett-icse15}, Herzig {\em et
-al.}~\cite{kim-emse16}, Flexeme~\cite{flexeme-fse20}, and
-$\delta$-PDG+CV~\cite{flexeme-fse20} ($\delta$-PDG+CV is a model
-introduced by the authors of Flexeme via combining their $\delta$-PDG
-with confidence voting in Herzig {\em et al.}~\cite{kim-emse16}).
+(details in Section~\ref{related:sec}): Barnett {\em et
+al.}~\cite{barnett-icse15}, Herzig {\em et al.}~\cite{kim-emse16},
+Flexeme~\cite{flexeme-fse20}, and $\delta$-PDG+CV~\cite{flexeme-fse20}
+($\delta$-PDG+CV is a model introduced by the authors of Flexeme via
+combining their $\delta$-PDG with confidence voting in Herzig {\em et
+al.}~\cite{kim-emse16}).
 
 %See Section~\ref{intro:sec} for the details on the baselines.
 
@@ -93,7 +92,7 @@ training, thus, we ran them on the 10\% testing data.
 \noindent\textbf{RQ3. Within-Project Analysis.}
 We randomly selected one of the largest projects from each dataset:
 the \code{CommandLine} project in C\# and
-the \textcolor{red}{\code{xxxxxxxxxx}} project in Java. For each
+the \code{netty} project in Java. For each
 project, we sorted all of the commits in the chronological order based
 on commit time. We split the commits into 80\%, 10\%, 10\% for
 training, tuning, and testing, and using the older data for training
