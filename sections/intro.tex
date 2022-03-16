@@ -200,9 +200,8 @@ the cloned code that is similar to the changed code under study.
 The idea is that the {\em two \underline{cloned code} with similar
   logic might be changed in the same manner in the same concern in a
   commit}. Fourth, to untangle a commit, in our code change clustering
-learning model, agglomerative clustering is applied on the {\em
-  \underline{contextualized embeddings for code}} {\em
-  \underline{changes}} that integrates richer, encoded information
+learning model, agglomerative clustering runs on the {\em
+  \underline{contextualized embeddings for code changes}} that integrates richer, encoded information
 than the PDG or program slices, thus, helping better distinguish the
 concerns of the changes. Finally, we {\em \underline{adapt the
     agglomerative clustering algorithm}} into a {\em
