@@ -3,10 +3,12 @@
 
 Tangled commits have been reported by several
 researchers~\cite{tao-fse12,kim-emse16,kim-msr13,hill-tse12,nguyen-issre13,flexeme-fse20,smartcommit-fse21}. They
-have caused negative impacts including hampering code
-comprehension~\cite{tao-fse12}, reducing the separation of
-concerns~\cite{flexeme-fse20}, and even reducing the accuracy of bug
-prediction models that rely on bug-fixing code commits for training.
+have caused negative impacts on software maintenance as
+explained~\cite{tao-fse12,flexeme-fse20,nguyen-issre13}.
+%including hampering code comprehension~\cite{tao-fse12}, reducing the
+%separation of concerns~\cite{flexeme-fse20}.  , and even reducing the
+%accuracy of bug prediction models that rely on bug-fixing code
+%commits for training.
 The automated approaches for untangling the commits can be divided
 into two categories: {\em mining software repositories}, and {\em
   program analysis}.
@@ -50,7 +52,17 @@ SmartCommit~\cite{smartcommit-fse21} uses a graph partition algorithm
 on code changes related via several types of links, representing
 different purposes.
 
-%check issre2013 for more related work
-
+There are a rich literature on supervised hierarchical
+clustering~\cite{pmlr-v97-yadav19a,finley-icml05,liu13,GuhaIBB15,kenyon-dean-etal-2018-resolving,tie19}. A
+dissimilarity function is learned from the labeled data and used
+to partition unlabeled data~\cite{finley-icml05}. The dissimilarity
+between pairs of clusters is measured using a linkage
+function~\cite{moseley-nips17,GuhaIBB15,pmlr-v97-yadav19a,lee-etal-2012-joint}. Learning
+the linkage function is typically performed by training the pairwise
+dissimilarity function to predict dissimilarity for all within- and
+across-cluster data points
+pairs~\cite{pmlr-v97-yadav19a,kenyon-dean-etal-2018-resolving}. In
+{\tool}, supervised-learning clustering is made with the loss function
+defined on the classes in the classification problem.
 
 %Related work on embeddings for code changes ...
