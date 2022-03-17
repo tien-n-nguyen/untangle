@@ -1,29 +1,59 @@
 \subsection{RQ2. Comparative study on Java Dataset}
 
+
 \begin{table}[t]
-	\caption{RQ2. Comparison on Java Dataset ($Accuracy^a$\%)}
+	\caption{RQ1. Comparison on C\# Dataset ($Accuracy^c$\%)}
 	\vspace{-0.1in}
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
-		\renewcommand{\arraystretch}{1} \begin{tabular}{p{0.2cm}<{\centering}|p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}p{0.10cm}<{\centering}|p{0.10cm}<{\centering}}
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{0.5cm}<{\centering}|p{1.2cm}<{\centering}|p{1.2cm}<{\centering}|p{1.2cm}<{\centering}|p{1.2cm}<{\centering}|p{1.2cm}<{\centering}}
 			
 			\hline
-				 & NE & SB & ES & RJ & SF & GU & RE & DU & LA & GL & GH & ZX & JA & AR & BK & AP & PD & DR & FJ & EB & OA \\
+			          & Base-1 & Base-2  & Base-3 & SmartCommit & \bf {\tool}\\
 			\hline
-			B1   &  14 &  18  &  21  &  19  & 17   &  23  & 22   &  17  &  20  &  18  &  23  &  25  &  16  &  18  & *  &  19  & *  & 20   & 21   &  20  & 19  \\
-			B2   & 29   &  23  &  24  &  28  & 24   & 31   & 26   &  19  &  20  &  25  &  27  &  29  &  21  & 24   & *  &  27  & *  & 29   & 28   &  22  & 26  \\
-			B3   &  25  &  21  &  27  & 24   & 26   & 25   & 19   & 17   &  21  &  20  & 24   & 20   & 23   & 27   & *  & 22   & *  &  18  & 23   &  21  & 23  \\
-			SC   & 36   & 29   & 34   & 31   & 32   & 33   & 29   & 24   & 31   & 30   & 33   & 35   & 26   & 28   & *  &  31  & *  & 32   & 34   &  27  & 31  \\
+			SB   & 14 & 23 & 21 & 29 & 32\\
+			ES   & 19 & 22 & 27 & 34 & 36\\
+			RJ   & 18 & 28 & 24 & 31 & 33\\
+			GU   & 21 & 31 & 25 & 33 & 37\\
+			RE   & 22 & 24 & 19 & 29 & 34\\
+			DU   & 15 & 19 & 18 & 24 & 29\\
+			GH   & 22 & 27 & 24 & 33 & 35\\
+			ZX   & 21 & 29 & 20 & 34 & 38\\
+			DR   & 17 & 29 & 18 & 32 & 34\\
+			EB   & 13 & 22 & 21 & 27 & 31\\
 			\hline
-			UT   &  35  & 31   & 36   & 33   & 29   & 37   & 34   & 28   & 32   & 30   &  35  & 38   & 25   &  27  & *  &  33  & *  &  34  &  36  &  31  & 33  \\
+			OA   &  17  & 25 &  23 & 30 & {\bf 34} \\
 			\hline
 		\end{tabular}
-		\label{RQ2-result}
-		B1: Base-1, B2: Base-2, B3: Base-3, SC: SmartCommit, UT: Utango, NE: netty, SB: spring-boot, ES: elasticsearch, RJ: RxJava, SF: spring-framework, GU:guava, RE: retrofit, DU: dubbo, LA: lottie-android, GL: glide, GH: ghidra, ZX: zxing, JA: jadx, AR: arthas, BK: butterknife, AP: apollo, PD: proxyee-down, DR: druid, FJ: fastjson, EB: EventBus, OA: Overall
+		\label{RQ2-result-1}
+	SB: spring-boot, ES: elasticsearch, RJ: RxJava, GU:guava, RE: retrofit, DU: dubbo, GH: ghidra, ZX: zxing, DR: druid, EB: EventBus, OA: Overall
 	\end{center}
 \end{table}
 
 
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.235\textwidth}
+	\centering
+	\includegraphics[width=1.6in]{figures/RQ_2_1.png}
+	\vspace{-8pt}
+	\caption{Boxplots for the Results in Table~\ref{RQ2-result-1}}
+	\label{RQ2-result-2}
+	\end{subfigure}
+\hfill
+	\begin{subfigure}{0.225\textwidth}
+		\centering
+		\includegraphics[width=1.7in]{figures/accuracy-concerns-java.png}
+		\vspace{-8pt}
+		\caption{Accuracy for Concerns with Diff. Numbers of Stmts}
+		\label{RQ2-result-3}
+	\end{subfigure}
+	\label{RQ2-result-4}
+	\vspace{-12pt}
+	\caption{Java Dataset Results Analysis}
+\end{figure}
 
-Training of \tool on $80\%$ of Java dataset takes XX hours and predicting on $10\%$ of Java dataset takes XX seconds for each commit.
+{\color{red}{ 1--22 changed statements: 37\%--45\%. Lowest: 24\%
+	
+100\% correct: \tool: 116, SmartCommit: 109, Overlapping: 21}
