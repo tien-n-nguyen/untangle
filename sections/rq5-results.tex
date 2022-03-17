@@ -9,7 +9,7 @@ $S_2$ in $C$. We then randomly selected another changed statement
 $S_3$ such that $S_3 \notin C$ and $S_3$ belongs to another cluster in
 the same commit with $S_1$ and $S_2$. We measured the distance
 $d_1(S_1,S_2)$ and $d_2(S_1,S_3)$. We repeated the process for all the
-commits satisfying the above conditions until to get 384 triples of
+commits satisfying the above conditions to get 384 triples of
 ($S_1, S_2, S_3$). Based on the population in our dataset, the size of
 384 samples gives the confidence level of 95\% and the confidence
 interval of 5\%.
@@ -21,7 +21,7 @@ $H_1: d_1(S_1,S_2)$ $\leq$ $d_2(S_1,S_3)$. The null-hypothesis is
 When we set the significance level $\alpha = 0.05$, the $p$-value is
 $0.03$ (calculated on these 384 samples). In this case, the $p$-value
 is smaller than $\alpha$, meaning the null hypothesis would be
-rejected at the level of $\alpha = 0.05$. Therefore, our hypothesis
+rejected at the level of $\alpha = 0.05$. Thus, our hypothesis
 $H_1$: $d_1(S_1,S_2)$$ \leq$$ d_2(S_1,S_3)$ is confirmed.  That is,
 the changed statements in the same concerns are projected nearer to
 one another than the changed statements in different concerns. This
@@ -103,7 +103,7 @@ result is an indication that our {\em context-aware, graph-based
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=2.1in]{figures/RQ5.png}
+	\includegraphics[width=1.8in]{figures/RQ5.png}
 	\vspace{-18pt}
 	\caption{Code Change Embedding Visualization via t-SNE}
 	\label{fig:vis}

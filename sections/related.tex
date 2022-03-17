@@ -1,30 +1,33 @@
 \section{Related Work}
 \label{related:sec}
 
-Tangled commits have been reported by several
-researchers~\cite{tao-fse12,kim-emse16,kim-msr13,hill-tse12,nguyen-issre13,flexeme-fse20,smartcommit-fse21}. They
-have caused negative impacts on software maintenance as
-explained~\cite{tao-fse12,flexeme-fse20,nguyen-issre13}.
+Tangled commits have been reported by researchers to have negative impacts on software maintenance~\cite{tao-fse12,kim-emse16,kim-msr13,hill-tse12,nguyen-issre13,flexeme-fse20,smartcommit-fse21}.
+%They have caused negative impacts on software maintenance as
+%explained~\cite{tao-fse12,flexeme-fse20,nguyen-issre13}.
 %including hampering code comprehension~\cite{tao-fse12}, reducing the
 %separation of concerns~\cite{flexeme-fse20}.  , and even reducing the
 %accuracy of bug prediction models that rely on bug-fixing code
 %commits for training.
-The automated approaches for untangling the commits can be divided
-into two categories: {\em mining software repositories}, and {\em
+The automated approaches to untangle the commits can be divided
+into two categories: {\em mining software repositories} and {\em
   program analysis}.
 
 \noindent {\bf Mining Software Repositories.} Herzig {\em et
   al.}~\cite{kim-msr13,kim-emse16} combine confidence voting with
-agglomerative clustering on the change operations. Each confidence
-voter is responsible for an important aspect including call-graphs,
-change couplings, data dependencies, and distance measures. In
-Kirinuki {\em et al.}'s approach~\cite{higo-apsec16, higo-icpc14}, if
-there is a commit $m$ including the same changes as a past commit and
-other changes, the commit $m$ is called inclusive change and
-considered as tangled.  Dias {\em et al.}~\cite{dias-saner15} focus on
-interactive IDE by using confidence voting on fine-grained change
-events. A clustering algorithm is then used to partition the tangled
-changes.
+agglomerative clustering.
+%on the change operations.
+Each confidence voter is responsible for an important aspect, e.g.,
+call-graphs, change couplings, data dependencies, and distance
+measures. In Kirinuki {\em et al.}'s~\cite{higo-apsec16, higo-icpc14},
+if there is a commit $m$ including the same changes as a past commit
+and other changes, the commit $m$ is called inclusive change and
+considered as tangled. Dias {\em et al.}~\cite{dias-saner15} uses
+confidence voting on fine-grained change events in an IDE and
+partition them.
+%
+%Dias {\em et al.}~\cite{dias-saner15} focus on interactive IDE by
+%using confidence voting on fine-grained change events. A clustering
+%algorithm is used to partition the tangled changes.
 
 %However, the voters are independent, thus, do not reflect well the
 %interdependency nature of program elements under change. In contrast,
@@ -53,16 +56,17 @@ on code changes related via several types of links, representing
 different purposes.
 
 There are a rich literature on supervised hierarchical
-clustering~\cite{pmlr-v97-yadav19a,finley-icml05,liu13,GuhaIBB15,kenyon-dean-etal-2018-resolving,tie19}. A
-dissimilarity function is learned from the labeled data and used
-to partition unlabeled data~\cite{finley-icml05}. The dissimilarity
-between pairs of clusters is measured using a linkage
+clustering~\cite{pmlr-v97-yadav19a,finley-icml05,liu13,GuhaIBB15,kenyon-dean-etal-2018-resolving,tie19}.
+%A dissimilarity function is learned from the labeled data and used to
+%partition unlabeled data~\cite{finley-icml05}.
+The dissimilarity between pairs of clusters is measured via a linkage
 function~\cite{moseley-nips17,GuhaIBB15,pmlr-v97-yadav19a,lee-etal-2012-joint}. Learning
-the linkage function is typically performed by training the pairwise
+that function is performed by training the pairwise
 dissimilarity function to predict dissimilarity for all within- and
 across-cluster data points
 pairs~\cite{pmlr-v97-yadav19a,kenyon-dean-etal-2018-resolving}. In
 {\tool}, supervised-learning clustering is made with the loss function
-defined on the classes in the classification problem.
+defined on the classes in the classification.
+%problem.
 
 %Related work on embeddings for code changes ...

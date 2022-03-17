@@ -1,15 +1,16 @@
 \section{Conclusion}
 \label{conclusion:sec}
 
-We present {\bf \tool}, a machine learning (ML)-based approach that
+We present {\bf \tool}, a ML-based approach that
 learns to untangle the changes in a commit. We develop a {\em novel
   code change clustering learning model} that learns to cluster the
 code changes, represented by the embeddings, into different groups
 with different concerns. {\tool} overcomes the key issue with the
 static analysis approaches in which the boundaries across concerns in
-a commit do not necessarily and naturally map to clustering criteria
-of a clustering algorithm.  Our ML direction fits well with this
-problem thanks to a methodology from Herzig {\em et
-  al.}~\cite{kim-msr13} and Flexeme~\cite{flexeme-fse20}, to collect
-the changes in the same concern and merge them to build the tangled
-commits to form a training dataset.
+a commit do not naturally map to clustering criteria.
+%of a clustering algorithm.
+Our ML direction fits well with this problem thanks to a methodology
+from Herzig {\em et al.}~\cite{kim-msr13} and
+Flexeme~\cite{flexeme-fse20}, to collect the changes in the same
+concern and merge them to build tangled commits to form a training
+dataset.
