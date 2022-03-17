@@ -1,9 +1,9 @@
-\subsection{RQ1. Comparative Study on C\# Dataset}
+\subsubsection{{\bf RQ1. Comparative Study on C\# Dataset}}
 \label{rq1:sec}
 
 \begin{table}[t]
 	\caption{RQ1. Comparison on C\# Dataset ($Accuracy^c$\%)}
-	\vspace{-0.1in}
+	\vspace{-12pt}
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
@@ -30,11 +30,41 @@
 		\label{RQ1-result-1}
 		CL:Commandline, CM:CommonMark, HF:Hangfire, HU:Humanizer, LE:Lean, NA:Nan cy, NJ:Newtonsoft.Json, NI:Ninject, RS:RestSharp, OA: Overall, *: No avail data point.
 	\end{center}
+        \vspace{-4pt}
 \end{table}
+
+
+
+
+%\textcolor{red}{Yi: consider adding Table 2 in Flexeme paper to our paper on the statistics of the data}.
+
+%\textcolor{red}{Yi: add Figure 4(a) in Flexeme paper to our paper to show the accuracy distribution for different numbers of concerns.}
+
+%\noindent {\bf Comparison.}
+Table~\ref{RQ1-result-1} shows
+%the comparison on
+$Accuracy^{c}$ when it was measured on the changed
+statements. As seen, {\tool} improves Barnett {\em et al.}, Herzig
+{\em et al.}, $\sigma-$PDG+CV, and Flexeme in overall $Accuracy^c$ by
+{\bf 462.5\%, 55.2\%, 28.6\%}, and {\bf 36.4\%}, respectively. As seen
+in Table~\ref{RQ1-result-2}, when $Accuracy^{a}$ is measured on all
+the statements (changed and un-changed) in a commit, the results for
+all models are higher because they have correct classifications for
+the changed statements by default. We include $Accuracy^{a}$ for the
+comparison purpose with Flexeme (as its authors used this metric in
+their paper). As seen, {\tool} also improves Barnett {\em et al.},
+Herzig {\em et al.}, $\sigma-$PDG+CV, and Flexeme by {\bf 641.7\%,
+  27.1\%, 9.9\%,} and {\bf 7.3\%} in overall $Accuracy^{a}$,
+respectively. {\tool}'s accuracies are consistently better than those
+of the baselines for all the projects w.r.t.~different numbers of
+concerns in a commit ($\#C$s=2,3, all, Table~\ref{RQ1-result-1}). Some
+data points are unavailable since those commits are older in the
+chronological order and appear in the training, but not in the
+testing.
 
 \begin{table}[t]
 	\caption{RQ1. Comparison on C\# Dataset ($Accuracy^a$\%)}
-	\vspace{-0.1in}
+	\vspace{-12pt}
 	\begin{center}
 		\footnotesize
 		\tabcolsep 4pt
@@ -62,34 +92,6 @@
 		CL:Commandline, CM:CommonMark, HF:Hangfire, HU:Humanizer, LE:Lean, NA:Nan cy, NJ:Newtonsoft.Json, NI:Ninject, RS:RestSharp, OA: Overall, *: No avail data point.
 	\end{center}
 \end{table}
-
-
-%\textcolor{red}{Yi: consider adding Table 2 in Flexeme paper to our paper on the statistics of the data}.
-
-%\textcolor{red}{Yi: add Figure 4(a) in Flexeme paper to our paper to show the accuracy distribution for different numbers of concerns.}
-
-\noindent {\bf Comparison.} Table~\ref{RQ1-result-1} shows
-%the comparison on
-$Accuracy^{c}$ when accuracy was measured on the changed
-statements. As seen, {\tool} improves Barnett {\em et al.}, Herzig
-{\em et al.}, $\sigma-$PDG+CV, and Flexeme in overall $Accuracy^c$ by
-{\bf 462.5\%, 55.2\%, 28.6\%}, and {\bf 36.4\%}, respectively. As seen
-in Table~\ref{RQ1-result-2}, when $Accuracy^{a}$ is measured on all
-the statements (changed and un-changed) in a commit, the results for
-all models are higher because they have correct classifications for
-the changed statements by default. We include $Accuracy^{a}$ for the
-comparison purpose with Flexeme (as its authors used this metric in
-their paper). As seen, {\tool} also improves Barnett {\em et al.},
-Herzig {\em et al.}, $\sigma-$PDG+CV, and Flexeme by {\bf 641.7\%,
-  27.1\%, 9.9\%,} and {\bf 7.3\%} in overall $Accuracy^{a}$,
-respectively. {\tool}'s accuracies are consistently better than those
-of the baselines for all the projects w.r.t.~different numbers of
-concerns in a commit ($\#C$s=2,3, all, Table~\ref{RQ1-result-1}). Some
-data points are unavailable since those commits are older in the
-chronological order and appear in the training, but not in the
-testing.
-
-
 
 %{\color{red}{why some data points are not available?}}
 
@@ -139,7 +141,7 @@ are many more than the changed ones.
 
 % Further Analysis.
 
-%\vspace{3pt}
+\vspace{3pt}
 \noindent {\bf Accuracy on Different Sizes of Concerns.} To better
 understand {\tool}'s accuracy w.r.t. different sizes of concerns, we
 collected all concerns with different numbers of changed statements

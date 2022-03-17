@@ -1,25 +1,29 @@
-\subsection{Threats to Validity and Limitations}
+\subsubsection{{\bf Threats to Validity}}
 \label{threats:sec}
 
-\noindent {\bf Threats to Validity.} Our study is only on C\# and
-Java projects. However, the methodology is language-independent. The
-datasets of tangle commits with the ground truth of clusters were
-built artificially from the atomic commits. However, this method to
-collect the data has been used in two state-of-the-art
-commit-untangling approaches, Flexeme~\cite{flexeme-fse20}, and Herzig
-{\em et al.}~\cite{kim-msr13}. In RQ1 and RQ2, all the commits in all
+%\noindent {\bf Threats to Validity.}
+
+Our study is only on C\# and Java projects. However, the methodology
+is language-independent. The datasets of tangle commits with the
+ground truth of clusters were built artificially from the atomic
+commits. However, this method to collect the data has been used in two
+state-of-the-art commit-untangling approaches,
+Flexeme~\cite{flexeme-fse20}, and Herzig {\em et
+  al.}~\cite{kim-msr13}. In RQ1 and RQ2, all the commits in all
 projects were sorted in the chronological order for the
 experiments. Despite that we did not use the setting of leave-one-out
 by project, our setting reflects the actual use of our tool in which
 we can use all the commits in other projects that occurred before the
 current commit.
 
-\noindent {\bf Limitations.} {\tool} is less accurate for the commits
-with too many changed statements ($>=$ 20), or with too many concerns
-($>=$ 20). As with any data-driven approaches, {\tool} does not work
-well with little data. Finally, we currently integrate only the code
-clone relations. We will explore other types of implicit relations,
-e.g., in event-driven source code, or other links as in SmartCommit.
+\subsubsection{{\bf Limitations}}
+%\noindent {\bf Limitations.}
+{\tool} is less accurate for the commits with too many changed
+statements ($>=$ 40), or with too many concerns ($>=$20). As with any
+data-driven approaches, it does not work well with little
+data. Finally, we currently integrate only the code clone
+relations. We will explore other types of implicit relations, e.g., in
+event-driven source code, or other links as in SmartCommit.
 
 %too many changed statements
 %too many concerns

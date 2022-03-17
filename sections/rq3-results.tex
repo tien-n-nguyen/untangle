@@ -1,11 +1,11 @@
-\subsection{RQ3. Within-Project Analysis}
+\subsubsection{{\bf RQ3. Within-Project Analysis}}
 
 \begin{table}[t]
 	\caption{RQ3. Results for Within- and Cross-project Settings}
-	\vspace{-0.1in}
+	\vspace{-12pt}
 	\begin{center}
 		\footnotesize
-		\tabcolsep 4pt
+		\tabcolsep 3pt
 		\renewcommand{\arraystretch}{1} \begin{tabular}{p{2cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
 			\hline
@@ -25,14 +25,15 @@
 \end{table}
 
 
-Table~\ref{RQ3-result} shows the comparison between running {\tool} in
-the within and cross-project settings. As seen, with sufficient
+Table~\ref{RQ3-result} shows {\tool}'s results
+%comparison between running {\tool}
+in the within and cross-project settings. As seen, with sufficient
 within-project data, $Accuracy^{c}$ in the within-project setting is
-slightly better than that of the cross-project setting for both
-projects in C\# and Java. The trend is consistent for the commits with
-2 or 3 concerns. This is expected because the changes in the same
-project tend to be more similar than the changes across projects.
-This shows that {\tool} works in both within- and cross-project
-settings.
+slightly better than that of the cross-project setting for
+both~projects in C\# and Java.
+%The trend is consistent for the commits with 2 or 3 concerns.
+This is expected since the changes in the same project could be
+more similar than the changes across projects.~Thus, {\tool} works
+well in both within- and cross-project settings.
 
 %As we mentioned in the methodology section, because only on the project $Commandline$, \tool can have meaningful results, in Table~\ref{RQ3-result}, all results are only from the project $Commandline$ for a fair comparison. As seen, for $2$ concerns data, $3$ concerns data, and the overall performance, the within project setting can have $2.2\%, 4.3\%,$ and $2.2\%$ higher $Accuracy^c$ compared with the cross-project setting. It shows that using the data from the same project can help the model learn the feature more accurately. However, because the improvement percentages are all less than $5\%$, it proves that \tool can have consistent and similar performance on both the within and cross-project settings.
