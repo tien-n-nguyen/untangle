@@ -138,33 +138,30 @@ solutions have been proposed to untangle commits.
 %Unlike the state-of-the-art, deterministic untangling approaches,
 
 In this work, we present {\bf \tool}, a machine learning (ML)-based
-approach that learns to untangle the changes in a commit.
-%
-We develop a {\em novel code change clustering learning model} that
-learns to cluster the code changes, represented by the embeddings,
-into different groups with different concerns.
+approach that learns to untangle the changes in a commit.~We develop a
+{\em novel code change clustering learning model} that learns~to
+cluster the code changes, represented by the embeddings,
+into~different groups with different concerns.
 %
 We adapt the agglomerative clustering algorithm into a
-supervised-learning clustering model operating on the learned code
-change embeddings via trainable parameters and a loss function in
-comparing the predicted clusters and the correct ones during training.
+supervised-learning clustering~model operating on the learned code
+change embeddings via trainable~parameters and a loss function in
+comparing the predicted clusters~and the correct ones during training.
 %
-%Another key idea of {\tool} is
 To facilitate our clustering learning model, we develop a {\em
 context-aware, graph-based, code change representation learning
 model}, leveraging Label, Graph-based Convolution Network to produce
-the {\em contextualized embeddings for code changes}, that integrates
+the {\em contextualized embeddings for~code changes}, that integrates
 program dependencies and the surrounding contexts of the changes. The
-contexts and cloned code are also explicitly represented, helping
+contexts and cloned code are~also explicitly represented, helping
 {\tool} distinguish their concerns.
 %
-Our empirical evaluation on a public C\# dataset
-with 1,612 tangled commits shows that it achieves the
-accuracy of 28.6\%--462.5\%, relatively higher than the
-state-of-the-art approaches in clustering the changed code. We also
-evaluated {\tool} in a Java dataset with 14k+ tangled commits. The result shows
-that it achieves 13.3\%-100.0\% relatively higher accuracy than the
-state-of-the-art approaches.
+Our empirical evaluation on a C\# dataset with 1,612 tangled commits
+shows that it achieves the accuracy of 28.6\%--462.5\%, relatively
+higher than the state-of-the-art approaches in clustering the changed
+code. We evaluated {\tool} in a Java dataset with +14k tangled
+commits. The result shows that it achieves 13.3\%--100.0\% relatively
+higher accuracy than the state-of-the-art~approaches.
 
 %Our sensitivity also shows that all designed components in {\tool}
 %contributes positively to its high accuracy.}

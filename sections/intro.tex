@@ -200,7 +200,7 @@ the cloned code that is similar to the changed code under study.
 The idea is that the {\em two \underline{cloned code} with similar
   logic might be changed in the same manner in the same concern in a
   commit}. Fourth, to untangle a commit, in our code change clustering
-learning model, agglomerative clustering runs on the {\em
+learning model, agglomerative clustering runs on {\em
   \underline{contextualized embeddings for code changes}} that integrates richer, encoded information
 than the PDG or program slices, thus, helping better distinguish the
 concerns of the changes. Finally, we {\em \underline{adapt the
@@ -227,16 +227,14 @@ clusters and the correct ones during training.
       al.}~\cite{barnett-icse15}. {\tool} can correctly cluster 39\%
     of the changed statements into correct concerns.
 %
-  We also evaluated {\tool} in a Java dataset with 14k+ tangled commits. The results show that {\tool} achieves 13.3\%
-  accuracy relatively higher than the state-of-the-art approach
-  SmartCommit~\cite{smartcommit-fse21}. Our sensitivity analysis shows
-  that all designed components in {\tool} contributes positively to
-  its accuracy. We show that the changed statements in the
-  same concerns are projected nearer to each other~than the ones in
-  different concerns, helping {\tool} better in change clustering.
-  %The same changed statements in
-  %different concerns are projected farther away in the vector space.}
-
+We also evaluated {\tool} in a Java dataset with 14k+ tangled
+commits. The results show that {\tool} achieves 13.3\%--100\% accuracy
+relatively higher than the state-of-the-art approaches
+including SmartCommit~\cite{smartcommit-fse21}. Our sensitivity analysis
+shows that all designed components in {\tool} contributes positively
+to its accuracy. We show that the changed statements in the same
+concerns are projected nearer to each other~than the ones in different
+concerns, helping {\tool} better in change clustering.
 The key contributions of this work include:
 
 {\bf 1. {\tool}: an ML-based, commit-untangling approach with a novel
