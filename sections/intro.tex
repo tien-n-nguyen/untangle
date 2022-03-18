@@ -217,9 +217,9 @@ clusters and the correct ones during training.
 
   %\textcolor{red}{We conduct several experiments to evaluate {\tool}...}
 
-  \textcolor{red}{We have conducted several experiments to evaluate
+  We have conducted several experiments to evaluate
     {\tool}. Our experimental results on a real-world C\# dataset with
-    21k commits and 1,612 concerns show that {\tool} achieves the
+    1,612 tangled commits show that {\tool} achieves the
     accuracy of 36.4\%, 28.6\%, 55.2\%, and 462.5\% relatively higher
     than the baseline approaches Flexeme~\cite{flexeme-fse20},
     $\delta$-PDG+CV~\cite{flexeme-fse20}, Herzig {\em et
@@ -227,14 +227,13 @@ clusters and the correct ones during training.
       al.}~\cite{barnett-icse15}. {\tool} can correctly cluster 39\%
     of the changed statements into correct concerns.
 %
-  We also evaluated {\tool} in a Java dataset with XX commits and
-  X,XXX concerns. The results show that {\tool} achieves 23\%
+  We also evaluated {\tool} in a Java dataset with 14k+ tangled commits. The results show that {\tool} achieves 13.3\%
   accuracy relatively higher than the state-of-the-art approach
   SmartCommit~\cite{smartcommit-fse21}. Our sensitivity analysis shows
   that all designed components in {\tool} contributes positively to
   its accuracy. We show that the changed statements in the
   same concerns are projected nearer to each other~than the ones in
-  different concerns, helping {\tool} better in change clustering.}
+  different concerns, helping {\tool} better in change clustering.
   %The same changed statements in
   %different concerns are projected farther away in the vector space.}
 
