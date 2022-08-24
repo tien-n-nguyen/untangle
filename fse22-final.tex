@@ -1,0 +1,470 @@
+%%
+%% This is file `sample-sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `sigconf')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%%
+%% The first command in your LaTeX source must be the \documentclass command.
+
+%\documentclass[sigconf]{acmart}
+\documentclass[sigconf,screen]{acmart}
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+\usepackage{booktabs}   %% For formal tables:
+                        %% http://ctan.org/pkg/booktabs
+\usepackage{subcaption} %% For complex figures with subfigures/subcaptions
+                        %% http://ctan.org/pkg/subcaption
+\usepackage{array}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+%\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+\usepackage{balance}
+
+\usepackage[skins]{tcolorbox}
+
+\usepackage{xcolor,pifont}
+\newcommand*\colourcheck[1]{%
+	\expandafter\newcommand\csname #1check\endcsname{\textcolor{#1}{\ding{52}}}%
+}
+\colourcheck{blue}
+\colourcheck{green}
+\colourcheck{red}
+
+\newtcolorbox{myframe}[2][]{%
+  enhanced,colback=white,colframe=black,coltitle=black,
+  sharp corners,
+  toprule=1.0pt,
+  rightrule=0.3pt,
+  leftrule=0pt,
+  bottomrule=0pt,
+  fonttitle=\itshape\scshape\large,
+  left=0pt,right=5pt,top=5pt,bottom=3pt,
+  attach boxed title to top right={yshift=-0.3\baselineskip-0.4pt,xshift=-5mm},
+  boxed title style={tile,size=minimal,left=0.2mm,right=0.5mm,
+    colback=white,before upper=\strut},
+  title=#2,#1
+}
+
+\newcommand{\tool}{\textsc{UTango}\xspace}
+
+\newcommand{\mvpdg}{$\delta$-PDG$^{i,j}$}
+
+\newtheorem{Definition}{Definition}
+\newtheorem{Claim}{Claim}
+\newtheorem{Lemma}{Lemma}
+\newtheorem{Theorem}{Theorem}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newtheorem{observation}{Observation}
+\newtheorem{property}{Property}
+\newcommand{\code}[1]{{\footnotesize\texttt{#1}}}
+\usepackage{amsthm}
+ \definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+%\setcopyright{acmcopyright}
+%\copyrightyear{2018}
+%\acmYear{2018}
+%\acmDOI{XXXXXXX.XXXXXXX}
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+%\acmConference[Conference acronym 'XX]{Make sure to enter the correct
+%  conference title from your rights confirmation emai}{June 03--05,
+%  2018}{Woodstock, NY}
+%\acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+
+%%% If you see 'ACMUNKNOWN' in the 'setcopyright' statement below,
+%%% please first submit your publishing-rights agreement with ACM (follow link on submission page).
+%%% Then please update our instructions page and copy-and-paste the NEW commands into your article.
+%%% Please contact us in case of questions; allow up to 10 min for the system to propagate the information.
+%%%
+
+%%% The following is specific to ESEC/FSE '22 and the paper
+%%% 'UTANGO: Untangling Commits with Context-Aware, Graph-Based, Code Change Clustering Learning Model'
+%%% by Yi Li, Shaohua Wang, and Tien N. Nguyen.
+%%%
+\setcopyright{acmcopyright}
+\acmPrice{15.00}
+\acmDOI{10.1145/3540250.3549171}
+\acmYear{2022}
+\copyrightyear{2022}
+\acmSubmissionID{fse22main-p1469-p}
+\acmISBN{978-1-4503-9413-0/22/11}
+\acmConference[ESEC/FSE '22]{Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{November 14--18, 2022}{Singapore, Singapore}
+\acmBooktitle{Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE '22), November 14--18, 2022, Singapore, Singapore}
+
+%\setcopyright{ACMUNKNOWN}
+%\acmPrice{15.00}
+%\acmDOI{10.1145/3540250.3549137}
+%\acmYear{2022}
+%\copyrightyear{2022}
+%\acmSubmissionID{fse22main-p639-p}
+%\acmISBN{978-1-4503-9413-0/22/11}
+%\acmConference[ESEC/FSE '22]{Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{November 14--18, 2022}{Singapore, Singapore}
+%\acmBooktitle{Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE '22), November 14--18, 2022, Singapore, Singapore}
+
+%\copyrightyear{2022}
+%\acmYear{2022}
+%\setcopyright{acmcopyright}
+%\acmConference[ESEC/FSE '22]{Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering}{November 14--18, 2022}{Singapore, Singapore}
+%\acmBooktitle{Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering (ESEC/FSE '22), November 14--18, 2022, Singapore, Singapore}
+%\acmPrice{15.00}
+%\acmDOI{10.1145/3540250.3549137}
+%\acmISBN{978-1-4503-9413-0/22/11}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+%\title{The Name of the Title Is Hope}
+
+\title[Untangling Commits with Context-aware, Graph-based, Code Change Clustering Learning Model]{{\tool}: Untangling Commits with Context-aware,\\ Graph-based, Code Change Clustering Learning Model}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+
+%\author{Ben Trovato}
+%\authornote{Both authors contributed equally to this research.}
+%\email{trovato@corporation.com}
+%\orcid{1234-5678-9012}
+%\author{G.K.M. Tobin}
+%\authornotemark[1]
+%\email{webmaster@marysville-ohio.com}
+%\affiliation{%
+%  \institution{Institute for Clarity in Documentation}
+%  \streetaddress{P.O. Box 1212}
+%  \city{Dublin}
+%  \state{Ohio}
+%  \country{USA}
+%  \postcode{43017-6221}
+%}
+
+%\author{Lars Th{\o}rv{\"a}ld}
+%\affiliation{%
+%  \institution{The Th{\o}rv{\"a}ld Group}
+%  \streetaddress{1 Th{\o}rv{\"a}ld Circle}
+%  \city{Hekla}
+%  \country{Iceland}}
+%\email{larst@affiliation.org}
+
+%\author{Valerie B\'eranger}
+%\affiliation{%
+%  \institution{Inria Paris-Rocquencourt}
+%  \city{Rocquencourt}
+%  \country{France}
+%}
+
+%\author{Aparna Patel}
+%\affiliation{%
+% \institution{Rajiv Gandhi University}
+% \streetaddress{Rono-Hills}
+% \city{Doimukh}
+% \state{Arunachal Pradesh}
+% \country{India}}
+
+%\author{Huifen Chan}
+%\affiliation{%
+%  \institution{Tsinghua University}
+%  \streetaddress{30 Shuangqing Rd}
+%  \city{Haidian Qu}
+%  \state{Beijing Shi}
+%  \country{China}}
+
+%\author{Charles Palmer}
+%\affiliation{%
+%  \institution{Palmer Research Laboratories}
+%  \streetaddress{8600 Datapoint Drive}
+%  \city{San Antonio}
+%  \state{Texas}
+%  \country{USA}
+%  \postcode{78229}}
+%\email{cpalmer@prl.com}
+
+%\author{John Smith}
+%\affiliation{%
+%  \institution{The Th{\o}rv{\"a}ld Group}
+%  \streetaddress{1 Th{\o}rv{\"a}ld Circle}
+%  \city{Hekla}
+%  \country{Iceland}}
+%\email{jsmith@affiliation.org}
+
+%\author{Julius P. Kumquat}
+%\affiliation{%
+%  \institution{The Kumquat Consortium}
+%  \city{New York}
+%  \country{USA}}
+%\email{jpkumquat@consortium.net}
+
+\author{Yi Li}
+\affiliation{
+	\institution{New Jersey Institute of Technology}
+%	\city{Newark}
+	\state{New Jersey}
+	\country{USA}
+}
+\email{yl622@njit.edu}
+\author{Shaohua Wang}
+%\authornote{Corresponding Author}
+\affiliation{
+	\institution{New Jersey Institute of Technology}
+%	\city{Newark}
+	\state{New Jersey}
+	\country{USA}
+}
+\email{davidsw@njit.edu}
+\author{Tien N. Nguyen}
+\affiliation{
+	\institution{University of Texas at Dallas}
+%	\city{Richardson}
+	\state{Texas}
+	\country{USA}
+}
+\email{tien.n.nguyen@utdallas.edu}
+
+
+\renewcommand{\shortauthors}{Yi Li, Shaohua Wang, and Tien N. Nguyen}
+
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+
+%\renewcommand{\shortauthors}{Trovato et al.}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+During software evolution, developers make several changes and commit
+them into the repositories. Unfortunately, many of them tangle
+different purposes, both hampering program comprehension and reducing
+separation of concerns. Automated approaches with deterministic
+solutions have been proposed to untangle commits.
+%Unlike the state-of-the-art, deterministic untangling approaches,
+
+In this work, we present {\bf \tool}, a machine learning (ML)-based
+approach that learns to untangle the changes in a commit.~We develop a
+{\em novel code change clustering learning model} that learns~to
+cluster the code changes, represented by the embeddings,
+into~different groups with different concerns.
+%
+We adapt the agglomerative clustering algorithm into a
+supervised-learning clustering~model operating on the learned code
+change embeddings via trainable~parameters and a loss function in
+comparing the predicted clusters~and the correct ones during training.
+%
+To facilitate our clustering learning model, we develop a {\em
+context-aware, graph-based, code change representation learning
+model}, leveraging Label, Graph-based Convolution Network to produce
+the {\em contextualized embeddings for~code changes}, that integrates
+program dependencies and the surrounding contexts of the changes. The
+contexts and cloned code are~also explicitly represented, helping
+{\tool} distinguish their concerns.
+%
+Our empirical evaluation on a C\# dataset with 1,612 tangled commits
+shows that it achieves the accuracy of 28.6\%--462.5\%, relatively
+higher than the state-of-the-art approaches in clustering the changed
+code. We evaluated {\tool} in a Java dataset with +14k tangled
+commits. The result shows that it achieves 13.3\%--100.0\% relatively
+higher accuracy than the state-of-the-art~approaches.
+\end{abstract}
+
+%Exploring this duality provides useful constraints for {\tool} to
+%learn derive CC fixing statements.
+
+%DEAR and CURE in which we replaced their FL modules with our tool.
+%exploit this duality. In a cross-stitch unit, the sharing of
+%representations between \code{MethFL} and \code{StmtFL} is modeled by
+%the learning a linear combination of the input features from two
+%models.  The cross-stitch units
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10011007.10011074.10011111.10011113</concept_id>
+<concept_desc>Software and its engineering~Software evolution</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Software and its engineering~Software evolution}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{Commit Untangling; Deep Learning; Software Changes}
+
+%% A "teaser" image appears between the author and affiliation
+%% information and the body of the document, and typically spans the
+%% page.
+%\begin{teaserfigure}
+%  \includegraphics[width=\textwidth]{sampleteaser}
+%  \caption{Seattle Mariners at Spring Training, 2010.}
+%  \Description{Enjoying the baseball game from the third-base
+%  seats. Ichiro Suzuki preparing to bat.}
+%  \label{fig:teaser}
+%\end{teaserfigure}
+
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\input{sections/intro}
+
+\input{sections/motiv}
+
+\input{sections/overview}
+
+\input{sections/approach_step_2}
+
+\input{sections/appraoch_step_3}
+
+\input{sections/emperical}
+
+\input{sections/related}
+
+\input{sections/conclusion}
+
+\section*{Acknowledgments}
+This work was supported in part by the US National Science Foundation
+(NSF) grants CNS-2120386, CCF-1723215, CCF-1723432, TWC-1723198, and
+the US National Security Agency (NSA) grant NCAE-C-002-2021 on
+Cybersecurity Research Innovation.
+
+%, CCF-1518897, and CNS-1513263.
+
+\newpage
+
+\balance
+
+%\bibliographystyle{plain}
+%\bibliographystyle{ACM-Reference-Format}
+\bibliographystyle{ACM-Reference-Format}
+
+\bibliography{References}
+
+\end{document}
+
+%\endinput
+%%
+%% End of file `sample-sigconf.tex'.
