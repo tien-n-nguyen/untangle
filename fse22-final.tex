@@ -352,8 +352,9 @@ During software evolution, developers make several changes and commit
 them into the repositories. Unfortunately, many of them tangle
 different purposes, both hampering program comprehension and reducing
 separation of concerns. Automated approaches with deterministic
-solutions have been proposed to untangle commits.
-%Unlike the state-of-the-art, deterministic untangling approaches,
+solutions have been proposed to untangle commits. However, specifying
+an effective clustering criteria on the changes in a commit for
+untangling is challenging for those approaches.
 
 In this work, we present {\bf \tool}, a machine learning (ML)-based
 approach that learns to untangle the changes in a commit.~We develop a
@@ -372,7 +373,7 @@ model}, leveraging Label, Graph-based Convolution Network to produce
 the {\em contextualized embeddings for~code changes}, that integrates
 program dependencies and the surrounding contexts of the changes. The
 contexts and cloned code are~also explicitly represented, helping
-{\tool} distinguish their concerns.
+{\tool} distinguish the concerns.
 %
 Our empirical evaluation on a C\# dataset with 1,612 tangled commits
 shows that it achieves the accuracy of 28.6\%--462.5\%, relatively
@@ -381,6 +382,7 @@ code. We evaluated {\tool} in a Java dataset with +14k tangled
 commits. The result shows that it achieves 13.3\%--100.0\% relatively
 higher accuracy than the state-of-the-art~approaches.
 \end{abstract}
+
 
 %Exploring this duality provides useful constraints for {\tool} to
 %learn derive CC fixing statements.
@@ -411,7 +413,7 @@ higher accuracy than the state-of-the-art~approaches.
 %%
 %% Keywords. The author(s) should pick words that accurately describe
 %% the work being presented. Separate the keywords with commas.
-\keywords{Commit Untangling; Deep Learning; Software Changes}
+\keywords{Commit Untangling; Deep Learning; Code Change Embeddings}
 
 %% A "teaser" image appears between the author and affiliation
 %% information and the body of the document, and typically spans the
