@@ -29,20 +29,22 @@ might contain the bug-fixing changes for one bug that are mixed with
 the fixes for other bugs as well as other types of changes for
 refactoring, enhancements, or
 documentation~\cite{kim-emse16,kim-msr13,nguyen-issre13}. Those
-tangled commits have negative impact on the accuracy of bug
-prediction or bug localization models that rely on the changes mined from
-the repository~\cite{kim-emse16,kim-msr13}.
-Those models are significantly affected by the tangled commits as they consider an entire commit as for fixing or non-fixing.
+tangled commits have negative impact on the accuracy of bug prediction
+or bug localization models that rely on the changes mined from the
+repository~\cite{kim-emse16,kim-msr13}. Those models are
+significantly affected by the tangled commits as they consider an
+entire commit as for fixing or non-fixing.
 
 
 %Those models consider an entire commit as for fixing or non-fixing, thus, are significantly affected by the tangled commits.
 
-Recognizing the need of tools that untangle, i.e., decompose a
-commit into untangled changes, several researchers have proposed different approaches that can be broadly classified into two
-categories: {\em mining software repositories}, and {\em program
-  analysis}.
+Recognizing the need of tools that untangle, i.e., decompose a commit
+into untangled changes, researchers have proposed several
+approaches. The automated commit-untangling approaches can be broadly
+classified into two categories: {\em mining software repositories},
+and {\em program analysis}.
 
-First, earlier approaches leverage {\em mining software repositories
+First, the earlier approaches leveraged {\em mining software repositories
   (MSR)} techniques to untangle commits. Herzig {\em et
   al.}~\cite{kim-msr13,kim-emse16} utilize a confidence voter
 technique with agglomerative clustering on change
@@ -64,10 +66,11 @@ in the past.
 %changes before they are committed. However, they do not consider the
 %relations among the changes such as data or control dependencies.
 %
-Dias {\em et al.}~\cite{dias-saner15} use confidence voters
-on the fine-grained change events in an editor. The scores are converted
-into the similarity ones via a Random Forest Regressor, which are used
-in agglomerative clustering to partition tangled changes.
+Dias {\em et al.}~\cite{dias-saner15} use confidence voters on the
+fine-grained change events in an editor. The confidence scores are
+converted into the similarity scores via a Random Forest Regressor,
+which are used in an agglomerative clustering algorithm to partition
+tangled changes.
 
 The second category of untangling approaches leverage the {\em static
 analysis} techniques. Roover {\em et
@@ -100,6 +103,7 @@ cosmetic links, etc.).
 %These points make the clustering algorithms difficult to specify the
 %clustering criteria to achieve the best partitioning.
 
+%\vspace{3pt}
 Despite their successes, the state-of-the-art untangling commit
 techniques still have limitations. First, the boundaries across concerns 
 in a commit do not necessarily and naturally map to
@@ -158,34 +162,39 @@ that they have no data/control dependency.
 %changes in a commit.
 
 %Tien
-To address those challenges, we propose {\bf \tool}, a {\bf novel code
-  change clustering learning model} that learns to untangle a~commit
-by clustering the code changes (represented by the embeddings) into
-groups for different concerns.
+
+%\vspace{3pt}
+To address those challenges, in this paper, we propose {\bf \tool}, a
+{\bf novel code change clustering learning model} that learns to
+untangle a~commit by clustering the code changes (represented by the
+embeddings) into groups for different concerns.
 %
 While deterministic clustering criteria on the PDG, slices, or change
 operations do not always produce the clusters that naturally map to
 the boundaries between the concerns, a machine learning (ML) model is
 expected to learn to cluster the changes, thus, untangling a
-commit. The~model learns from the changes belonging to the same
-concerns in the~version history. We adapt Herzig {\em et
-  al.}~\cite{kim-emse16}'s method to mine the changes for the same
-concerns in the version history (Section~\ref{overview:sec}).
+commit. Our ML model learns from the changes belonging to the same
+concerns in the~version history. To build the training data for such
+learning, we adapt Herzig {\em et al.}~\cite{kim-emse16}'s method to
+mine the changes for the same concerns in the version history
+(Section~\ref{overview:sec}).
 %
 To facilitate learning to cluster code changes, we develop a {\bf
   context-aware, graph-based, code change representation learning (RL)
-  model}, leveraging Label, Graph-based Convolution
-Network~\cite{label-gcn} to produce the {\em contextualized embeddings
-  for code changes}.
+  model}, leveraging
+Label, Graph-based Convolution Network~\cite{label-gcn} to produce the
+{\em contextualized embeddings for code changes}.
 
+%\vspace{2pt}
 Our clustering learning model and context-aware, graph-based RL model
-%for code changes
 have the following unique characteristics that facilitates the
 untangling of code changes. First, we use Label-GCN to model the
 changes and surrounding code by integrating both the versions before
-and after the changes in a multi-version program dependence graph,
+and after changes in a multi-version program dependence graph,
 $\delta$-PDG~\cite{flexeme-fse20}. $\delta$-PDG encodes the {\em
-  \underline{program dependencies} among the changed and unchanged
+  program dependencies
+  %\underline{program dependencies}
+  among the changed and unchanged
   statements}. Second, to decompose the changes, we {\em explicitly
   represent the surrounding \underline{code context} of each
   change}. The explicit representation of the context could help
@@ -201,7 +210,7 @@ The idea is that the {\em two \underline{cloned code} with similar
   logic might be changed in the same manner in the same concern in a
   commit}. Fourth, to untangle a commit, in our code change clustering
 learning model, agglomerative clustering runs on {\em
-  \underline{contextualized embeddings for code changes}} that integrates richer, encoded information
+  \underline{contextualized embeddings for code} \underline{changes}} that integrates richer, encoded information
 than the PDG or program slices, thus, helping better distinguish the
 concerns of the changes. Finally, we {\em \underline{adapt the
     agglomerative clustering algorithm}} into a {\em
@@ -217,7 +226,7 @@ clusters and the correct ones during training.
 
   %\textcolor{red}{We conduct several experiments to evaluate {\tool}...}
 
-  We have conducted several experiments to evaluate
+We have conducted several experiments to evaluate
     {\tool}. Our experimental results on a real-world C\# dataset with
     1,612 tangled commits show that {\tool} achieves the
     accuracy of 36.4\%, 28.6\%, 55.2\%, and 462.5\% relatively higher
@@ -234,8 +243,8 @@ including SmartCommit~\cite{smartcommit-fse21}. Our sensitivity analysis
 shows that all designed components in {\tool} contributes positively
 to its accuracy. We show that the changed statements in the same
 concerns are projected nearer to each other~than the ones in different
-concerns, helping {\tool} better in change clustering.
-The key contributions of this work include:
+concerns, helping {\tool} better in change
+clustering.  The key contributions of this work include:
 
 {\bf 1. {\tool}: an ML-based, commit-untangling approach with a novel
   code change clustering learning model.} It is the first ML model
@@ -247,7 +256,7 @@ into a supervised-learning clustering model.
 {\bf 2. A novel context-aware, graph-based representation learning for
   code changes.} We design GCN-based model to produce the {\em
   contextualized embeddings for the code changes}, that
-integrates the program dependencies, the changes, contexts, and cloned code.
+integrates program dependencies, changes, contexts, and cloned code.
 %Cloned code is also considered in untangling commits.
 
 {\bf 3. Extensive empirical evaluation.} We evaluated {\tool} against
