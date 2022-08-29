@@ -111,25 +111,31 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 
 Let us present a few real-world examples to motivate {\tool}.
 %our motivation.
-Figure~\ref{fig:motiv-cc} shows the changes at the commit
-r1192 of the JHotDraw project with the log {\em ``Fixes NPE and
-  implements indentation of~XML elements''}. This is a tangled commit
-with two concerns/purposes: 1) the fix for Null Pointer Exception
-occurred at lines 4,7, and 10 of the \code{Drawing} class (the
-\code{null} argument was replaced with
-\code{Collections.empty\-List()}); 2) the implementation of the indentation
-of XML elements occurred at lines 16--18, and a few other lines of code in the
-\code{SimpleXmlIO} class and one line of code in the \code{Drawing} class (not
-shown).
+
+\vspace{-4pt}
+\subsubsection{Example 1}
+\label{sec:example-1}
+
+Figure~\ref{fig:motiv-cc} shows the changes at the commit r1192 of the
+JHotDraw project with the log {\em ``Fixes NPE and implements
+  indentation of~XML elements''}. This is a tangled commit with two
+concerns/purposes: 1) the fix for Null Pointer Exception occurred at
+lines 4,7, and 10 of the \code{Drawing} class (the \code{null}
+argument was replaced with \code{Collections.empty\-List()}); 2) the
+implementation of the indentation of XML elements occurred at lines
+16--18, and a few other lines of code in the \code{SimpleXmlIO} class
+and one line of code in the \code{Drawing} class (not shown).
+
+\subsubsection{Example 2}
 
 Figure~\ref{fig:history} shows the changes committed at r1023 earlier
-in JHotDraw. The changes occurred at the same lines 4, 7, and 10 of
-the \code{Drawing} class as the commit at r1192 in
-Figure~\ref{fig:motiv-cc}. However, the commit at r1023 was for only
-one concern as stated in the commit log {\em ``Fixes bugs in
-  FigureStyleManager''}. This example motivates us to build a ML model
-to learn from the co-changes for the same concern in the version
-history to untangle the current commit.
+in JHotDraw. The changes at the lines 4, 7, and 10 of the
+\code{Drawing} class were to the same statements as the ones in the
+r1192 commit in Figure~\ref{fig:motiv-cc}. However, the commit at
+r1023 was for only one concern as stated in the commit log {\em
+  ``Fixes bugs in FigureStyleManager''}. This example motivates us to
+build a ML model to learn from the co-changes for the same concern in
+the version history to untangle the current commit.
 
 %Figure~\ref{fig:motiv-cc} shows an example from the experimental
 %dataset in a prior work~\cite{flexeme-fse20}. This commit has three
@@ -156,7 +162,7 @@ history to untangle the current commit.
 \noindent {\bf Observation 1 [Learn to Cluster Code Changes].} {\em
   History of the co-changed statements with the same concern could be
   a good source for a machine learning model to learn to cluster the
-  changed statements, thus, untangling the current commits}.
+  changed statements, thus, untangling the current commit}.
 
 \begin{figure}[t]
 	\centering
@@ -203,6 +209,8 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
 
 % \caption{Same Change in Two Contexts for Different Concerns in the Commit r463 of JHotDraw}
 
+\subsubsection{Example 3}
+
 Figure~\ref{fig:motiv-context} shows another example in JHotDraw
 project. At the commit r463, two changes at line 3 and line 13 are
 exactly the same with the addition of \code{figure.isSelectable()} to
@@ -217,7 +225,7 @@ a fix for a different bug as the hovered object needs to be selected
   to be selected.''}). The addition of \code{figure.isSelectable()} is
 common for checking if a figure is selectable in the two tasks of
 dragging and hovering a figure. Without the surrounding contexts,
-one could not tell that they are for different purposes.
+one could not tell whether two changes are for the same purpose or not.
 
 \vspace{3pt}
 \noindent {\bf Observation 2 [Context].} {\em The surrounding context
@@ -225,16 +233,16 @@ one could not tell that they are for different purposes.
   concern of a change. The same change in two 
   contexts could be for different concerns}.
 
-Figure~\ref{fig:motiv-cc} also gives us another interesting
-observation. The changes at lines 4, 7, and 10 are exactly the same to
-fix the NPE: \code{null} $\rightarrow$ \code{Collections.emptyList()}.
-The three statements are cloned code of one another to support for
-different stylesheets (author, user agent, and inline stylesheets).
-In fact, the changes in Figure~\ref{fig:history} also occurred at the
-cloned statements. The three changes belong to the same
-concern/purpose since they serve as a fix for the same logic despite
-that there is no program dependency among them. The existing
-untangling
+Figure~\ref{fig:motiv-cc} also gives us an interesting
+observation. The changes to fix the NPE at lines 4, 7, and 10 are
+exactly the same: \code{null} $\rightarrow$
+\code{Collections.emptyList()}.  The three statements are cloned code
+of one another to support for different stylesheets (author, user
+agent, and inline stylesheets).  In fact, the changes in
+Figure~\ref{fig:history} also occurred at the cloned statements. The
+three changes belong to the same concern/purpose since they serve as a
+fix for the same logic despite that there is no program dependency
+among them. The existing untangling
 approaches~\cite{flexeme-fse20,smartcommit-fse21,roover-scam18,barnett-icse15}
 that require the explicit program dependencies among the changes with
 the same purpose will not classify these committed code as belonging
