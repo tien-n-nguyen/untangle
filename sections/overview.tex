@@ -4,21 +4,7 @@
 \subsection{Important Concepts}
 \label{concepts:sec}
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=3.5in]{figures/multi-version-graph-3.png} %5.3
-	\vspace{-18pt}
-	\caption{Multi-Version Program Dependence Graph}
-	\label{fig:multi-version-pdg}
-\end{figure}
 
-\begin{figure*}[t]
-	\centering
- 	\includegraphics[width=6in]{figures/overview-3.png}
-	\vspace{-6pt}
-	\caption{{\tool}: Architecture Overview}
-	\label{fig:overview}
-\end{figure*}
 
 Let us first define some important concepts used in {\tool}.
 
@@ -45,6 +31,23 @@ the change. All the nodes of the PDG before the change are marked with
 $i$, and those of the PDG after the change are marked with $j$.
 
 %As shown in figure \ref{fig:multi-version-pdg}, the graph with all nodes labeled $i$, and the graph with all nodes labeled with $j$ is the PDG for the version $i$ and version $j$ of the method $FormatYear$. After having these two PDGs, we can define the multi-version program dependency graph. $\delta$-PDG$^{i,j}$
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=3.5in]{figures/multi-version-graph-3.png} %5.3
+	\vspace{-18pt}
+	\caption{Multi-Version Program Dependence Graph}
+	\label{fig:multi-version-pdg}
+\end{figure}
+
+\begin{figure*}[t]
+	\centering
+ 	\includegraphics[width=6in]{figures/overview-3.png}
+	\vspace{-6pt}
+	\caption{{\tool}: Architecture Overview}
+	\label{fig:overview}
+\end{figure*}
+
 
 \begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}).
 A {\mvpdg}~\cite{flexeme-fse20} is a directed graph generated from the
