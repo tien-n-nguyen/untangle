@@ -41,8 +41,10 @@ entire commit as for fixing or non-fixing.
 Recognizing the need of tools that untangle, i.e., decompose a commit
 into untangled changes, researchers have proposed several
 approaches. The automated commit-untangling approaches can be broadly
-classified into two categories: {\em mining software repositories},
-and {\em program analysis}.
+classified into two categories: {\em mining software
+  repositories}~\cite{kim-msr13,kim-emse16,higo-apsec16,
+  higo-icpc14,dias-saner15}, and {\em program
+  analysis}~\cite{roover-scam18,barnett-icse15,flexeme-fse20,smartcommit-fse21}.
 
 First, the earlier approaches leveraged {\em mining software repositories
   (MSR)} techniques to untangle commits. Herzig {\em et
@@ -69,8 +71,8 @@ in the past.
 Dias {\em et al.}~\cite{dias-saner15} use confidence voters on the
 fine-grained change events in an editor. The confidence scores are
 converted into the similarity scores via a Random Forest Regressor,
-which are used in an agglomerative clustering algorithm to partition
-tangled changes.
+which are then used in an agglomerative clustering algorithm to partition
+the tangled changes.
 
 The second category of untangling approaches leverage the {\em static
 analysis} techniques. Roover {\em et
