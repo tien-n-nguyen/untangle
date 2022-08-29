@@ -2,31 +2,37 @@
 \subsection{Key Ideas}
 \label{ideas:sec}
 
-From the motivation, we propose {\tool} with the following
-ideas.
+Inspired from the above observations, we propose {\tool} with the
+following ideas.
 
 %{\bf Key Idea 1 [Code Change Representation Learning with Graph
 %    Convolution Network (GCN)]}.
 
-\vspace{2pt}
-{\bf Key Idea 1 [Code Change Clustering Learning Model]}. Instead of
-deciding a deterministic clustering criterion on the concrete
-artifacts (PDGs, program slices, code changes, operations, or change
-graphs), from Observation 1, we build an ML model to untangle the
-commits by learning to cluster code~changes represented by embeddings,
-w.r.t. different concerns. The model learns from the~history of the
-co-changed statements in the same commits for the same concerns, and
-applies to cluster the changes in the current commit.  We also modify
-an agglomerative clustering algorithm into a~super\-vised-learning
-clustering model via trainable parameters and a loss function to
-compare the predicted clusters and the correct ones.
+%\vspace{2pt} {\bf Key Idea 1 [Code Change Clustering Learning Model]}.
 
-\vspace{3pt} {\bf Key Idea 2 [Context-aware, Graph-based
-    Representation Learning for Code Changes].} We design a
-context-aware, graph-based, representation learning model to {\em
-  learn the contextualized embeddings for the code changes}
-that integrates {\em program dependencies} among the program elements,
-and the {\em contexts} of~code changes. We train a Label, Graph-based
+\subsubsection{\bf Key Idea 1 [Code Change Clustering Learning Model]}
+
+Instead of deciding a deterministic clustering criterion on the
+concrete artifacts (PDGs, program slices, code changes, operations, or
+change graphs), from Observation 1, we build an ML model to untangle
+the commits by learning to cluster code~changes represented by
+embeddings, w.r.t. different concerns. The model learns from
+the~history of the co-changed statements in the same commits for the
+same concerns, and applies to cluster the changes in the current
+commit.  We also modify an agglomerative clustering algorithm into
+a~super\-vised-learning clustering model via trainable parameters and
+a loss function to compare the predicted and correct clusters.
+
+%\vspace{3pt} {\bf Key Idea 2 [Context-aware, Graph-based
+%    Representation Learning for Code Changes].}
+
+\subsubsection{\bf Key Idea 2 [Context-aware, Graph-based
+    Representation Learning for Code Changes]}
+
+We design a context-aware, graph-based, representation learning model
+to {\em learn the contextualized embeddings for the code changes} that
+integrates {\em program dependencies} among the program elements, and
+the {\em contexts} of~code changes. We train a Label, Graph-based
 Convolution Network~\cite{label-gcn} to learn~the embeddings and learn
 to cluster them from the history.
 %of changed code for the same concerns.
@@ -37,20 +43,24 @@ is more effective than on those artifacts since the embeddings
 capture~richer information integrated from dependencies and
 contexts.
 
-\vspace{3pt}
-{\bf Key Idea 3 [Explicit Context Representation as a Weight to
-    Compute Vectors for Code Changes]}. As in Observation 2, the
-contexts of the code changes can help distinguish their concerns in
-the commits. We represent code changes and the surrounding context of
-a change via the multi-version program dependence~graph,
-$\delta$-PDG~\cite{flexeme-fse20}, consisting of the elements of both
-versions before and after the changes, and program dependencies. The
-context is defined as the surrounding nodes of the changed statement
-node~in~that graph. The Label-GCN is used to model the statements and
-their dependencies in $\delta$-PDG as well as to learn the vector
-representing the context for a change. The context vectors are then
-used as weights in learning contextualized embeddings for the code
-changes.
+%\vspace{3pt}
+%{\bf Key Idea 3 [Explicit Context Representation as a Weight to
+%    Compute Vectors for Code Changes]}.
+
+\subsubsection{\bf Key Idea 3 [Explicit Context Representation as a Weight to
+    Compute Vectors for Code Changes]}
+
+As in Observation 2, the contexts of the code changes can help
+distinguish their concerns in the commits. We represent code changes
+and the surrounding context of a change via the multi-version program
+dependence~graph, $\delta$-PDG~\cite{flexeme-fse20}, consisting of the
+elements of both versions before and after the changes, and program
+dependencies. The context is defined as the surrounding nodes of the
+changed statement node~in~that graph. The Label-GCN is used to model
+the statements and their dependencies in $\delta$-PDG as well as to
+learn the vector representing the context for a change. The context
+vectors are then used as weights in learning contextualized embeddings
+for the code changes.
 
 \vspace{3pt}
 {\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}. As in

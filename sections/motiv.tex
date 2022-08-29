@@ -51,7 +51,7 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 	\end{lstlisting}
         \vspace{-15pt}
         \caption{A Tangled Commit at r1192 of JHotDraw}
-        \vspace{-6pt}
+%        \vspace{-6pt}
         \label{fig:motiv-cc}
 \end{figure}
 
@@ -112,7 +112,7 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 Let us present a few real-world examples to motivate {\tool}.
 %our motivation.
 
-\vspace{-4pt}
+\vspace{-6pt}
 \subsubsection{Example 1}
 \label{sec:example-1}
 
@@ -202,8 +202,8 @@ protected void updateHoverHandles(DrawingView view, Figure f) {
 }
 	\end{lstlisting}
         \vspace{-15pt}
-        \caption{Same Change in 2 Contexts for Diff. Concerns (r463)}
-        \vspace{-6pt}
+        \caption{Same Change in two Contexts for Different Concerns at r463 of JHotDraw}
+%        \vspace{-6pt}
         \label{fig:motiv-context}
 \end{figure}
 
@@ -233,6 +233,7 @@ one could not tell whether two changes are for the same purpose or not.
   concern of a change. The same change in two 
   contexts could be for different concerns}.
 
+\vspace{3pt}
 Figure~\ref{fig:motiv-cc} also gives us an interesting
 observation. The changes to fix the NPE at lines 4, 7, and 10 are
 exactly the same: \code{null} $\rightarrow$
@@ -262,7 +263,7 @@ to the same concern.
 \noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
   fragments of cloned code have the same/similar logic, thus, have
   implicit dependencies, and could be modified in the same manner to
-  serve the same concern.}
+  serve the same purpose.}
 
 \input{sections/key-ideas}
 
