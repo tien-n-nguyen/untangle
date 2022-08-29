@@ -221,10 +221,12 @@ training, the ground truth labels with respect to the clusters
 (concern 1, concern 2, etc.) for the changed statements are known,
 while in predicting, {\tool} predicts the clusters (concern 1, concern
 2, etc.), and finally updates them via our code clone detection
-process. Note that, during predicting/clustering for the changes in a
-new commit, the number of clusters is unknown and will be determined
-by our model.
-%unknown.
+process. During clustering the changes in a new commit, the number
+of clusters is unknown and will be decided by our model.
+
+%During predicting/clustering for the changes in a new commit, the
+%number of clusters is unknown and will be determined by our model.
+
 
 %\vspace{3pt}
 %\noindent {\bf Training corpus.}
@@ -233,14 +235,14 @@ by our model.
 
 To train our clustering learning model, we need to have a corpus of
 the past commits that were un-tangled into multiple clusters, each for
-a different concern. To do so, we reuse the data collection
+a different concern. We reuse the data collection
 methodology by Herzig {\em et al.}~\cite{kim-emse16}, which was later
 used by Partachi {\em et al.}~\cite{flexeme-fse20}, to build the
-artificial corpus of tangled commits. The methodology mimics the way
-of a developer committing multiple consecutive work units as a single
+artificial corpus of tangled commits. The method mimics the way
+of a developer committing~multiple consecutive work units as a single
 patch, thus, mimics the tangled commits that (s)he makes. The goal is
-to compose the tangled commits from the atomic ones that were mined
-from the code repositories.
+to compose the tangled commits from the atomic ones that were
+mined from the repositories.
 
 Specifically, we detected the atomic commits and tangled them to
 produce the tangled commits in a training dataset. We consider the

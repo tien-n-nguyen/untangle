@@ -3,37 +3,44 @@
 \section{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 \label{clustering-model:sec}
 
+\begin{figure*}[t]
+	\centering \includegraphics[width=6in]{figures/STEP_2-new-4.png} %5.6 in
+	\vspace{-6pt}
+	\caption{Context-aware, Graph-based, Code Change, Clustering Learning Model}
+	\label{fig:step-2}
+\end{figure*}
+
 %Let us explain in details our approach.
 
-While the first step (building the multi-version {\mvpdg}) is
-presented in Section~\ref{overview:sec}, we present in this section
-our context-aware, graph-based, code change (CC) clustering learning
-model.  This step has two tasks: 1) taking the computed {\mvpdg} to
-learn the representation vectors (embeddings) for the changed code,
-and 2) performing clustering on those embeddings to cluster the
-changed statements.  During training, we have the ground truth on the
-clusters of the changed statements, thus, we have the cluster labels
-(concern 1, concern 2, etc.) for the changed nodes in {\mvpdg}. During
-predicting (i.e., clustering), the input {\mvpdg} will be fed into the
-trained clustering learning model to produce the cluster labels for
-the changed nodes. Note: for a given {\mvpdg}, the number of
-clusters is unknown to the model, and will be decided by the model
-during agglomerative clustering. Let us detail those two tasks.
+After the first step, we obtain the multi-version {\mvpdg} and the
+contexts of the changes (Section~\ref{overview:sec}).
+%While the first step (building the multi-version {\mvpdg}) is
+%presented in Section~\ref{overview:sec},
+We present in this section our context-aware, graph-based, code change
+(CC) clustering learning model. Our clustering learning model has two
+tasks: 1) taking the computed {\mvpdg} to learn the representation
+vectors (embeddings) for the changed code, and 2) performing
+clustering on those embeddings to cluster the changed statements.
+During training, we have the ground truth on the clusters of the
+changed statements, thus, we have the cluster labels (concern 1,
+concern 2, etc.) for the changed nodes in {\mvpdg}. During predicting
+(i.e., clustering), the input {\mvpdg} will be fed into the trained
+clustering learning model to produce the cluster labels for the
+changed nodes. Note: for a given {\mvpdg}, the number of clusters is
+unknown to our model, and will be decided by the model during
+agglomerative clustering. Let us detail those two tasks of our
+clustering learning model.
 
-%of our CC clustering learning model.
-
-%traing and predicting
+%Let us detail those two tasks of our clustering learning model.
+%Let
+%us detail those two tasks of our clustering learning model.
 
 %\vspace{-6pt}
 \subsection{Representation Learning for Code Changes}
 \label{vector:sec}
 
-\begin{figure*}[t]
-	\centering \includegraphics[width=5.6in]{figures/STEP_2-new-4.png}
-	\vspace{-6pt}
-	\caption{Context-aware, Graph-based, Code Change, Clustering Learning Model}
-	\label{fig:step-2}
-\end{figure*}
+%fig here
+
 
 This task aims to build the vector representations (i.e.,
 embeddings) for the code changes (i.e., changed statements)
@@ -42,30 +49,30 @@ embeddings for code changes is {\em context-aware} or {\em
   contextualized}: the same code change in different contexts
 will have different embeddings.
 
-\subsubsection{{\bf Label, Graph-based Convolutional Network (Label-GCN)}}
+\subsubsection{{\bf Label, Graph Convolutional Network (Label-GCN)}}
 
 To achieve that, {\tool} first feeds the multi-version {\mvpdg} to a
 graph-based ML model to learn the contextualized
 embeddings for the nodes in the graph. Since {\mvpdg} contains the
 labels (i.e., $i$, $j$, $(i,j)$) representing the (un)changes,
-Label-GCN~\cite{label-gcn}~is used to learn the graph structure and
+we use Label-GCN~\cite{label-gcn} to learn the graph structure and
 the node features with change labels.
 
 
 %Before doing the clustering, in this step, \tool needs to get the representation vector $v'_c$ for each changed node $n_c$ first. To achieve it, \tool firstly put the {\mvpdg} into a graph-based deep learning model to learn the representation vector for each node in the graph. Because the {\mvpdg} contains the labels for each node, to better learn the useful information from the node features with the labels, \tool uses the Lable-GCN \cite{} model to do so.
 
 %In the Label-GCN, similarly to the normal GCN \cite{}, it takes the graph with the node features as the input and generates the representation vector for each node as the output. Compared with normal GCN, it also accepts the node labels in the first layer. In this case, when dealing with a central node, the model is allowed to see the labels of the neighbors, and the labels can then become part of the feature vector. With this, Label-GCN calculates the representation vectors in the first layer as follow:
-
-Similar to GCN~\cite{gcn}, Label-GCN~\cite{label-gcn} takes the graph
-with node features as input and produces the vectors for the
-nodes, when considering the features of the neighboring nodes of each
-node.  In addition, for the current node, in the first layer,
-Label-GCN considers the change labels of the neighboring nodes as part
-of the feature vectors.
 %Label-GCN also accepts the node labels in the first layer. For the
 %current node, it can take the labels of the neighboring nodes into
 %account as part of the feature vectors.
-It computes the vectors in the first layer as follows:
+
+Similar to GCN~\cite{gcn}, Label-GCN~\cite{label-gcn} takes the graph
+with node features as input and produces the vectors for the nodes,
+when considering the features of the neighboring nodes of each node.
+In addition, for the current node, in the first layer, Label-GCN
+considers the change labels of the neighboring nodes as part of the
+feature vectors. It computes the vectors in the first layer as
+follows:
 \begin{equation}\label{eq1}
 	H^1 = \sigma [(\hat{A}X-diag(\hat{A})\sum_{j=1}^{K}e_je^T_j)W^0]
 \end{equation}
@@ -92,23 +99,23 @@ states. The computation in a following layer $l$ is as follows:
 \begin{equation}\label{eq4}
 	H^{l+1} = \sigma (\hat{A}H^lW^l), l \geq 1
 \end{equation}
-
 \subsubsection{{\bf Using Label-GCN to model {\mvpdg}}}
 \label{sec:preprocess}
 Let us explain how we process the multi-version {\mvpdg} to produce
 the input for the Label-GCN model. For each node $n$ of a statement
 $s$ in {\mvpdg}, we break $s$ down into the code tokens $t$, and build
-the vector $e_t$~for~$t$ using the word embedding technique
-GloVe~\cite{glove2014}. The vector for the node $n$ is the average vector
-$Avg_n$ of the vectors of all the~tokens~$t$ within the corresponding
-statement $s$. Because each node $n$ has a change label $i$, $j$, or
-$(i,j)$ for the versions, we combine $Avg_n$ with the one-hot vector
-of the length 3 representing the labels $i$, $j$, or $(i,j)$. As a
-result, the combined vector $v_n$ (with the length of $len(Avg_n)$+3)
-is the {\em node feature vector} for $n$. Then, we build the graph with the
-same structure as {\mvpdg} in which a node $n$ is replaced with the
-node feature vector $v_n$, and feed that graph to the Label-GCN model to obtain
-the embeddings $V_n$ for all the nodes in {\mvpdg}.
+the vector $e_t$~for~$t$ using a word embedding
+technique~\cite{glove2014}. The vector for the node $n$ is the average
+vector $Avg_n$ of the vectors of all the~tokens~$t$ within the
+corresponding statement $s$. Because each node $n$ has a change label
+$i$, $j$, or $(i,j)$ for the versions, we combine $Avg_n$ with the
+one-hot vector of the length 3 representing the labels $i$, $j$, or
+$(i,j)$. As a result, the combined vector $v_n$ (with the length of
+$len(Avg_n)$+3) is the {\em node feature vector} for $n$. Then, we
+build the graph with the same structure as {\mvpdg} in which a node
+$n$ is replaced with the node feature vector $v_n$, and feed that
+graph to the Label-GCN model to obtain the embeddings $V_n$ for all
+the nodes $n$ in {\mvpdg}.
 
 
 %vector $v_n$, and feed that graph to the Labe-GCN model to obtain the
@@ -169,7 +176,7 @@ the clusters of code changes in the training data. Specifically, the
 training process for our code change clustering learning model works as
 follows.
 
-{\em \underline{Step 1.}} We consider each changed node $n_c$ as
+{\em \underline{Step 1.}} We treat each changed node $n_c$ as
 a separate cluster $CL_c$.
 
 {\em \underline{Step 2.}} We merge any two clusters whose cluster
@@ -187,9 +194,9 @@ differences between the predicted clusters $CL$ and the correct
 clusters $CL_{oracle}$. The parameters and the trainable threshold $T$
 will be updated accordingly to the loss function for the next
 iteration. The training will stop when the process converges and we
-obtain the most suitable parameters for our learning model.
+obtain the most suitable parameters for our clustering learning model.
 
-\subsubsection*{{\bf Cluster Similarity}}
+\subsubsection{{\bf Cluster Similarity}}
 To compute the similarity between two clusters $CL_1$ and $CL_2$, we
 take all the pairs of the changed nodes $(n_1,n_2)$ where $n_1 \in
 CL_1$ and $n_2 \in CL_2$. We then compute the cosine similarity
@@ -197,7 +204,7 @@ between the corresponding vectors $V^{*}_{n_1}$ and $V^{*}_{n_2}$ for
 each pair. The similarity between two clusters is calculated as the
 average of all the similarity scores of all the pairs $(n_1,n_2)$.
 
-\subsubsection*{{\bf Trainable Threshold T}}
+\subsubsection{{\bf Trainable Threshold T}}
 In our
 %CC clustering learning
 model, we treat the merging threshold $T$ between smaller clusters as
