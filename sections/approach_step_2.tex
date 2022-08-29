@@ -5,7 +5,7 @@
 
 \begin{figure*}[t]
 	\centering \includegraphics[width=6in]{figures/STEP_2-new-4.png} %5.6 in
-	\vspace{-6pt}
+	\vspace{-8pt}
 	\caption{Context-aware, Graph-based, Code Change, Clustering Learning Model}
 	\label{fig:step-2}
 \end{figure*}
@@ -167,9 +167,11 @@ $S_6$.
 \subsection{Learning to Cluster Code Changes}
 \label{clustering:sec}
 
+\subsubsection{\bf Supervised-Learning Hierarchical Agglomerative Clustering}
+
 After building the contextualized embeddings $V^{*}_{n_c}$ for all the
 changed nodes $n_c$ in {\mvpdg}, {\tool} performs clustering on those
-vectors to untangle the commit. We have modified the hierarchical
+vectors to untangle the commit. We modified the hierarchical
 agglomerative clustering algorithm~\cite{clustering} into a
 supervised-learning clustering model to cluster those vectors based on
 the clusters of code changes in the training data. Specifically, the
@@ -196,6 +198,8 @@ will be updated accordingly to the loss function for the next
 iteration. The training will stop when the process converges and we
 obtain the most suitable parameters for our clustering learning model.
 
+Next, let us explain the key components in our algorithm.
+
 \subsubsection{{\bf Cluster Similarity}}
 To compute the similarity between two clusters $CL_1$ and $CL_2$, we
 take all the pairs of the changed nodes $(n_1,n_2)$ where $n_1 \in
@@ -218,7 +222,7 @@ parameters of the model.
 
 %And for the cluster similarity calculation between any two clusters $CL_{c1}$ and $CL_{c2}$, \tool firstly uses the cosine similarity to compute the similarity score $S_{c1,c2}$ between each two elements that are from $CL_{c1}$ and $CL_{c2}$. And then, the \tool calculates the cluster similarity by using the average linkage that is the average of all similarity scores $S_{c1,c2}$.
 
-\subsubsection*{{\bf Loss Function}}
+
 
 %Within this whole big step, when doing the training, we accept {\mvpdg} as input and ground true clustering results $CL_{label}$ as the training target to train the model. The loss function in training is used to minimize the differences between the predicted clustering results $CL_{pre}$ and $CL_{label}$ to get the most suitable parameters set for the deep learning model.
 
@@ -231,8 +235,10 @@ parameters of the model.
 
 %The above cross-entropy loss has been widely used in multi-class classification problems. However, the clustering problem is slightly different from the classification problem because the order of the clusters is not fixed as in the classification problem. So to address this problem, for each pair of predicted clustering results and ground true cluster results $\{x_1, ..., x_{C_{max}}\}$ and $\{y_1,...,y_{C_{max}}\}$, \tool could have $C_{max}!$ different possible orders for both predicted cluster results $X = \{X_1, ..., X_{C_{max}!}\}$ and ground true clustering results $Y = \{Y_1, ..., Y_{C_{max}!}\}$.
 
+\subsubsection{{\bf Loss Function}}
+
 We need to have a loss function that minimizes the differences between
-the predicted set of clusters $CL$=$\{CL_1,CL_2, ...,$ $CL_M\}$ and
+the predicted set of clusters $CL$=$\{CL_1,$ $CL_2, ...,$ $CL_M\}$ and
 the correct set $CL_{oracle}$ = $\{Co_{1}, Co_{2},..., Co_{N}\}$ in
 the oracle. Because the predicted and correct sets might have
 different numbers of clusters ($M \neq N$), we first make them have
@@ -243,7 +249,7 @@ Because we do not know what predicted cluster $CL_i$ in $CL$ is mapped
 to a cluster $Co_j$ in the correct set $C_{oracle}$, we consider all
 possible orders of the clusters in both $CL$ and $CL_{oracle}$.
 %and all possible maps between each cluster $CL_i$ and $Co_j$.
-Note that the number of clusters is usually small ($\leq$ 6 as
+The number of clusters is usually small ($\leq$ 6 as
 reported in~\cite{nguyen-issre13}), thus, it is manageable to consider
 all $\mathcal{M}!$ possible orders in $CL$ and all $\mathcal{M}!$
 possible orders in $C_{oracle}$.
@@ -269,6 +275,7 @@ specific order in $C_{oracle}$=$\{Co'_{1},..., Co'_{\mathcal{M}}\}$,
 for a changed node $n_c$, we use the~cross-entropy loss function in
 the multi-class classification: ($X$ = $\{x_1,...,$ $x_{\mathcal{M}}\}$, $Y$=$\{y_1,...,y_{\mathcal{M}}\}$ are the predicted and correct
 vectors for $n_c$)
+
 \begin{equation}\label{loss-func}
 	Loss(X,Y) = -\sum^{\mathcal{M}}_{i=1}W_ilog\frac{exp(x_i)}{exp(\sum^{\mathcal{M}}_{j=1}x_j)}y_i
 \end{equation}
@@ -291,7 +298,7 @@ the model to adjust the parameters in the next iteration.
 %			\in Y_m}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X_n}x_j)}y_i)
 %\end{equation}
 
-\subsubsection*{Predicting/Clustering Process}
+\subsubsection{\bf Predicting/Clustering Process}
 After training, we obtain all model's parameters and the trainable
 merging threshold. For clustering, {\tool} takes a {\mvpdg} as input
-and generates the clusters $CL$.
+and generates the resulting set of clusters $CL$.
