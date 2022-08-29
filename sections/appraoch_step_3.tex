@@ -4,13 +4,13 @@
 Because {\mvpdg} might not cover the changed statements that are
 clones of one another, we use a code clone detection
 tool~\cite{svajlenko2017fast} to find the changes that might belong to
-the same concerns but having no data/control dependencies. The clone
-detection tool returns a list of clone candidates in the clone groups
-with different sizes. First, we consider only the clone groups with
-the cloned fragments containing the changed statements. If multiple
-clone fragments contain the same changed statement, we choose the
-clone fragment with the largest size to avoid the duplication (because
-the larger clone contains the smaller one).
+the same concerns but having no data/control dependencies with one
+another. The clone detection tool returns a list of clone candidates
+in the clone groups with different sizes. First, we consider only the
+clone groups with the cloned fragments containing the changed
+statements. If multiple clone fragments contain the same changed
+statement, we choose the clone fragment with the largest size to avoid
+the duplication (because the larger clone contains the smaller one).
 
 After predicting/clustering the changed nodes/statements as explained
 in Section~\ref{clustering-model:sec}, we have marked each changed
