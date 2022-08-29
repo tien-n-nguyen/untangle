@@ -42,7 +42,7 @@ $i$, and those of the PDG after the change are marked with $j$.
 
 \begin{figure*}[t]
 	\centering
- 	\includegraphics[width=6in]{figures/overview-3.png}
+ 	\includegraphics[width=6.8in]{figures/overview-3.png}
 	\vspace{-6pt}
 	\caption{{\tool}: Architecture Overview}
 	\label{fig:overview}
@@ -50,9 +50,9 @@ $i$, and those of the PDG after the change are marked with $j$.
 
 
 \begin{Definition}[Multi-version Program Dependence Graph] ({\bf $\delta$-PDG}).
-A {\mvpdg}~\cite{flexeme-fse20} is a directed graph generated from the
-disjoint union of all nodes and edges in the PDGs at versions $i$
-and~$j$.
+A {\mvpdg} is a directed graph generated from the disjoint union of
+all nodes and edges in the PDGs at versions $i$
+and~$j$~\cite{flexeme-fse20}.
 %
 %  The \textbf{multi-version program dependency graph (Multi-version PDG$^{i,j}$)} is a directed graph that generated from the disjoint union of all nodes and edges between the version $i$ and version $j$. $\delta-PDG^{i,i}$ is the PDG at the version $i$.
 \end{Definition}
@@ -91,8 +91,8 @@ inducing edges among them.
 
 In Figure~\ref{fig:multi-version-pdg}(c), when $k$=1, the context for
 the changed node/statement at line 5 consists of all three nodes
-labeled with $i,j$ because they are one hop from the changed node
-\code{int next = i + 1;}.
+labeled with $i,j$ because they are one hop from the changed node for
+`\code{int next = i + 1;}'.
 %and \code{var next = i + 1;}.
 
 %To better understand the context of a changed statement, we still use the figure \ref{fig:multi-version-pdg} as an example to explain. For the statement $int\, next = 1 + 1;$ in the multi-version PDG$^{i,j}$, we select the sub-graph that contains all $k$-hops neighbors as the context. When $k=1$, the sub-graph is built with three statements that labeled with $i, j$ in the multi-version PDG$^{i,j}$.
@@ -121,20 +121,20 @@ deleted nodes and use the label $i$ for them. The unchanged nodes
 between the versions are matched by using string similarity among the
 respective statements to filter the candidates and line-span proximity
 to rank them. When considering the edge changes, we back-propagate the
-delete nodes to the edges flowing into them. We also add all unmatched
+delete nodes to the edges flowing into them. We also add all the unmatched
 edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the
 edges relevant to the added nodes. Details on building
 $\delta$-PDG$^{i,j}$ can be found in~\cite{flexeme-fse20}.
 
 After constructing $\delta$-PDG$^{i,j}$, for each changed node in the
 graph, we collect all unchanged nodes within the $k$-hops and
-all~the inducing edges to build a sub-graph as the context for the
+all~their inducing edges to build a sub-graph as the context for the
 changed~node. 
-%$\delta$-PDG$^{i,j}$ and the context for each changed node will
-%be used as the input for the next step.
+$\delta$-PDG$^{i,j}$ and the contexts for the changed nodes
+will be used as the input for the next step.
+%$\delta$-PDG$^{i,j}$ and the contexts are used in step 2.
 This step of building $\delta$-PDG$^{i,j}$ and contexts is used in
-both training and predicting processes. $\delta$-PDG$^{i,j}$ and contexts are used in step
-2.
+both training and predicting processes.
 
 %First, \tool accepts two versions $i$ and $j$ of source code. Following the existing study from Partachi et al. \cite{flexeme-fse20}, \tool firstly generates the PDGs for both the version $i$ and version $j$ for the source code. Next, to construct the multi-version PDG$^{i,j}$, \tool starts from the initial version $i$. \tool uses the PDGs and the Git diff tool on the source files to determine changed and unchanged nodes. Added nodes are introduced to the multi-version PDG$^{i,j}$ as they appear in the newer version $j$. \tool retains nodes deleted across the versions and uses a different label (label $i$) on the nodes to represent the deletion. The unchanged nodes between versions are matched by using string similarity to filter candidates and line-span proximity to rank them. When considering the edge changes, \tool back-propagates the delete nodes to edges flowing into them. Also, \tool considers and adds all unmatched edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the edges relevant to the added nodes. After having the constructed multi-version PDG$^{i,j}$, for each changed node in the graph, \tool collects all unchanged nodes within the $k$-hops and the edges between them to build a sub-graph as the context for the changed node. The multi-version PDG$^{i,j}$ and the context for each changed node in it will be used as the input for the next step.
 
@@ -147,15 +147,14 @@ that, {\tool} first learns to construct the {\bf contextualized
 leverage
 %Label, Graph-based Convolution Network (GCN)
 the Label-GCN~\cite{label-gcn} that can deal with the nodes with
-multiple labels (used to denote the versions $i$, $j$) to
-learn the representation vector $v$ for each node $n$ in the
-graph. For a changed node $n_c$, {\tool} collects the vectors for the
-un-changed nodes in the context for $n_c$ into a matrix. It uses a
-fully connected layer to convert the matrix into a vector $v_{ctx}$ to
-encode the contextual information for the node $n_c$. The
-context vector $v_{ctx}$ is then used as {\em a weight to represent
-  the impact of context on the learning to produce the final vector
-  for the changed node $n_c$}.
+multiple labels (used to denote the versions $i$, $j$) to learn the
+representation vector $v$ for each node $n$ in the graph. For a
+changed node $n_c$, we collect the vectors for the un-changed nodes in
+the context for $n_c$ into a matrix. We use a fully connected layer to
+convert the matrix into a vector $v_{ctx}$ to encode the contextual
+information for the node $n_c$. The context vector $v_{ctx}$ is then
+used as {\em a weight to represent the impact of the context on the
+  learning to produce the final vector for the changed node $n_c$}.
 
 %Tien
 %The final vector $v'_c$ for $n_c$ is computed as the cross-product
@@ -182,31 +181,13 @@ are computed over many iterations in training as the predicted
 clusters are compared against the correct clusters in the oracle. We
 design a loss function considering such comparison to adjust the
 model's parameters over the iterations.  For predicting, the trained
-model is used to cluster the changed nodes in {\mvpdg}.
+model is used to cluster the changed nodes in {\mvpdg}. The changed
+nodes in the same cluster are treated as having the same concern.
 
 %Specifically, during predicting, the number of clusters is
 %unknown. Thus, we use a {\em trainable threshold} for the linkage when
 %merging the smaller clusters into a larger one. The output of this
 %step is the clusters for all the changed nodes in {\mvpdg}.
-
-\vspace{3pt}
-\noindent {\bf Training corpus.} To train our clustering learning
-model, we need to have a corpus of the past commits that were
-un-tangled into multiple clusters, each for a different concern. To do
-so, we reuse the data collection methodology by Herzig {\em et
-  al.}~\cite{kim-emse16}, which was later used by Partachi {\em et
-  al.}~\cite{flexeme-fse20}, to build the artificial corpus of tangled
-commits that mimic the way of a developer committing multiple
-consecutive work units as a single patch. The methodology aims to
-compose the tangled commits from the atomic ones that were mined from
-the repositories. Thus, we can obtain the tangled commits consisting
-of the clusters of atomic changes for training.
-
-
-
-%1. explain how to build the training data
-%2. explain the sharing between training and predicting
-%3. one belonging to multiple clusters
 
 \subsubsection{{\bf Step 3. Updating Clusters via Code Clone Detection}}
 
@@ -226,7 +207,14 @@ changed statements $s_m$, we obtain the final resulting clusters.
 %the final clustering results $C'$ for each changed statement between
 %the version $i$ and $j$.
 
-\subsubsection*{Training and Predicting}
+\subsection{Training and Predicting}
+\label{sec:process}
+
+%1. explain how to build the training data
+%2. explain the sharing between training and predicting
+%3. one belonging to multiple clusters
+
+\subsubsection{Training and Predicting Processes}
 All the steps in Figure~\ref{fig:overview} are shared between the
 training and predicting processes. The key difference is that in
 training, the ground truth labels with respect to the clusters (concern 1,
@@ -235,3 +223,18 @@ predicting, {\tool} predicts the clusters (concern 1, concern 2,
 etc.), and finally update them via code clone detection process. During
 predicting/clustering, the number of clusters is unknown.
 
+%\vspace{3pt}
+%\noindent {\bf Training corpus.}
+
+\subsubsection{Training Corpus}
+
+To train our clustering learning model, we need to have a corpus of
+the past commits that were un-tangled into multiple clusters, each for
+a different concern. To do so, we reuse the data collection
+methodology by Herzig {\em et al.}~\cite{kim-emse16}, which was later
+used by Partachi {\em et al.}~\cite{flexeme-fse20}, to build the
+artificial corpus of tangled commits that mimic the way of a developer
+committing multiple consecutive work units as a single patch. The
+methodology aims to compose the tangled commits from the atomic ones
+that were mined from the repositories. Thus, we can obtain the tangled
+commits consisting of the clusters of atomic changes for training.
