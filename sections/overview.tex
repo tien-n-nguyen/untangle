@@ -207,21 +207,24 @@ changed statements $s_m$, we obtain the final resulting clusters.
 %the final clustering results $C'$ for each changed statement between
 %the version $i$ and $j$.
 
-\subsection{Training and Predicting}
+\subsection{Training and Predicting Processes}
 \label{sec:process}
 
 %1. explain how to build the training data
 %2. explain the sharing between training and predicting
 %3. one belonging to multiple clusters
 
-\subsubsection{Training and Predicting Processes}
+\subsubsection{Training and Predicting}
 All the steps in Figure~\ref{fig:overview} are shared between the
 training and predicting processes. The key difference is that in
-training, the ground truth labels with respect to the clusters (concern 1,
-concern 2, etc.) for the changed statements are known, while in
-predicting, {\tool} predicts the clusters (concern 1, concern 2,
-etc.), and finally update them via code clone detection process. During
-predicting/clustering, the number of clusters is unknown.
+training, the ground truth labels with respect to the clusters
+(concern 1, concern 2, etc.) for the changed statements are known,
+while in predicting, {\tool} predicts the clusters (concern 1, concern
+2, etc.), and finally updates them via our code clone detection
+process. Note that, during predicting/clustering for the changes in a
+new commit, the number of clusters is unknown and will be determined
+by our model.
+%unknown.
 
 %\vspace{3pt}
 %\noindent {\bf Training corpus.}
@@ -233,8 +236,19 @@ the past commits that were un-tangled into multiple clusters, each for
 a different concern. To do so, we reuse the data collection
 methodology by Herzig {\em et al.}~\cite{kim-emse16}, which was later
 used by Partachi {\em et al.}~\cite{flexeme-fse20}, to build the
-artificial corpus of tangled commits that mimic the way of a developer
-committing multiple consecutive work units as a single patch. The
-methodology aims to compose the tangled commits from the atomic ones
-that were mined from the repositories. Thus, we can obtain the tangled
-commits consisting of the clusters of atomic changes for training.
+artificial corpus of tangled commits. The methodology mimics the way
+of a developer committing multiple consecutive work units as a single
+patch, thus, mimics the tangled commits that (s)he makes. The goal is
+to compose the tangled commits from the atomic ones that were mined
+from the code repositories.
+
+Specifically, we detected the atomic commits and tangled them to
+produce the tangled commits in a training dataset. We consider the
+commits to satisfy the following conditions: 1) the changes have been
+committed by the same developer within 14 days with no commit by the
+same developer in-between them; 2) the change namespaces whose names
+have a large prefix match; 3) the commits contain
+frequently-changed-together files; and 4) the commit logs do not
+contain ``fix'', ``bug'', ``feature'', etc. multiple times. With this
+data collection methodology, we can obtain the tangled commits
+consisting of the clusters of atomic changes for training.
