@@ -4,7 +4,9 @@
 \subsection{Experimental Methodology}
 \label{method:sec}
 
-\noindent\textbf{RQ1. Comparison with Existing Approaches on C\# Dataset.}
+\subsubsection{\bf RQ1. Comparison with Existing Approaches on C\# Dataset}
+
+%\noindent\textbf{RQ1. Comparison with Existing Approaches on C\# Dataset.}
 
 {\em \underline{Baselines.}} We compared {\tool} with the
 state-of-the-art commit-untangling approaches that work on C\#
@@ -53,8 +55,10 @@ output (150, 200, 250, 300). We empirically set the context size of 2
 
 %In this RQ, we are focusing on the baselines that are workable on the C\# dataset. Within the C\# dataset, we firstly order all tangled commits in the dataset based on the latest modified time in the commit log from oldest to the newest. And then we split all of the tangled commits into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. We try to use the existing tangled commits to let model learn the features and then use the newest tangled commits to test the performance of the model. As for the baselines, because they don't need model training, we only evaluate the model performance on the 10\% testing dataset for fair comparison. We use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
 
-\vspace{2pt}
-\noindent\textbf{RQ2. Comparison with Existing Approaches on Java Dataset.}
+%\vspace{2pt}
+%\noindent\textbf{RQ2. Comparison with Existing Approaches on Java Dataset.}
+
+\subsubsection{\bf RQ2. Comparison with Existing Approaches on Java Dataset}
 
 {\em \underline{Baselines.}} We compare {\tool} with the
 state-of-the-art untangling approach that works on Java source code,
@@ -76,7 +80,7 @@ relations).
 %\end{itemize}
 
 \textit{ \underline{Procedure}.}
-We used the same procedure, tuning with autoML~\cite{NNI}, and
+We used the same procedure, tuning (with autoML~\cite{NNI}), and
 parameters as in RQ1 on the Java dataset. The baselines do not need
 training, thus, we ran them on the 10\% testing data.
 
@@ -88,8 +92,11 @@ training, thus, we ran them on the 10\% testing data.
 
 %In this RQ, we following the similar procedure in RQ1 to order all tangled commits based on the last modified time from oldest to the newest. And then we split the dataset into 80\%, 10\%, and 10\% to be used for training, tuning, and testing for \tool, respectively. As for all baselines in this RQ, they all don't need training dataset, so we directly evaluate the performance of them on the 10\% testing dataset. The same as RQ1, we use AutoML~\cite{NNI} on \tool to automatically tune hyper-parameters on the tuning dataset.
 
-\vspace{2pt}
-\noindent\textbf{RQ3. Within-Project Analysis.}
+%\vspace{2pt}
+%\noindent\textbf{RQ3. Within-Project Analysis.}
+
+\subsubsection{\bf RQ3. Within-Project Analysis}
+
 We randomly selected one of the largest projects from each dataset:
 the \code{CommandLine} project in C\# and
 the \code{netty} project in Java. For each
@@ -117,8 +124,11 @@ project.
 
 %We separately train, fine-tune, and test the model on each project in the dataset. But because the size of the dataset that the model uses each time is very small and limited after separating the data into each project, based on our effort on trying to run the model on each project, only on the project $Commandline$, the model could provide meaningful results with acceptable influence caused by over-fitting or under-fitting. So in the result section of this RQ, the results are reported only on the project $Commandline$.
 
-\vspace{2pt}
-\noindent\textbf{RQ4. Sensitivity Analysis.}
+%\vspace{2pt}
+%\noindent\textbf{RQ4. Sensitivity Analysis.}
+
+\subsubsection{\bf RQ4. Sensitivity Analysis}
+
 We built the variants of {\tool} by removing its important components,
 one at a time. First, we removed from {\tool} the context by not using
 the context vector when computing the vector for a changed
@@ -131,23 +141,29 @@ setting/procedure as in RQ1.
 
 %We first use \tool as the base model. We then remove the context vector from the model to evaluate the impact of context information. We also build the other model by removing the code clone from the base model to evaluate the impact of code clone technique. We used the C\# dataset and the same experiment setting as in RQ1.
 
-\vspace{2pt}
-\noindent\textbf{RQ5. Code Change Embedding Analysis.} 
-We use statistical $p$-test to confirm/refute the hypothesis
-that the changed statements in the same concerns are
-projected nearer to one another than the changed statements in
-different concerns in the vector space.
+%\vspace{2pt}
+%\noindent\textbf{RQ5. Code Change Embedding Analysis.}
+\subsubsection{\bf RQ5. Code Change Embedding Analysis}
+
+We use statistical $p$-test to confirm/refute the hypothesis that the
+changed statements in the same concerns are projected nearer to one
+another than the changed ones in different concerns in the
+vector~space.
 
 
 %XX changed statements $S$ each of which belongs to a different concern
 %and each concern contains at least two changed statements.
 
-\vspace{3pt}
-\noindent {\bf Evaluation Metrics.} We use two evaluation metrics for
-all approaches. First, $Accuracy^{c}$ is defined as the percentage of
-the {\em changed statements} that are labeled with a correct
-cluster/concern in all the statements in a commit: $\mathbf{Accuracy^{c}}$=
-$\frac{\# changed\:stmts\:w.\:correct\:clusters}{\#
+%\vspace{3pt}
+%\noindent {\bf Evaluation Metrics.}
+
+\subsubsection*{\underline{Evaluation Metrics}}
+
+We use two evaluation metrics. First, $Accuracy^{c}$ is defined as the
+percentage of the {\em changed statements} that are labeled with a
+correct cluster/concern in all the statements in a commit:
+$\mathbf{Accuracy^{c}}$= $\frac{\#
+changed\:stmts\:w.\:correct\:clusters}{\#
 all\:changed\:stmts\:in\:commit}$.  Note that a model might label the
 statements with a different permutation of cluster labels than the one
 in the ground truth. For example, we have five statements and three
