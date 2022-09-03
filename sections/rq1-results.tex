@@ -1,7 +1,7 @@
 \subsection{{\bf RQ1. Comparative Study on C\# Dataset}}
 \label{rq1:sec}
 
-Table~\ref{RQ1-result-1} shows the comparison on $Accuracy^{c}$ when
+\subsubsection{General Results} Table~\ref{RQ1-result-1} shows the comparison on $Accuracy^{c}$ when
 it was measured on the changed statements. As seen, {\tool} improves
 Barnett {\em et al.}, Herzig {\em et al.}, $\sigma-$PDG+CV, and
 Flexeme in overall $Accuracy^c$ by {\bf 462.5\%, 55.2\%, 28.6\%}, and
@@ -21,7 +21,6 @@ projects with respect to different numbers of concerns in a commit
 ($\#C$s=2 or 3, Table~\ref{RQ1-result-1}). Some data points are
 unavailable since those commits are older in the chronological order
 and appear only in the training data, but not in the testing data.
-
 
 \begin{table}[t]
 	\caption{RQ1. Comparison on C\# Dataset ($Accuracy^c$\%)}
@@ -191,19 +190,23 @@ are many more than the changed statements.
 %By considering the average accuracy reported in Table~\ref{RQ1-result-1} and Table~\ref{RQ1-result-2}, \tool has been proved to have the best results on the C\# dataset when compared with all baselines.
 
 \begin{figure}[t]
-	\centering \includegraphics[width=1.8in]{figures/accuracy-concerns-2.png}
+	\centering \includegraphics[width=2.4in]{figures/accuracy-concerns-2.png}
 	\vspace{-6pt}
-	\caption{Accuracy for Concerns with Diff. Numbers of Stmts}
+	\caption{Accuracies for Concerns with Different Numbers of Statements}
 	\label{acc-concerns}
 \end{figure}
 
 % Further Analysis.
 
-\vspace{3pt}
-\noindent {\bf Accuracy on Different Sizes of Concerns.} To better
-understand {\tool}'s accuracy w.r.t. different sizes of concerns, we
-collected all concerns with different numbers of changed statements
-and measured the accuracies for them.  As seen in
+%\vspace{3pt}
+%\noindent {\bf Accuracy on Different Sizes of Concerns.}
+
+\vspace{-2pt}
+\subsubsection{Accuracy for Concerns with Different Sizes}
+
+To better understand {\tool}'s accuracy on concerns with different
+sizes, we collected all concerns with different numbers of changed
+statements and measured the accuracies for them.  As seen in
 Figure~\ref{acc-concerns}, $Accuracy^{c}$ values for the concerns of
 small sizes (having 1--22 changed statements) are higher (ranging from
 47\%--54\%). That is, among all the changed statements, {\tool}
