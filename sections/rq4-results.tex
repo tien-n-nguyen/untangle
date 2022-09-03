@@ -1,13 +1,80 @@
-\subsubsection{{\bf RQ4. Sensitivity Analysis}}
+\subsection{{\bf RQ4. Sensitivity Analysis}}
 
+
+
+
+Table~\ref{RQ4-result-1} shows the accuracy results when the key
+components in {\tool} were removed. As seen, while both context and
+clone detection positively contribute to {\tool}'s accuracy, the
+context plays a more important role as expected. Without the context
+vector, the accuracy decreases by 13.7\%, 8.5\%, and 11.1\% for the
+commits with two, three, and all concerns, respectively. Without the
+clone detection, the accuracy decreases by 4.5\%, 6.4\%, and 4.4\% for
+the commits with two, three, and all concerns, respectively.
+
+%Table~\ref{RQ4-result-1} shows the changes to the metrics as we remove one key feature from \tool. Generally, each key feature contributes positively to the better performance of {\tool}, as the decreasing of $Accuracy^c$ when removing each of them from \tool. When {\tool} removes context information, the $Accuracy^c$ decreased by $13.7\%, 8.5\%$, and $11.1\%$ on $2$ concerns data, $3$ concerns data, and overall performance, respectively. When {\tool} removes code clone, the $Accuracy^c$ decreased by $4.5\%, 6.4\%$, and $4.4\%$ on $2$ concerns data, $3$ concerns data, and overall performance, respectively.
+
+
+
+
+
+Table~\ref{RQ4-result-2} shows the accuracy when we vary the size $k$
+of a context (i.e., the number of hops from the changed node). As
+seen, when the number of surrounding nodes of the changed node
+increases from $k$=1--2, the accuracy increases and reaches its peak
+at $k$=2. As $k$=1, the immediate surrounding nodes cannot capture
+well the relevant nodes for {\tool} to distinguish the concerns of the
+changed statements. With two hops from the changed node, the context
+seems to sufficiently contain the crucial nodes w.r.t. determining the
+concerns. However, as the size continues to increase, the accuracy
+decreases. When the entire graph is used as the context, the accuracy
+is the lowest. If more nodes are considered in the context, more
+noises are added as more irrelevant data is used.  The trend is the
+same for the commits with two, three, or all concerns.
+
+%Table~\ref{RQ4-result-2} shows that selecting $k$-neighbors for
+%context in \tool, $k=2$ is the best choice for \tool because of the
+%highest $Accuracy^c$ on $2$ concerns data, $3$ concerns data and
+%overall performance. Even though in this table, we only show the $k$
+%value range from $1$ to $5$.
+
+%However, from the trend of $Accuracy^c$ changing, we can see that if
+%$k>=2$, when $k$ increases, the $Accuracy^c$ decreases with the reason
+%that when $k$ increases, the newly added nodes have less relationship
+%with the entire node and may bring more biases. Based on this, even
+%compared with the untested $k$ value, $k=2$ is still the best setting
+%for \tool.
+
+\begin{table}[t]
+	\caption{RQ3. Results for Within- and Cross-project Settings}
+	\vspace{-12pt}
+	\begin{center}
+		\small
+		\tabcolsep 3pt
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{2.2cm}<{\centering}|p{2.6cm}<{\centering}|p{2.6cm}<{\centering}}
+			
+			\hline
+			Project     & Within-Project & Cross-Project\\
+		%	\cline{2-3}
+		%	                               &         Overall  &      Overall    \\
+			
+			\hline
+			CommandLine (C\#)   &       0.47         &		0.46	       \\
+           spring-boot (Java)   &      0.34          &		0.32	       \\
+
+			\hline
+		\end{tabular}
+		\label{RQ3-result}
+	\end{center}
+\end{table}
 
 \begin{table}[t]
 	\caption{RQ4. Impacts of Key Features on Accuracy}
 	\vspace{-12pt}
 	\begin{center}
-		\footnotesize
+		\small
 		\tabcolsep 4pt
-		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
+		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3.5cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
 			\hline
 			       \multirow{2}{*}{}                  & \multicolumn{3}{c}{$Accuracy^c$}\\
@@ -24,23 +91,11 @@
 	\end{center}
 \end{table}
 
-Table~\ref{RQ4-result-1} shows the accuracy results when the key
-components in {\tool} were removed. As seen, while both context and
-clone detection positively contribute to {\tool}'s accuracy, the
-context plays a more important role as expected. Without the context
-vector, the accuracy decreases by 13.7\%, 8.5\%, and 11.1\% for the
-commits with two, three, and all concerns, respectively. Without the
-clone detection, the accuracy decreases by 4.5\%, 6.4\%, and 4.4\% for
-the commits with two, three, and all concerns, respectively.
-
-%Table~\ref{RQ4-result-1} shows the changes to the metrics as we remove one key feature from \tool. Generally, each key feature contributes positively to the better performance of {\tool}, as the decreasing of $Accuracy^c$ when removing each of them from \tool. When {\tool} removes context information, the $Accuracy^c$ decreased by $13.7\%, 8.5\%$, and $11.1\%$ on $2$ concerns data, $3$ concerns data, and overall performance, respectively. When {\tool} removes code clone, the $Accuracy^c$ decreased by $4.5\%, 6.4\%$, and $4.4\%$ on $2$ concerns data, $3$ concerns data, and overall performance, respectively.
-
-
 \begin{table}[t]
 	\caption{RQ4. Impact of the Number $k$ of Hops for Context}
 	\vspace{-12pt}
 	\begin{center}
-		\footnotesize
+		\small
 		\tabcolsep 4pt
 		\renewcommand{\arraystretch}{1} \begin{tabular}{p{3cm}<{\centering}|p{0.8cm}<{\centering}p{0.8cm}<{\centering}p{0.8cm}<{\centering}}
 			
@@ -60,33 +115,6 @@ the commits with two, three, and all concerns, respectively.
 		\label{RQ4-result-2}
 	\end{center}
 \end{table}
-
-Table~\ref{RQ4-result-2} shows the accuracy when we vary the size $K$
-of a context (i.e., the number of hops from the changed node). As
-seen, when the number of surrounding nodes of the changed node
-increases from $K$=1--2, the accuracy increases and reaches its peak
-at $K$=2. As $K$=1, the immediate surrounding nodes cannot capture
-well the relevant nodes for {\tool} to distinguish the concerns of the
-changed statements. With two hops from the changed node, the context
-seems to sufficiently contain the crucial nodes w.r.t. determining
-the concerns. However, as the size continues to increase, the accuracy
-decreases. When the entire graph is used as the context, the accuracy
-is the lowest. If more nodes are considered in the context, more noises 
-are added as more irrelevant data is used.  The trend is the same for
-the commits with two, three, or all concerns.
-
-%Table~\ref{RQ4-result-2} shows that selecting $k$-neighbors for
-%context in \tool, $k=2$ is the best choice for \tool because of the
-%highest $Accuracy^c$ on $2$ concerns data, $3$ concerns data and
-%overall performance. Even though in this table, we only show the $k$
-%value range from $1$ to $5$.
-
-%However, from the trend of $Accuracy^c$ changing, we can see that if
-%$k>=2$, when $k$ increases, the $Accuracy^c$ decreases with the reason
-%that when $k$ increases, the newly added nodes have less relationship
-%with the entire node and may bring more biases. Based on this, even
-%compared with the untested $k$ value, $k=2$ is still the best setting
-%for \tool.
 
 \begin{table}[t]
 %	\caption{Top-1 with Data Splitting on CPatMiner dataset}
