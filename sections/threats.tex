@@ -1,28 +1,48 @@
-\subsubsection{{\bf Threats to Validity}}
-\label{threats:sec}
+\subsection{\bf Discussions}
+%Threats to Validity}}
+%\label{threats:sec}
 
 %\noindent {\bf Threats to Validity.}
 
-Our study is only on C\# and Java projects. However, the methodology
-is language-independent. The datasets of tangle commits with the
-ground truth of clusters were built artificially from the atomic
-commits. However, this data collection method has been used in two
-existing approaches, Flexeme~\cite{flexeme-fse20}, and Herzig
-{\em et al.}~\cite{kim-msr13}. In RQ1 and RQ2, all the commits in all
-projects were sorted in the chronological order for the
-experiments. Despite that we did not use the setting of leave-one-out
-by project, our setting reflects the actual use of our tool in which
-we can use all the commits in other projects that occurred before the
-current commit.
+\subsubsection{Threats to Validity}
+Our study is only on C\# and Java projects. Our methodology
+is language-independent. The datasets of tangle commits were built
+artificially from atomic commits. However, this methodology was used in Flexeme~\cite{flexeme-fse20} and Herzig {\em et
+al.}~\cite{kim-msr13}.
+%In RQ1 and RQ2, all the commits in all projects were sorted in the
+%chronological order for the experiments.
+Despite that we did not use the setting of leave-one-out by project,
+our setting reflects the actual use of our tool in which 
+all the commits in other projects that occurred before the current
+commit are used.
 
-\subsubsection{{\bf Limitations}}
+
+%Our study is only on C\# and Java projects. However, the methodology
+%is language-independent. The datasets of tangle commits with the
+%ground truth of clusters were built artificially from the atomic
+%commits. However, this data collection method has been used in two
+%existing approaches, Flexeme~\cite{flexeme-fse20}, and Herzig {\em et
+%al.}~\cite{kim-msr13}. In RQ1 and RQ2, all the commits in all projects
+%were sorted in the chronological order for the experiments. Despite
+%that we did not use the setting of leave-one-out by project, our
+%setting reflects the actual use of our tool in which we can use all
+%the commits in other projects that occurred before the current commit.
+
+\subsubsection{Limitations}
 %\noindent {\bf Limitations.}
 {\tool} is less accurate for the commits with too many changed
 statements ($>=$ 40), or with too many concerns ($>=$20). As with any
 data-driven approaches, it does not work well with little
-data. Finally, we currently integrate only the code clone
+data. We currently integrate only the code clone
 relations. We will explore other types of implicit relations, e.g., in
 event-driven source code, or other links as in SmartCommit.
+
+Trade-offs between UTango and program-analysis approaches:
+without needing a threshold for clustering, UTango is more flexible in
+learning the boundaries among clusters than PA approaches, which rely
+on explicit program dependencies for clustering. Despite needing no
+training data, Flexeme requires a median time of 9.56 seconds to
+untangle a commit. UTango takes only 1.3-2.5 seconds.
 
 %too many changed statements
 %too many concerns
