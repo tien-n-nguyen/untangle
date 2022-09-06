@@ -1,0 +1,52 @@
+\begin{figure}[t]
+	\centering
+	\lstset{
+		numbers=left,
+		numberstyle= \tiny,
+		keywordstyle= \color{blue!70},
+		commentstyle= \color{red!50!green!50!blue!50},
+		frame=shadowbox,
+		rulesepcolor= \color{red!20!green!20!blue!20},
+                rulecolor= \color{black},
+		xleftmargin=1.7em,xrightmargin=1.0em, aboveskip=1em,
+		framexleftmargin=1.5em,
+                numbersep= 5pt,
+		language=Java,
+    basicstyle=\scriptsize\ttfamily,
+    numberstyle=\scriptsize\ttfamily,
+    emphstyle=\bfseries,
+                moredelim=**[is][\color{red}]{@}{@},
+		escapeinside= {(*@}{@*)}
+	}
+	\begin{lstlisting}[]
+Commit r1192: Fixes NPE and implements indentation of XML elements.
+/trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
+...
+(*@{\color{red}{- public final static Key<List<URL>> AUTHOR\_STYLESHEETS = new ... (``authorStylesheets'', List.., new Class<?>[]\{URI.class\}},.,}@*)(*@{\color{violet}{ null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new ... (``authorStylesheets'', List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
+...
+(*@{\color{red}{- public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<>(``userAgentStylesheets'', List.class, new Class<?>[]\{URI.class\},...,}@*)(*@{\color{violet}{ null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<> (``userAgentStylesheets'', List.class, new Class<?>[]\{URI.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
+...
+(*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS=new ... (``inlineStylesheets'',List...,new Class<?>[]\{String.class\},.,}@*)(*@{\color{violet}{null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS=new ... (``inlineStylesheets'', List.class, new Class<?>[]\{String.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
+//--------------------------------------------------------------------------
+ /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/io/SimpleXmlIO.java
+ public Document toDocument(Drawing ..., Collection<Figure> selection)...{
+   for (Figure child : ordered) {
+   (*@{\color{red}{-            writeNodeRecursively(doc, docElement, child);}@*)
+   (*@{\color{red}{-\}}@*)
+   (*@{\color{red}{-          docElement.appendChild(doc.createTextNode(``...''));}@*)
+   (*@{\color{cyan}{+            writeNodeRecursively(doc, docElement, child, linebreak);}@*)
+   (*@{\color{cyan}{+\}}@*)
+   (*@{\color{cyan}{+          docElement.appendChild(doc.createTextNode(linebreak));}@*)
+   return doc; ...
+}          
+	\end{lstlisting}
+        \vspace{-15pt}
+        \caption{A Tangled Commit at r1192 of JHotDraw}
+%        \vspace{-6pt}
+        \label{fig:motiv-cc}
+\end{figure}
+
+

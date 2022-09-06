@@ -4,94 +4,25 @@
 \subsection{Motivating Examples}
 \label{exe:sec}
 
-\begin{figure}[t]
-	\centering
-	\lstset{
-		numbers=left,
-		numberstyle= \tiny,
-		keywordstyle= \color{blue!70},
-		commentstyle= \color{red!50!green!50!blue!50},
-		frame=shadowbox,
-		rulesepcolor= \color{red!20!green!20!blue!20},
-                rulecolor= \color{black},
-		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
-		framexleftmargin=1.5em,
-                numbersep= 5pt,
-		language=Java,
-    basicstyle=\scriptsize\ttfamily,
-    numberstyle=\scriptsize\ttfamily,
-    emphstyle=\bfseries,
-                moredelim=**[is][\color{red}]{@}{@},
-		escapeinside= {(*@}{@*)}
-	}
-	\begin{lstlisting}[]
-Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
- /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
- ...
-(*@{\color{red}{- public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ null);}@*)
-(*@{\color{cyan}{+ public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
- ...
-(*@{\color{red}{- public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class},...,}@*)(*@{\color{violet}{ null);}@*)
-(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<> ("userAgentStylesheets", List.class, new Class<?>[]\{URI.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
- ...
-(*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets",List.class,new Class<?>[]\{String.class\},.,}@*)(*@{\color{violet}{null);}@*)
-(*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets", List.class, new Class<?>[]\{String.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
-//--------------------------------------------------------------------------
- /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/io/SimpleXmlIO.java
- public Document toDocument(Drawing internal,Collection<Figure> selection)..{
-   for (Figure child : ordered) {
-   (*@{\color{red}{-            writeNodeRecursively(doc, docElement, child);}@*)
-   (*@{\color{red}{-\}}@*)
-   (*@{\color{red}{-          docElement.appendChild(doc.createTextNode("..."));}@*)
-   (*@{\color{cyan}{+            writeNodeRecursively(doc, docElement, child, linebreak);}@*)
-   (*@{\color{cyan}{+\}}@*)
-   (*@{\color{cyan}{+          docElement.appendChild(doc.createTextNode(linebreak));}@*)
-   return doc; ...
-}
-	\end{lstlisting}
-        \vspace{-15pt}
-        \caption{A Tangled Commit at r1192 of JHotDraw}
-%        \vspace{-6pt}
-        \label{fig:motiv-cc}
-\end{figure}
+\input{sections/code-1.tex}
 
-\begin{figure}[t]
-	\centering
-	\lstset{
-		numbers=left,
-		numberstyle= \tiny,
-		keywordstyle= \color{blue!70},
-		commentstyle= \color{red!50!green!50!blue!50},
-		frame=shadowbox,
-		rulesepcolor= \color{red!20!green!20!blue!20} ,
-		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
-		framexleftmargin=1.5em,
-                numbersep= 5pt,
-		language=Java,
-    basicstyle=\scriptsize\ttfamily,
-    numberstyle=\scriptsize\ttfamily,
-    emphstyle=\bfseries,
-                moredelim=**[is][\color{red}]{@}{@},
-		escapeinside= {(*@}{@*)}
-	}
-	\begin{lstlisting}[]
-  Commit r1023 ``Fixes bugs in FigureStyleManager''
-  /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
-   
-(*@{\color{red}{-    public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, }@*)(*@{\color{violet}{"<URI>",}@*)(*@{\color{red}{,..., null);}@*)
-(*@{\color{cyan}{+     public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, }@*)(*@{\color{violet}{new Class<?>[]\{URI.class\},}@*)(*@{\color{cyan}{..., null);}@*)
+\input{sections/code-2.tex}
 
-(*@{\color{red}{-    public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS=new SimpleFigureKey <>("userAgentStylesheets", List.class, }@*)(*@{\color{violet}{"<URI>",}@*)(*@{\color{red}{..., null);}@*)
-(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS=new SimpleFigureKey<> ("userAgentStylesheets", List.class, }@*)(*@{\color{violet}{new Class<?>[]\{URI.class\},}@*)(*@{\color{cyan}{..., null);}@*)
+\input{sections/example-1.tex}
 
-(*@{\color{red}{-    public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets", List.class, }@*)(*@{\color{violet}{"<String>",}@*)(*@{\color{red}{..., null);}@*)
-(*@{\color{cyan}{+    public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets",List.class,}@*)(*@{\color{violet}{new Class<?>[]\{String.class\},}@*)(*@{\color{cyan}{.,null);}@*)
-	\end{lstlisting}
-        \vspace{-15pt}
-        \caption{Same Statements as in r1192 were Changed at r1023 of JHotDraw and Belonged to Only One Concern}
-        \vspace{-6pt}
-        \label{fig:history}
-\end{figure}
+\input{sections/example-2.tex}
+
+\input{sections/code-3.tex}
+
+\input{sections/example-3.tex}
+
+\input{sections/key-ideas}
+
+
+
+
+
+
 
 %\caption{Changes of Same Concern in r1023 of JHotDraw}
 
@@ -109,162 +40,12 @@ Commit r1192 ``Fixes NPE and implements indentation of XML elements.''
 %  return immutable;
 %}
 
-Let us present a few real-world examples to motivate {\tool}.
-%our motivation.
-
-\vspace{-6pt}
-\subsubsection{Example 1}
-\label{sec:example-1}
-
-Figure~\ref{fig:motiv-cc} shows the changes at the commit r1192 of the
-JHotDraw project with the log {\em ``Fixes NPE and implements
-  indentation of~XML elements''}. This is a tangled commit with two
-concerns/purposes: 1) the fix for Null Pointer Exception occurred at
-lines 4,7, and 10 of the \code{Drawing} class (the \code{null}
-argument was replaced with \code{Collections.empty\-List()}); 2) the
-implementation of the indentation of XML elements occurred at lines
-16--18, and a few other lines of code in the \code{SimpleXmlIO} class
-and one line of code in the \code{Drawing} class (not shown).
-
-\subsubsection{Example 2}
-
-Figure~\ref{fig:history} shows the changes committed at r1023 earlier
-in JHotDraw. The changes at the lines 4, 7, and 10 of the
-\code{Drawing} class were to the same statements as the ones in the
-r1192 commit in Figure~\ref{fig:motiv-cc}. However, the commit at
-r1023 was for only one concern as stated in the commit log {\em
-  ``Fixes bugs in FigureStyleManager''}. This example motivates us to
-build a ML model to learn from the co-changes for the same concern in
-the version history to untangle the current commit.
-
-%Figure~\ref{fig:motiv-cc} shows an example from the experimental
-%dataset in a prior work~\cite{flexeme-fse20}. This commit has three
-%changed statements at lines 4, 10, and 17 of the methods
-%\code{MapValuesImpl}, \code{WithNextValue}, and \code{Build}.  The
-%method \code{MapValueOrDefault} was renamed to
-%\code{GetValueOr\-Default}, causing the changes to the call sites.
-%These changes are deemed by the developers as serving the same
-%concern/purpose of enhancing type resolution in the parser. {\em These
-%  statements have been changed for the same concern} of fixing the
-%value parsing in a past commit. This motivates us to build a ML model
-%to learn from the co-changes for the same concern in the version
-%history to untangle the commits.
-%---------------------
-
-%Tien
-%For this example, the untangling approaches relying on the PDGs or
-%program slices within individual methods cannot cluster the changed
-%statements into a group.
-
-%(e.g.,~\cite{flexeme-fse20},~\cite{roover-scam18})
-
-\vspace{3pt}
-\noindent {\bf Observation 1 [Learn to Cluster Code Changes].} {\em
-  History of the co-changed statements with the same concern could be
-  a good source for a machine learning model to learn to cluster the
-  changed statements, thus, untangling the current commit}.
-
-\begin{figure}[t]
-	\centering
-	\lstset{
-		numbers=left,
-		numberstyle= \tiny,
-		keywordstyle= \color{blue!70},
-		commentstyle= \color{red!50!green!50!blue!50},
-		frame=shadowbox,
-		rulesepcolor= \color{red!20!green!20!blue!20} ,
-		xleftmargin=1.5em,xrightmargin=0em, aboveskip=1em,
-		framexleftmargin=1.5em,
-                numbersep= 5pt,
-		language=Java,
-    basicstyle=\scriptsize\ttfamily,
-    numberstyle=\scriptsize\ttfamily,
-    emphstyle=\bfseries,
-                moredelim=**[is][\color{red}]{@}{@},
-		escapeinside= {(*@}{@*)}
-	}
-	\begin{lstlisting}[]
-public void mousePressed(MouseEvent evt) { 
-  ...//SelectionTool.java
-(*@{\color{red}{- if (figure != null) {}@*)
-(*@{\color{cyan}{+ if (figure != null}@*) && (*@{\color{cyan}{figure.isSelectable()) {}@*)
-       newTracker = createDragTracker(figure);
-    } else {
-       if (! evt.isShiftDown()) {...}
-}
-//--------------------------------------------------------------------------
-protected void updateHoverHandles(DrawingView view, Figure f) {
-  ...// SelectAreaTracker.java
-  figure = f;
-(*@{\color{red}{- if (figure != null) {}@*)
-(*@{\color{cyan}{+ if (figure != null}@*) && (*@{\color{cyan}{figure.isSelectable()) {}@*)
-      hoverHandles.addAll(figure.createHandles(-1)); ...
-}
-	\end{lstlisting}
-        \vspace{-15pt}
-        \caption{Same Change in two Contexts for Different Concerns at r463 of JHotDraw}
-%        \vspace{-6pt}
-        \label{fig:motiv-context}
-\end{figure}
-
-% \caption{Same Change in Two Contexts for Different Concerns in the Commit r463 of JHotDraw}
-
-\subsubsection{Example 3}
-
-Figure~\ref{fig:motiv-context} shows another example in JHotDraw
-project. At the commit r463, two changes at line 3 and line 13 are
-exactly the same with the addition of \code{figure.isSelectable()} to
-check whether a figure is selectable or not. However, those {\em two
-  exact changes} occurred in two different methods \code{mousePressed}
-and \code{updateHoverHandles} for two different concerns/purposes as
-noted in the commit log. Line 4 was aimed to fix the tracking of a
-dragging object as the mouse is pressed ({\em ``Fixed bug where
-  setSelectable() on a dragging figure did not work''}).  Line 14 was
-a fix for a different bug as the hovered object needs to be selected
-({\em ``Selection classes now check the flag on the hovering figures
-  to be selected.''}). The addition of \code{figure.isSelectable()} is
-common for checking if a figure is selectable in the two tasks of
-dragging and hovering a figure. Without the surrounding contexts,
-one could not tell whether two changes are for the same purpose or not.
-
-\vspace{3pt}
-\noindent {\bf Observation 2 [Context].} {\em The surrounding context
-  consisting of un-changed code is crucial to determine the
-  concern of a change. The same change in two 
-  contexts could be for different concerns}.
-
-\vspace{3pt}
-Figure~\ref{fig:motiv-cc} also gives us an interesting
-observation. The changes to fix the NPE at lines 4, 7, and 10 are
-exactly the same: \code{null} $\rightarrow$
-\code{Collections.emptyList()}.  The three statements are cloned code
-of one another to support for different stylesheets (author, user
-agent, and inline stylesheets).  In fact, the changes in
-Figure~\ref{fig:history} also occurred at the cloned statements. The
-three changes belong to the same concern/purpose since they serve as a
-fix for the same logic despite that there is no program dependency
-among them. The existing untangling
-approaches~\cite{flexeme-fse20,smartcommit-fse21,roover-scam18,barnett-icse15}
-that require the explicit program dependencies among the changes with
-the same purpose will not classify these committed code as belonging
-to the same concern.
-
-%Figure~\ref{fig:motiv-clone} shows another example on the two
-%fragments of cloned code for two different security types (Crypto and
-%Equity) and markets (GDAX and USA). They were fixed in the same manner
-%at line 4 and line 13. The two changes were in the same fix to convert
-%the usage of \code{PortfolioSelection} into that of
-%\code{UniverseSelection}, and the usage of
-%\code{ManualPortfolioSelectionModel} into that of
-%\code{ManualUniverseSelection\-Model} in the process of {\em ``setting
-%  algorithm framework models''}.
-
-\vspace{2pt}
-\noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
-  fragments of cloned code have the same/similar logic, thus, have
-  implicit dependencies, and could be modified in the same manner to
-  serve the same purpose.}
-
-\input{sections/key-ideas}
-
-
+% ...
+%(*@{\color{red}{- public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ null);}@*)
+%(*@{\color{cyan}{+ public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new SimpleFigureKey<> ("authorStylesheets", List.class, new Class<?>[]\{URI.class\}},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
+% ...
+%(*@{\color{red}{- public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<>("userAgentStylesheets", List.class, new Class<?>[]{URI.class},...,}@*)(*@{\color{violet}{ null);}@*)
+%(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS = new SimpleFigureKey<> ("userAgentStylesheets", List.class, new Class<?>[]\{URI.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
+% ...
+%(*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets",List.class,new Class<?>[]\{String.class\},.,}@*)(*@{\color{violet}{null);}@*)
+%(*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS=new SimpleFigureKey <>("inlineStylesheets", List.class, new Class<?>[]\{String.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)

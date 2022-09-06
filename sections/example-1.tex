@@ -1,0 +1,16 @@
+Let us present a few real-world examples to motivate {\tool}.
+%our motivation.
+
+\vspace{-6pt}
+\subsubsection{Example 1}
+\label{sec:example-1}
+
+Figure~\ref{fig:motiv-cc} shows the changes at the commit r1192 of the
+JHotDraw project with the log {\em ``Fixes NPE and implements
+  indentation of~XML elements''}. This is a tangled commit with two
+concerns/purposes: 1) the fix for Null Pointer Exception occurred at
+lines 4,7, and 10 of the \code{Drawing} class (the \code{null}
+argument was replaced with \code{Collections.empty\-List()}); 2) the
+implementation of the indentation of XML elements occurred at lines
+16--18, and a few other lines of code in the \code{SimpleXmlIO} class
+and one line of code in the \code{Drawing} class (not shown).

@@ -1,0 +1,17 @@
+\subsubsection{Example 2}
+
+Figure~\ref{fig:history} shows the changes committed at r1023 earlier
+in JHotDraw. The changes at the lines 4, 7, and 10 of the
+\code{Drawing} class were to the same statements as the ones in the
+r1192 commit in Figure~\ref{fig:motiv-cc}. However, the commit at
+r1023 was for only one concern as stated in the commit log {\em
+  ``Fixes bugs in FigureStyleManager''}. This example motivates us to
+build a ML model to learn from the co-changes for the same concern in
+the version history to untangle the current commit.
+
+
+\vspace{3pt}
+\noindent {\bf Observation 1 [Learn to Cluster Code Changes].} {\em
+  History of the co-changed statements with the same concern could be
+  a good source for a machine learning model to learn to cluster the
+  changed statements, thus, untangling the current commit}.

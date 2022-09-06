@@ -1,0 +1,37 @@
+\begin{figure}[t]
+	\centering
+	\lstset{
+		numbers=left,
+		numberstyle= \tiny,
+		keywordstyle= \color{blue!70},
+		commentstyle= \color{red!50!green!50!blue!50},
+		frame=shadowbox,
+		rulesepcolor= \color{red!20!green!20!blue!20} ,
+		xleftmargin=1.7em,xrightmargin=1.0em, aboveskip=1em,
+		framexleftmargin=1.5em,
+                numbersep= 5pt,
+		language=Java,
+    basicstyle=\scriptsize\ttfamily,
+    numberstyle=\scriptsize\ttfamily,
+    emphstyle=\bfseries,
+                moredelim=**[is][\color{red}]{@}{@},
+		escapeinside= {(*@}{@*)}
+	}
+	\begin{lstlisting}[]
+  Commit r1023: Fixes bugs in FigureStyleManager
+  /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/Drawing.java
+   
+(*@{\color{red}{-    public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new .(``authorStylesheets'', List.class, }@*)(*@{\color{violet}{"<URI>",}@*)(*@{\color{red}{,..., null);}@*)
+(*@{\color{cyan}{+     public final static Key<List<URI>> AUTHOR\_STYLESHEETS = new .(``authorStylesheets'', List.., }@*)(*@{\color{violet}{new Class<?>[]\{URI.class\},}@*)(*@{\color{cyan}{., null);}@*)
+
+(*@{\color{red}{-    public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS=new .(``userAgentStylesheets'', List.class, }@*)(*@{\color{violet}{"<URI>",}@*)(*@{\color{red}{..., null);}@*)
+(*@{\color{cyan}{+ public final static Key<List<URI>> USER\_AGENT\_STYLESHEETS=new SimpleFigureKey<> (``userAgentStylesheets'', List.class, }@*)(*@{\color{violet}{new Class<?>[]\{URI.class\},}@*)(*@{\color{cyan}{..., null);}@*)
+
+(*@{\color{red}{-    public final static Key<List<String>> INLINE\_STYLESHEETS=new .(``inlineStylesheets'', List.class, }@*)(*@{\color{violet}{"<String>",}@*)(*@{\color{red}{..., null);}@*)
+(*@{\color{cyan}{+    public final static Key<List<String>> INLINE\_STYLESHEETS=new .(``inlineStylesheets'',List..,}@*)(*@{\color{violet}{new Class<?>[]\{String.class\},}@*)(*@{\color{cyan}{.,null);}@*)
+	\end{lstlisting}
+        \vspace{-15pt}
+        \caption{Same Statements as in r1192 were Changed at r1023 of JHotDraw and Belonged to Only One Concern}
+        \vspace{-6pt}
+        \label{fig:history}
+\end{figure}

@@ -1,0 +1,45 @@
+\subsubsection{Example 3}
+
+Figure~\ref{fig:motiv-context} shows another example in JHotDraw
+project. At the commit r463, two changes at line 3 and line 13 are
+exactly the same with the addition of \code{figure.isSelectable()} to
+check whether a figure is selectable or not. However, those {\em two
+  exact changes} occurred in two different methods \code{mousePressed}
+and \code{updateHoverHandles} for two different concerns/purposes as
+noted in the commit log. Line 4 was aimed to fix the tracking of a
+dragging object as the mouse is pressed ({\em ``Fixed bug where
+  setSelectable() on a dragging figure did not work''}).  Line 14 was
+a fix for a different bug as the hovered object needs to be selected
+({\em ``Selection classes now check the flag on the hovering figures
+  to be selected.''}). The addition of \code{figure.isSelectable()} is
+common for checking if a figure is selectable in the two tasks of
+dragging and hovering a figure. Without the surrounding contexts,
+one could not tell whether two changes are for the same purpose or not.
+
+\vspace{3pt}
+\noindent {\bf Observation 2 [Context].} {\em The surrounding context
+  consisting of un-changed code is crucial to determine the
+  concern of a change. The same change in two 
+  contexts could be for different concerns}.
+
+\vspace{3pt}
+Figure~\ref{fig:motiv-cc} also gives us an interesting
+observation. The changes to fix the NPE at lines 4, 7, and 10 are
+exactly the same: \code{null} $\rightarrow$
+\code{Collections.emptyList()}.  The three statements are cloned code
+of one another to support for different stylesheets (author, user
+agent, and inline stylesheets).  In fact, the changes in
+Figure~\ref{fig:history} also occurred at the cloned statements. The
+three changes belong to the same concern/purpose since they serve as a
+fix for the same logic despite that there is no program dependency
+among them. The existing untangling
+approaches~\cite{flexeme-fse20,smartcommit-fse21,roover-scam18,barnett-icse15}
+that require the explicit program dependencies among the changes with
+the same purpose will not classify these committed code as belonging
+to the same concern.
+
+\vspace{2pt}
+\noindent {\bf Observation 3 [Implicit Dependencies].} {\em Two
+  fragments of cloned code have the same/similar logic, thus, have
+  implicit dependencies, and could be modified in the same manner to
+  serve the same purpose.}
