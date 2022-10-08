@@ -49,7 +49,9 @@ embeddings for code changes is {\em context-aware} or {\em
   contextualized}: the same code change in different contexts
 will have different embeddings.
 
-\subsubsection{{\bf Label, Graph Convolutional Network (Label-GCN)}}
+%\subsubsection{{\bf Label, Graph Convolutional Network (Label-GCN)}}
+
+\subsubsection{Label, Graph Convolutional Network (Label-GCN)}
 
 To achieve that, {\tool} first feeds the multi-version {\mvpdg} to a
 graph-based ML model to learn the contextualized
@@ -99,7 +101,7 @@ states. The computation in a following layer $l$ is as follows:
 \begin{equation}\label{eq4}
 	H^{l+1} = \sigma (\hat{A}H^lW^l), l \geq 1
 \end{equation}
-\subsubsection{{\bf Using Label-GCN to model {\mvpdg}}}
+\subsubsection{Using Label-GCN to Model {\mvpdg}}
 \label{sec:preprocess}
 Let us explain how we process the multi-version {\mvpdg} to produce
 the input for the Label-GCN model. For each node $n$ of a statement
@@ -123,7 +125,7 @@ the nodes $n$ in {\mvpdg}.
 
 %In \tool, we firstly use GloVe \cite{} to learn the word embedding $e_t$ for each token $t$ in each statement $n$ in the source code. Because in {\mvpdg}, each node is a statement $n$, we calculate the average embedding $Avg_n$ for each node based on the word embedding $e_t$ for each token inside of the statement. By combining $Avg_n$ with the known label $i$, $j$, and $i, j$ as one-hot labels, node embedding length become $len(Avg_n) + 3$ and \tool regards the combined vector $Avg'_n$ as the node feature vector for node $n$. Then, we put the {\mvpdg} with the node feature vectors $Avg'_n$ into the Label-GCN model to get the representation vector $v$ for each node $n$ in the graph.
 
-\subsubsection{{\bf Building Contexts and Contextualized Embeddings}}
+\subsubsection{Building Contexts and Contextualized Embeddings}
 After using Label-GCN, we obtain the vectors $V_n$ for all the nodes
 $n$. For a changed node $n_c$, we collect the nodes in its context
 $ctx$ (i.e., all un-changed nodes that are the $k$-hop neighbors of $n$
@@ -167,7 +169,7 @@ $S_6$.
 \subsection{Learning to Cluster Code Changes}
 \label{clustering:sec}
 
-\subsubsection{\bf Supervised-Learning Hierarchical Agglomerative Clustering}
+\subsubsection{Supervised-Learning Hierarchical Agglomerative Clustering}
 
 After building the contextualized embeddings $V^{*}_{n_c}$ for all the
 changed nodes $n_c$ in {\mvpdg}, {\tool} performs clustering on those
@@ -178,18 +180,18 @@ the clusters of code changes in the training data. Specifically, the
 training process for our code change clustering learning model works as
 follows.
 
-{\em \underline{Step 1.}} We treat each changed node $n_c$ as
+{\em Step 1.} We treat each changed node $n_c$ as
 a separate cluster $CL_c$.
 
-{\em \underline{Step 2.}} We merge any two clusters whose cluster
+{\em Step 2.} We merge any two clusters whose cluster
 similarity is the largest and higher than a threshold $T$.
 
-{\em \underline{Step 3.}} We repeat the merging in Step 2 to form
+{\em Step 3.} We repeat the merging in Step 2 to form
 larger clusters until there is no cluster that can be merged. After
 this step, we obtain the predicted clusters $CL$ at the current
 iteration.
 
-{\em \underline{Step 4.}} The predicted clusters $CL$ at this iteration
+{\em Step 4.} The predicted clusters $CL$ at this iteration
 are compared against the correct clusters $CL_{oracle}$ in the ground
 truth. We develop a loss function for our training to minimize the
 differences between the predicted clusters $CL$ and the correct
@@ -200,7 +202,7 @@ obtain the most suitable parameters for our clustering learning model.
 
 Next, let us explain the key components in our algorithm.
 
-\subsubsection{{\bf Cluster Similarity}}
+\subsubsection{Cluster Similarity}
 To compute the similarity between two clusters $CL_1$ and $CL_2$, we
 take all the pairs of the changed nodes $(n_1,n_2)$ where $n_1 \in
 CL_1$ and $n_2 \in CL_2$. We then compute the cosine similarity
@@ -208,7 +210,7 @@ between the corresponding vectors $V^{*}_{n_1}$ and $V^{*}_{n_2}$ for
 each pair. The similarity between two clusters is calculated as the
 average of all the similarity scores of all the pairs $(n_1,n_2)$.
 
-\subsubsection{{\bf Trainable Threshold T}}
+\subsubsection{Trainable Threshold T}
 In our
 %CC clustering learning
 model, we treat the merging threshold $T$ between smaller clusters as
@@ -235,7 +237,7 @@ parameters of the model.
 
 %The above cross-entropy loss has been widely used in multi-class classification problems. However, the clustering problem is slightly different from the classification problem because the order of the clusters is not fixed as in the classification problem. So to address this problem, for each pair of predicted clustering results and ground true cluster results $\{x_1, ..., x_{C_{max}}\}$ and $\{y_1,...,y_{C_{max}}\}$, \tool could have $C_{max}!$ different possible orders for both predicted cluster results $X = \{X_1, ..., X_{C_{max}!}\}$ and ground true clustering results $Y = \{Y_1, ..., Y_{C_{max}!}\}$.
 
-\subsubsection{{\bf Loss Function}}
+\subsubsection{Loss Function}
 
 We need to have a loss function that minimizes the differences between
 the predicted set of clusters $CL$=$\{CL_1,$ $CL_2, ...,$ $CL_M\}$ and
@@ -298,7 +300,7 @@ the model to adjust the parameters in the next iteration.
 %			\in Y_m}}W_ilog\frac{exp(x_i)}{exp(\sum\limits_{x_j \in X_n}x_j)}y_i)
 %\end{equation}
 
-\subsubsection{\bf Predicting/Clustering Process}
+\subsubsection{Predicting/Clustering Process}
 After training, we obtain all model's parameters and the trainable
 merging threshold. For clustering, {\tool} takes a {\mvpdg} as input
 and generates the resulting set of clusters $CL$.

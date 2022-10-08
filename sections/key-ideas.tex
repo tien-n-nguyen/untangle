@@ -5,12 +5,9 @@
 Inspired from the above observations, we propose {\tool} with the
 following ideas.
 
-%{\bf Key Idea 1 [Code Change Representation Learning with Graph
-%    Convolution Network (GCN)]}.
+%\subsubsection{\bf Key Idea 1 [Code Change Clustering Learning Model]}
 
-%\vspace{2pt} {\bf Key Idea 1 [Code Change Clustering Learning Model]}.
-
-\subsubsection{\bf Key Idea 1 [Code Change Clustering Learning Model]}
+\subsubsection{Key Idea 1 [Code Change Clustering Learning Model]}
 
 Instead of deciding a deterministic clustering criterion on the
 concrete artifacts (PDGs, program slices, code changes, operations, or
@@ -23,10 +20,10 @@ commit.  We also modify an agglomerative clustering algorithm into
 a~super\-vised-learning clustering model via trainable parameters and
 a loss function to compare the predicted and correct clusters.
 
-%\vspace{3pt} {\bf Key Idea 2 [Context-aware, Graph-based
-%    Representation Learning for Code Changes].}
+%\subsubsection{\bf Key Idea 2 [Context-aware, Graph-based
+%    Representation Learning for Code Changes]}
 
-\subsubsection{\bf Key Idea 2 [Context-aware, Graph-based
+\subsubsection{Key Idea 2 [Context-aware, Graph-based
     Representation Learning for Code Changes]}
 
 We design a context-aware, graph-based, representation learning model
@@ -44,11 +41,11 @@ expect that supervised-learning clustering on vectors is more
 effective than on those artifacts since the embeddings capture~richer
 information integrated from dependencies and contexts.
 
-%\vspace{3pt}
-%{\bf Key Idea 3 [Explicit Context Representation as a Weight to
-%    Compute Vectors for Code Changes]}.
+%\subsubsection{\bf Key Idea 3 [Explicit Context Representation as a Weight to
+%    Compute Vectors for Code Changes]}
 
-\subsubsection{\bf Key Idea 3 [Explicit Context Representation as a Weight to
+
+\subsubsection{Key Idea 3 [Explicit Context Representation as a Weight to
     Compute Vectors for Code Changes]}
 
 As seen in Observation 2, the contexts of the code changes can help
@@ -63,10 +60,9 @@ as to learn the vector representing the context for a change. The
 context vectors are then used as the weights in learning
 contextualized embeddings for the code changes.
 
-%\vspace{3pt}
-%{\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}.
+%\subsubsection{\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}
 
-\subsubsection{\bf Key Idea 4 [Implicit Dependencies among Cloned Code]}
+\subsubsection{Key Idea 4 [Implicit Dependencies among Cloned Code]}
 
 As seen in Observation 3, the cloned code exhibits implicit
 dependencies with regard to whether they can be changed in the same

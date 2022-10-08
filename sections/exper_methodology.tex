@@ -4,13 +4,13 @@
 \subsection{Experimental Methodology}
 \label{method:sec}
 
-\subsubsection{\bf RQ1. Comparison with Existing Approaches on C\# Dataset}
+\subsubsection{RQ1. Comparison with Existing Approaches on C\# Dataset}
 
 %\noindent\textbf{RQ1. Comparison with Existing Approaches on C\# Dataset.}
 
-{\em \underline{Baselines.}} We compared {\tool} with the
+{\em Baselines.} We compared {\tool} against the
 state-of-the-art commit-untangling approaches that work on C\#
-(details in Section~\ref{related:sec}): Barnett {\em et
+(see more details in Section~\ref{related:sec}): Barnett {\em et
 al.}~\cite{barnett-icse15}, Herzig {\em et al.}~\cite{kim-emse16},
 Flexeme~\cite{flexeme-fse20}, and $\delta$-PDG+CV~\cite{flexeme-fse20}
 ($\delta$-PDG+CV is a model introduced by the authors of Flexeme via
@@ -26,7 +26,7 @@ al.}~\cite{kim-emse16}).
 %	\item Flexeme \cite{flexeme-fse20}: An approach that builds a new defined name flow graph from commits, then applies 	agglomerative alustering using graph similarity to that newly built graph to untangle its commits.
 %\end{itemize}
 
-\textit{\underline{Procedure.}}
+\textit{Procedure.}
 We took all the commits in the C\# dataset and sorted them in the
 chronological order based on the creation time of the commit logs. For
 {\tool}, we then used 80\% of the oldest commits for training, 10\% of
@@ -58,9 +58,9 @@ output (150, 200, 250, 300). We empirically set the context size of 2
 %\vspace{2pt}
 %\noindent\textbf{RQ2. Comparison with Existing Approaches on Java Dataset.}
 
-\subsubsection{\bf RQ2. Comparison with Existing Approaches on Java Dataset}
+\subsubsection{RQ2. Comparison with Existing Approaches on Java Dataset}
 
-{\em \underline{Baselines.}} We compare {\tool} with the
+{\em Baselines.} We compare {\tool} with the
 state-of-the-art untangling approach that works on Java source code,
 SmartCommit~\cite{smartcommit-fse21}, and the baselines used in their
 paper: Base-1~\cite{smartcommit-fse21} (a rule-based approach that
@@ -79,7 +79,7 @@ relations).
 %	\item SmartCommit \cite{smartcommit-fse21}: A graph-partitioning-based interactive approach to tangled changeset decomposition that leverages the efficiency of algorithms and the knowledge of developers.
 %\end{itemize}
 
-\textit{ \underline{Procedure}.}
+\textit{Procedure.}
 We used the same procedure, tuning (with autoML~\cite{NNI}), and
 parameters as in RQ1 on the Java dataset. The baselines do not need
 training, thus, we ran them on the 10\% testing data.
@@ -95,7 +95,7 @@ training, thus, we ran them on the 10\% testing data.
 %\vspace{2pt}
 %\noindent\textbf{RQ3. Within-Project Analysis.}
 
-\subsubsection{\bf RQ3. Within-Project Analysis}
+\subsubsection{RQ3. Within-Project Analysis}
 
 We randomly selected one of the largest projects from each dataset:
 the \code{CommandLine} project in C\# and
@@ -127,7 +127,7 @@ project.
 %\vspace{2pt}
 %\noindent\textbf{RQ4. Sensitivity Analysis.}
 
-\subsubsection{\bf RQ4. Sensitivity Analysis}
+\subsubsection{RQ4. Sensitivity Analysis}
 
 We built the variants of {\tool} by removing its important components,
 one at a time. First, we removed from {\tool} the context by not using
@@ -143,7 +143,7 @@ setting/procedure as in RQ1.
 
 %\vspace{2pt}
 %\noindent\textbf{RQ5. Code Change Embedding Analysis.}
-\subsubsection{\bf RQ5. Code Change Embedding Analysis}
+\subsubsection{RQ5. Code Change Embedding Analysis}
 
 We use statistical $p$-test to confirm/refute the hypothesis that the
 changed statements in the same concerns are projected nearer to one
@@ -157,7 +157,7 @@ vector~space.
 %\vspace{3pt}
 %\noindent {\bf Evaluation Metrics.}
 
-\subsubsection*{\underline{Evaluation Metrics}}
+\subsubsection*{Evaluation Metrics}
 
 We use two evaluation metrics. First, $Accuracy^{c}$ is defined as the
 percentage of the {\em changed statements} that are labeled with a

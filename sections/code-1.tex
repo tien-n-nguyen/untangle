@@ -30,7 +30,7 @@ Commit r1192: Fixes NPE and implements indentation of XML elements.
 ...
 (*@{\color{red}{- public final static Key<List<String>> INLINE\_STYLESHEETS=new ... (``inlineStylesheets'',List...,new Class<?>[]\{String.class\},.,}@*)(*@{\color{violet}{null);}@*)
 (*@{\color{cyan}{+ public final static Key<List<String>> INLINE\_STYLESHEETS=new ... (``inlineStylesheets'', List.class, new Class<?>[]\{String.class\},...,}@*)(*@{\color{violet}{ Collections.emptyList());}@*)
-//--------------------------------------------------------------------------
+//------------------------------------------------------------------------
  /trunk/jhotdraw8/src/main/java/org/jhotdraw8/draw/io/SimpleXmlIO.java
  public Document toDocument(Drawing ..., Collection<Figure> selection)...{
    for (Figure child : ordered) {

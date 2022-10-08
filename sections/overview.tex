@@ -107,7 +107,9 @@ labeled with $i,j$ because they are one hop from the changed node for
 
 Figure~\ref{fig:overview} illustrates the overview of our model, {\tool}.
 
-\subsubsection{{\bf Step 1. Building Multi-version PDG ($\delta$-PDG$^{i,j}$) and Contexts}}
+%\subsubsection{{\bf Step 1. Building Multi-version PDG ($\delta$-PDG$^{i,j}$) and Contexts}}
+
+\subsubsection{Step 1. Building Multi-version PDG ($\delta$-PDG$^{i,j}$) and Contexts}
 The first step is to build the $\delta$-PDG$^{i,j}$ graph and extract
 the context sub-graphs for each changed statement from the two
 versions $i$ and $j$ before and after the changes. We adopt the
@@ -124,7 +126,7 @@ to rank them. When considering the edge changes, we back-propagate the
 delete nodes to the edges flowing into them. We also add all the unmatched
 edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the
 edges relevant to the added nodes. Details on building
-$\delta$-PDG$^{i,j}$ can be found in~\cite{flexeme-fse20}.
+$\delta$-PDG$^{i,j}$ can be found in another document~\cite{flexeme-fse20}.
 
 After constructing $\delta$-PDG$^{i,j}$, for each changed node in the
 graph, we collect all unchanged nodes within the $k$-hops and
@@ -138,13 +140,14 @@ both training and predicting processes.
 
 %First, \tool accepts two versions $i$ and $j$ of source code. Following the existing study from Partachi et al. \cite{flexeme-fse20}, \tool firstly generates the PDGs for both the version $i$ and version $j$ for the source code. Next, to construct the multi-version PDG$^{i,j}$, \tool starts from the initial version $i$. \tool uses the PDGs and the Git diff tool on the source files to determine changed and unchanged nodes. Added nodes are introduced to the multi-version PDG$^{i,j}$ as they appear in the newer version $j$. \tool retains nodes deleted across the versions and uses a different label (label $i$) on the nodes to represent the deletion. The unchanged nodes between versions are matched by using string similarity to filter candidates and line-span proximity to rank them. When considering the edge changes, \tool back-propagates the delete nodes to edges flowing into them. Also, \tool considers and adds all unmatched edges in the newer version $j$ to the multi-version PDG$^{i,j}$ as the edges relevant to the added nodes. After having the constructed multi-version PDG$^{i,j}$, for each changed node in the graph, \tool collects all unchanged nodes within the $k$-hops and the edges between them to build a sub-graph as the context for the changed node. The multi-version PDG$^{i,j}$ and the context for each changed node in it will be used as the input for the next step.
 
-\subsubsection{{\bf Step 2. Context-aware, Graph-based, Code Change Clustering Learning Model}} The task of this model is to {\em learn to cluster the code changes}, represented by
-the changed nodes and corresponding contexts in {\mvpdg}. For
-that, {\tool} first learns to construct the {\bf contextualized
-  embeddings} to represent the code changes via our novel
-{\bf context-aware, graph-based code change representation learning
-  model}. In that model, to build the contextualized embeddings, we
-leverage
+%\subsubsection{{\bf Step 2. Context-aware, Graph-based, Code Change Clustering Learning Model}}
+
+\subsubsection{Step 2. Context-aware, Graph-based, Code Change Clustering Learning Model} The task of this model is to {\em learn to cluster the code changes}, represented by
+the changed nodes and corresponding contexts in {\mvpdg}. For that,
+{\tool} first learns to construct the {\bf contextualized embeddings}
+to represent the code changes via our novel {\bf context-aware,
+  graph-based code change representation learning model}. In that
+model, to build the contextualized embeddings, we leverage
 %Label, Graph-based Convolution Network (GCN)
 the Label-GCN~\cite{label-gcn} that can deal with the nodes with
 multiple labels (used to denote the versions $i$, $j$) to learn the
@@ -189,7 +192,9 @@ nodes in the same cluster are treated as having the same concern.
 %merging the smaller clusters into a larger one. The output of this
 %step is the clusters for all the changed nodes in {\mvpdg}.
 
-\subsubsection{{\bf Step 3. Updating Clusters via Code Clone Detection}}
+%\subsubsection{{\bf Step 3. Updating Clusters via Code Clone Detection}}
+
+\subsubsection{Step 3. Updating Clusters via Code Clone Detection}
 
 After having the resulting clusters from Step 2, we use a code clone
 detection tool to detect if there is a cloned statement $s'_m$ of a
